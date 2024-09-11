@@ -1,0 +1,47 @@
+[
+{
+  "model": "apps.product",
+  "pk": 1,
+  "fields": {
+    "name": "Ko'ylak",
+    "slug": "koylak",
+    "updated_at": "2024-09-06T09:13:31.106Z",
+    "created_at": "2024-09-06T09:05:23.300Z",
+    "price": 250000,
+    "photo": "products/2024/09/06/koylak.jpg",
+    "quantity": 10,
+    "category": 4,
+    "description": "<blockquote><h1>Ajoyib ko'ylak klassik uslubda bo'lgan daxshat !</h1></blockquote>"
+  }
+},
+{
+  "model": "apps.product",
+  "pk": 2,
+  "fields": {
+    "name": "mashina",
+    "slug": "mashina",
+    "updated_at": "2024-09-06T09:22:53.821Z",
+    "created_at": "2024-09-06T09:22:53.821Z",
+    "price": 3400000,
+    "photo": "products/2024/09/06/bolalar_mashinasi.webp",
+    "quantity": 5,
+    "category": 2,
+    "description": "<blockquote><p>Bolalar uchun ajoyib mashina !</p></blockquote>"
+  }
+},
+{
+  "model": "apps.product",
+  "pk": 3,
+  "fields": {
+    "name": "Quron",
+    "slug": "quron",
+    "updated_at": "2024-09-06T09:27:27.324Z",
+    "created_at": "2024-09-06T09:27:27.324Z",
+    "price": 150000,
+    "photo": "products/2024/09/06/islomiy_sovga.jpg",
+    "quantity": 25,
+    "category": 3,
+    "description": "<blockquote><p>Yaqinlarga ajoyib savg'a !</p></blockquote>"
+  }
+}
+]

@@ -1,0 +1,1674 @@
+[
+  {
+    "pk": 15,
+    "model": "apps.district",
+    "fields": {
+      "name": "Amudaryo tumani",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 16,
+    "model": "apps.district",
+    "fields": {
+      "name": "Beruniy tumani",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 17,
+    "model": "apps.district",
+    "fields": {
+      "name": "Kegayli tumani",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 18,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qonliko\u2018l tumani",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 19,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qorao\u2018zak tumani",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 20,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qo\u2018ng\u2018irot tumani",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 21,
+    "model": "apps.district",
+    "fields": {
+      "name": "Mo\u2018ynoq tumani",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 22,
+    "model": "apps.district",
+    "fields": {
+      "name": "Nukus tumani",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 23,
+    "model": "apps.district",
+    "fields": {
+      "name": "Nukus shahri",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 24,
+    "model": "apps.district",
+    "fields": {
+      "name": "Taxtako\u2018pir tumani",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 25,
+    "model": "apps.district",
+    "fields": {
+      "name": "To\u2018rtko\u2018l tumani",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 26,
+    "model": "apps.district",
+    "fields": {
+      "name": "Xo\u2018jayli tumani",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 27,
+    "model": "apps.district",
+    "fields": {
+      "name": "Chimboy tumani",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 28,
+    "model": "apps.district",
+    "fields": {
+      "name": "Shumanay tumani",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 29,
+    "model": "apps.district",
+    "fields": {
+      "name": "Ellikqal\u2018a tumani",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 30,
+    "model": "apps.district",
+    "fields": {
+      "name": "Andijon shahri",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 31,
+    "model": "apps.district",
+    "fields": {
+      "name": "Andijon tumani",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 32,
+    "model": "apps.district",
+    "fields": {
+      "name": "Asaka tumani",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 33,
+    "model": "apps.district",
+    "fields": {
+      "name": "Baliqchi tumani",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 34,
+    "model": "apps.district",
+    "fields": {
+      "name": "Buloqboshi tumani",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 35,
+    "model": "apps.district",
+    "fields": {
+      "name": "Bo\u2018z tumani",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 36,
+    "model": "apps.district",
+    "fields": {
+      "name": "Jalaquduq tumani",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 37,
+    "model": "apps.district",
+    "fields": {
+      "name": "Izbosgan tumani",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 38,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qorasuv shahri",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 39,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qo\u2018rg\u2018ontepa tumani",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 40,
+    "model": "apps.district",
+    "fields": {
+      "name": "Marhamat tumani",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 41,
+    "model": "apps.district",
+    "fields": {
+      "name": "Oltinko\u2018l tumani",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 42,
+    "model": "apps.district",
+    "fields": {
+      "name": "Paxtaobod tumani",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 43,
+    "model": "apps.district",
+    "fields": {
+      "name": "Ulug\u2018nor tumani",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 44,
+    "model": "apps.district",
+    "fields": {
+      "name": "Xonabod tumani",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 45,
+    "model": "apps.district",
+    "fields": {
+      "name": "Xo\u2018jaobod tumani",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 46,
+    "model": "apps.district",
+    "fields": {
+      "name": "Shahrixon tumani",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 47,
+    "model": "apps.district",
+    "fields": {
+      "name": "Buxoro shahri",
+      "region_id": 3
+    }
+  },
+  {
+    "pk": 48,
+    "model": "apps.district",
+    "fields": {
+      "name": "Buxoro tumani",
+      "region_id": 3
+    }
+  },
+  {
+    "pk": 49,
+    "model": "apps.district",
+    "fields": {
+      "name": "Vobkent tumani",
+      "region_id": 3
+    }
+  },
+  {
+    "pk": 50,
+    "model": "apps.district",
+    "fields": {
+      "name": "G\u2018ijduvon tumani",
+      "region_id": 3
+    }
+  },
+  {
+    "pk": 51,
+    "model": "apps.district",
+    "fields": {
+      "name": "Jondor tumani",
+      "region_id": 3
+    }
+  },
+  {
+    "pk": 52,
+    "model": "apps.district",
+    "fields": {
+      "name": "Kogon tumani",
+      "region_id": 3
+    }
+  },
+  {
+    "pk": 53,
+    "model": "apps.district",
+    "fields": {
+      "name": "Kogon shahri",
+      "region_id": 3
+    }
+  },
+  {
+    "pk": 54,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qorako\u2018l tumani",
+      "region_id": 3
+    }
+  },
+  {
+    "pk": 55,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qorovulbozor tumani",
+      "region_id": 3
+    }
+  },
+  {
+    "pk": 56,
+    "model": "apps.district",
+    "fields": {
+      "name": "Olot tumani",
+      "region_id": 3
+    }
+  },
+  {
+    "pk": 57,
+    "model": "apps.district",
+    "fields": {
+      "name": "Peshku tumani",
+      "region_id": 3
+    }
+  },
+  {
+    "pk": 58,
+    "model": "apps.district",
+    "fields": {
+      "name": "Romitan tumani",
+      "region_id": 3
+    }
+  },
+  {
+    "pk": 59,
+    "model": "apps.district",
+    "fields": {
+      "name": "Shofirkon tumani",
+      "region_id": 3
+    }
+  },
+  {
+    "pk": 60,
+    "model": "apps.district",
+    "fields": {
+      "name": "Arnasoy tumani",
+      "region_id": 4
+    }
+  },
+  {
+    "pk": 61,
+    "model": "apps.district",
+    "fields": {
+      "name": "Baxmal tumani",
+      "region_id": 4
+    }
+  },
+  {
+    "pk": 62,
+    "model": "apps.district",
+    "fields": {
+      "name": "G\u2018allaorol tumani",
+      "region_id": 4
+    }
+  },
+  {
+    "pk": 63,
+    "model": "apps.district",
+    "fields": {
+      "name": "Do\u2018stlik tumani",
+      "region_id": 4
+    }
+  },
+  {
+    "pk": 64,
+    "model": "apps.district",
+    "fields": {
+      "name": "Sh.Rashidov tumani",
+      "region_id": 4
+    }
+  },
+  {
+    "pk": 65,
+    "model": "apps.district",
+    "fields": {
+      "name": "Jizzax shahri",
+      "region_id": 4
+    }
+  },
+  {
+    "pk": 66,
+    "model": "apps.district",
+    "fields": {
+      "name": "Zarbdor tumani",
+      "region_id": 4
+    }
+  },
+  {
+    "pk": 67,
+    "model": "apps.district",
+    "fields": {
+      "name": "Zafarobod tumani",
+      "region_id": 4
+    }
+  },
+  {
+    "pk": 68,
+    "model": "apps.district",
+    "fields": {
+      "name": "Zomin tumani",
+      "region_id": 4
+    }
+  },
+  {
+    "pk": 69,
+    "model": "apps.district",
+    "fields": {
+      "name": "Mirzacho\u2018l tumani",
+      "region_id": 4
+    }
+  },
+  {
+    "pk": 70,
+    "model": "apps.district",
+    "fields": {
+      "name": "Paxtakor tumani",
+      "region_id": 4
+    }
+  },
+  {
+    "pk": 71,
+    "model": "apps.district",
+    "fields": {
+      "name": "Forish tumani",
+      "region_id": 4
+    }
+  },
+  {
+    "pk": 72,
+    "model": "apps.district",
+    "fields": {
+      "name": "Yangiobod tumani",
+      "region_id": 4
+    }
+  },
+  {
+    "pk": 73,
+    "model": "apps.district",
+    "fields": {
+      "name": "G\u2018uzor tumani",
+      "region_id": 5
+    }
+  },
+  {
+    "pk": 74,
+    "model": "apps.district",
+    "fields": {
+      "name": "Dehqonobod tumani",
+      "region_id": 5
+    }
+  },
+  {
+    "pk": 75,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qamashi tumani",
+      "region_id": 5
+    }
+  },
+  {
+    "pk": 76,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qarshi tumani",
+      "region_id": 5
+    }
+  },
+  {
+    "pk": 77,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qarshi shahri",
+      "region_id": 5
+    }
+  },
+  {
+    "pk": 78,
+    "model": "apps.district",
+    "fields": {
+      "name": "Kasbi tumani",
+      "region_id": 5
+    }
+  },
+  {
+    "pk": 79,
+    "model": "apps.district",
+    "fields": {
+      "name": "Kitob tumani",
+      "region_id": 5
+    }
+  },
+  {
+    "pk": 80,
+    "model": "apps.district",
+    "fields": {
+      "name": "Koson tumani",
+      "region_id": 5
+    }
+  },
+  {
+    "pk": 81,
+    "model": "apps.district",
+    "fields": {
+      "name": "Mirishkor tumani",
+      "region_id": 5
+    }
+  },
+  {
+    "pk": 82,
+    "model": "apps.district",
+    "fields": {
+      "name": "Muborak tumani",
+      "region_id": 5
+    }
+  },
+  {
+    "pk": 83,
+    "model": "apps.district",
+    "fields": {
+      "name": "Nishon tumani",
+      "region_id": 5
+    }
+  },
+  {
+    "pk": 84,
+    "model": "apps.district",
+    "fields": {
+      "name": "Chiroqchi tumani",
+      "region_id": 5
+    }
+  },
+  {
+    "pk": 85,
+    "model": "apps.district",
+    "fields": {
+      "name": "Shahrisabz tumani",
+      "region_id": 5
+    }
+  },
+  {
+    "pk": 86,
+    "model": "apps.district",
+    "fields": {
+      "name": "Yakkabog\u2018 tumani",
+      "region_id": 5
+    }
+  },
+  {
+    "pk": 87,
+    "model": "apps.district",
+    "fields": {
+      "name": "Zarafshon shahri",
+      "region_id": 6
+    }
+  },
+  {
+    "pk": 88,
+    "model": "apps.district",
+    "fields": {
+      "name": "Karmana tumani",
+      "region_id": 6
+    }
+  },
+  {
+    "pk": 89,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qiziltepa tumani",
+      "region_id": 6
+    }
+  },
+  {
+    "pk": 90,
+    "model": "apps.district",
+    "fields": {
+      "name": "Konimex tumani",
+      "region_id": 6
+    }
+  },
+  {
+    "pk": 91,
+    "model": "apps.district",
+    "fields": {
+      "name": "Navbahor tumani",
+      "region_id": 6
+    }
+  },
+  {
+    "pk": 92,
+    "model": "apps.district",
+    "fields": {
+      "name": "Navoiy shahri",
+      "region_id": 6
+    }
+  },
+  {
+    "pk": 93,
+    "model": "apps.district",
+    "fields": {
+      "name": "Nurota tumani",
+      "region_id": 6
+    }
+  },
+  {
+    "pk": 94,
+    "model": "apps.district",
+    "fields": {
+      "name": "Tomdi tumani",
+      "region_id": 6
+    }
+  },
+  {
+    "pk": 95,
+    "model": "apps.district",
+    "fields": {
+      "name": "Uchquduq tumani",
+      "region_id": 6
+    }
+  },
+  {
+    "pk": 96,
+    "model": "apps.district",
+    "fields": {
+      "name": "Xatirchi tumani",
+      "region_id": 6
+    }
+  },
+  {
+    "pk": 97,
+    "model": "apps.district",
+    "fields": {
+      "name": "Kosonsoy tumani",
+      "region_id": 7
+    }
+  },
+  {
+    "pk": 98,
+    "model": "apps.district",
+    "fields": {
+      "name": "Mingbuloq tumani",
+      "region_id": 7
+    }
+  },
+  {
+    "pk": 99,
+    "model": "apps.district",
+    "fields": {
+      "name": "Namangan tumani",
+      "region_id": 7
+    }
+  },
+  {
+    "pk": 100,
+    "model": "apps.district",
+    "fields": {
+      "name": "Namangan shahri",
+      "region_id": 7
+    }
+  },
+  {
+    "pk": 101,
+    "model": "apps.district",
+    "fields": {
+      "name": "Norin tumani",
+      "region_id": 7
+    }
+  },
+  {
+    "pk": 102,
+    "model": "apps.district",
+    "fields": {
+      "name": "Pop tumani",
+      "region_id": 7
+    }
+  },
+  {
+    "pk": 103,
+    "model": "apps.district",
+    "fields": {
+      "name": "To\u2018raqo\u2018rg\u2018on tumani",
+      "region_id": 7
+    }
+  },
+  {
+    "pk": 104,
+    "model": "apps.district",
+    "fields": {
+      "name": "Uychi tumani",
+      "region_id": 7
+    }
+  },
+  {
+    "pk": 105,
+    "model": "apps.district",
+    "fields": {
+      "name": "Uchqo\u2018rg\u2018on tumani",
+      "region_id": 7
+    }
+  },
+  {
+    "pk": 106,
+    "model": "apps.district",
+    "fields": {
+      "name": "Chortoq tumani",
+      "region_id": 7
+    }
+  },
+  {
+    "pk": 107,
+    "model": "apps.district",
+    "fields": {
+      "name": "Chust tumani",
+      "region_id": 7
+    }
+  },
+  {
+    "pk": 108,
+    "model": "apps.district",
+    "fields": {
+      "name": "Yangiqo\u2018rg\u2018on tumani",
+      "region_id": 7
+    }
+  },
+  {
+    "pk": 109,
+    "model": "apps.district",
+    "fields": {
+      "name": "Bulung\u2018ur tumani",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 110,
+    "model": "apps.district",
+    "fields": {
+      "name": "Jomboy tumani",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 111,
+    "model": "apps.district",
+    "fields": {
+      "name": "Ishtixon tumani",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 112,
+    "model": "apps.district",
+    "fields": {
+      "name": "Kattaqo\u2018rg\u2018on tumani",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 113,
+    "model": "apps.district",
+    "fields": {
+      "name": "Kattaqo\u2018rg\u2018on shahri",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 114,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qo\u2018shrabot tumani",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 115,
+    "model": "apps.district",
+    "fields": {
+      "name": "Narpay tumani",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 116,
+    "model": "apps.district",
+    "fields": {
+      "name": "Nurabod tumani",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 117,
+    "model": "apps.district",
+    "fields": {
+      "name": "Oqdaryo tumani",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 118,
+    "model": "apps.district",
+    "fields": {
+      "name": "Payariq tumani",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 119,
+    "model": "apps.district",
+    "fields": {
+      "name": "Pastarg\u2018om tumani",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 120,
+    "model": "apps.district",
+    "fields": {
+      "name": "Paxtachi tumani",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 121,
+    "model": "apps.district",
+    "fields": {
+      "name": "Samarqand tumani",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 122,
+    "model": "apps.district",
+    "fields": {
+      "name": "Samarqand shahri",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 123,
+    "model": "apps.district",
+    "fields": {
+      "name": "Toyloq tumani",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 124,
+    "model": "apps.district",
+    "fields": {
+      "name": "Urgut tumani",
+      "region_id": 8
+    }
+  },
+  {
+    "pk": 125,
+    "model": "apps.district",
+    "fields": {
+      "name": "Angor tumani",
+      "region_id": 9
+    }
+  },
+  {
+    "pk": 126,
+    "model": "apps.district",
+    "fields": {
+      "name": "Boysun tumani",
+      "region_id": 9
+    }
+  },
+  {
+    "pk": 127,
+    "model": "apps.district",
+    "fields": {
+      "name": "Denov tumani",
+      "region_id": 9
+    }
+  },
+  {
+    "pk": 128,
+    "model": "apps.district",
+    "fields": {
+      "name": "Jarqo\u2018rg\u2018on tumani",
+      "region_id": 9
+    }
+  },
+  {
+    "pk": 129,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qiziriq tumani",
+      "region_id": 9
+    }
+  },
+  {
+    "pk": 130,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qo\u2018mqo\u2018rg\u2018on tumani",
+      "region_id": 9
+    }
+  },
+  {
+    "pk": 131,
+    "model": "apps.district",
+    "fields": {
+      "name": "Muzrabot tumani",
+      "region_id": 9
+    }
+  },
+  {
+    "pk": 132,
+    "model": "apps.district",
+    "fields": {
+      "name": "Oltinsoy tumani",
+      "region_id": 9
+    }
+  },
+  {
+    "pk": 133,
+    "model": "apps.district",
+    "fields": {
+      "name": "Sariosiyo tumani",
+      "region_id": 9
+    }
+  },
+  {
+    "pk": 134,
+    "model": "apps.district",
+    "fields": {
+      "name": "Termiz tumani",
+      "region_id": 9
+    }
+  },
+  {
+    "pk": 135,
+    "model": "apps.district",
+    "fields": {
+      "name": "Termiz shahri",
+      "region_id": 9
+    }
+  },
+  {
+    "pk": 136,
+    "model": "apps.district",
+    "fields": {
+      "name": "Uzun tumani",
+      "region_id": 9
+    }
+  },
+  {
+    "pk": 137,
+    "model": "apps.district",
+    "fields": {
+      "name": "Sherobod tumani",
+      "region_id": 9
+    }
+  },
+  {
+    "pk": 138,
+    "model": "apps.district",
+    "fields": {
+      "name": "Sho\u2018rchi tumani",
+      "region_id": 9
+    }
+  },
+  {
+    "pk": 139,
+    "model": "apps.district",
+    "fields": {
+      "name": "Boyovut tumani",
+      "region_id": 10
+    }
+  },
+  {
+    "pk": 140,
+    "model": "apps.district",
+    "fields": {
+      "name": "Guliston tumani",
+      "region_id": 10
+    }
+  },
+  {
+    "pk": 141,
+    "model": "apps.district",
+    "fields": {
+      "name": "Guliston shahri",
+      "region_id": 10
+    }
+  },
+  {
+    "pk": 142,
+    "model": "apps.district",
+    "fields": {
+      "name": "Mirzaobod tumani",
+      "region_id": 10
+    }
+  },
+  {
+    "pk": 143,
+    "model": "apps.district",
+    "fields": {
+      "name": "Oqoltin tumani",
+      "region_id": 10
+    }
+  },
+  {
+    "pk": 144,
+    "model": "apps.district",
+    "fields": {
+      "name": "Sayxunobod tumani",
+      "region_id": 10
+    }
+  },
+  {
+    "pk": 145,
+    "model": "apps.district",
+    "fields": {
+      "name": "Sardoba tumani",
+      "region_id": 10
+    }
+  },
+  {
+    "pk": 146,
+    "model": "apps.district",
+    "fields": {
+      "name": "Sirdaryo tumani",
+      "region_id": 10
+    }
+  },
+  {
+    "pk": 147,
+    "model": "apps.district",
+    "fields": {
+      "name": "Xavos tumani",
+      "region_id": 10
+    }
+  },
+  {
+    "pk": 148,
+    "model": "apps.district",
+    "fields": {
+      "name": "Shirin shahri",
+      "region_id": 10
+    }
+  },
+  {
+    "pk": 149,
+    "model": "apps.district",
+    "fields": {
+      "name": "Yangiyer shahri",
+      "region_id": 10
+    }
+  },
+  {
+    "pk": 150,
+    "model": "apps.district",
+    "fields": {
+      "name": "Angiren shahri",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 151,
+    "model": "apps.district",
+    "fields": {
+      "name": "Bekabod tumani",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 152,
+    "model": "apps.district",
+    "fields": {
+      "name": "Bekabod shahri",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 153,
+    "model": "apps.district",
+    "fields": {
+      "name": "Bo\u2018ka tumani",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 154,
+    "model": "apps.district",
+    "fields": {
+      "name": "Bo\u2018stonliq tumani",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 155,
+    "model": "apps.district",
+    "fields": {
+      "name": "Zangiota tumani",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 156,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qibray tumani",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 157,
+    "model": "apps.district",
+    "fields": {
+      "name": "Quyichirchiq tumani",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 158,
+    "model": "apps.district",
+    "fields": {
+      "name": "Oqqo\u2018rg\u2018on tumani",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 159,
+    "model": "apps.district",
+    "fields": {
+      "name": "Olmaliq shahri",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 160,
+    "model": "apps.district",
+    "fields": {
+      "name": "Ohangaron tumani",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 161,
+    "model": "apps.district",
+    "fields": {
+      "name": "Parkent tumani",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 162,
+    "model": "apps.district",
+    "fields": {
+      "name": "Piskent tumani",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 163,
+    "model": "apps.district",
+    "fields": {
+      "name": "O\u2018rtachirchiq tumani",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 164,
+    "model": "apps.district",
+    "fields": {
+      "name": "Chinoz tumani",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 165,
+    "model": "apps.district",
+    "fields": {
+      "name": "Chirchiq shahri",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 166,
+    "model": "apps.district",
+    "fields": {
+      "name": "Yuqorichirchiq tumani",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 167,
+    "model": "apps.district",
+    "fields": {
+      "name": "Yangiyo\u2018l tumani",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 168,
+    "model": "apps.district",
+    "fields": {
+      "name": "Beshariq tumani",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 169,
+    "model": "apps.district",
+    "fields": {
+      "name": "Bog\u2018dod tumani",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 170,
+    "model": "apps.district",
+    "fields": {
+      "name": "Buvayda tumani",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 171,
+    "model": "apps.district",
+    "fields": {
+      "name": "Dang\u2018ara tumani",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 172,
+    "model": "apps.district",
+    "fields": {
+      "name": "Yozyovon tumani",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 173,
+    "model": "apps.district",
+    "fields": {
+      "name": "Quva tumani",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 174,
+    "model": "apps.district",
+    "fields": {
+      "name": "Quvasoy shahri",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 175,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qo\u2018qon shahri",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 176,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qo\u2018shtepa tumani",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 177,
+    "model": "apps.district",
+    "fields": {
+      "name": "Marg\u2018ilon shahri",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 178,
+    "model": "apps.district",
+    "fields": {
+      "name": "Oltiariq tumani",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 179,
+    "model": "apps.district",
+    "fields": {
+      "name": "Rishton tumani",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 180,
+    "model": "apps.district",
+    "fields": {
+      "name": "So\u2018x tumani",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 181,
+    "model": "apps.district",
+    "fields": {
+      "name": "Toshloq tumani",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 182,
+    "model": "apps.district",
+    "fields": {
+      "name": "Uchko\u2018prik tumani",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 183,
+    "model": "apps.district",
+    "fields": {
+      "name": "O\u2018zbekiston tumani",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 184,
+    "model": "apps.district",
+    "fields": {
+      "name": "Farg\u2018ona tumani",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 185,
+    "model": "apps.district",
+    "fields": {
+      "name": "Farg\u2018ona shahri",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 186,
+    "model": "apps.district",
+    "fields": {
+      "name": "Furqat tumani",
+      "region_id": 12
+    }
+  },
+  {
+    "pk": 187,
+    "model": "apps.district",
+    "fields": {
+      "name": "Bog\u2018ot tumani",
+      "region_id": 13
+    }
+  },
+  {
+    "pk": 188,
+    "model": "apps.district",
+    "fields": {
+      "name": "Gurlan tumani",
+      "region_id": 13
+    }
+  },
+  {
+    "pk": 189,
+    "model": "apps.district",
+    "fields": {
+      "name": "Qo\u2018shko\u2018pir tumani",
+      "region_id": 13
+    }
+  },
+  {
+    "pk": 190,
+    "model": "apps.district",
+    "fields": {
+      "name": "Urganch tumani",
+      "region_id": 13
+    }
+  },
+  {
+    "pk": 191,
+    "model": "apps.district",
+    "fields": {
+      "name": "Urganch shahri",
+      "region_id": 13
+    }
+  },
+  {
+    "pk": 192,
+    "model": "apps.district",
+    "fields": {
+      "name": "Xiva tumani",
+      "region_id": 13
+    }
+  },
+  {
+    "pk": 193,
+    "model": "apps.district",
+    "fields": {
+      "name": "Xazarasp tumani",
+      "region_id": 13
+    }
+  },
+  {
+    "pk": 194,
+    "model": "apps.district",
+    "fields": {
+      "name": "Xonqa tumani",
+      "region_id": 13
+    }
+  },
+  {
+    "pk": 195,
+    "model": "apps.district",
+    "fields": {
+      "name": "Shavot tumani",
+      "region_id": 13
+    }
+  },
+  {
+    "pk": 196,
+    "model": "apps.district",
+    "fields": {
+      "name": "Yangiariq tumani",
+      "region_id": 13
+    }
+  },
+  {
+    "pk": 197,
+    "model": "apps.district",
+    "fields": {
+      "name": "Yangibozor tumani",
+      "region_id": 13
+    }
+  },
+  {
+    "pk": 198,
+    "model": "apps.district",
+    "fields": {
+      "name": "Bektimer tumani",
+      "region_id": 14
+    }
+  },
+  {
+    "pk": 199,
+    "model": "apps.district",
+    "fields": {
+      "name": "Mirzo Ulug'bek tumani",
+      "region_id": 14
+    }
+  },
+  {
+    "pk": 200,
+    "model": "apps.district",
+    "fields": {
+      "name": "Mirobod tumani",
+      "region_id": 14
+    }
+  },
+  {
+    "pk": 201,
+    "model": "apps.district",
+    "fields": {
+      "name": "Olmazor tumani",
+      "region_id": 14
+    }
+  },
+  {
+    "pk": 202,
+    "model": "apps.district",
+    "fields": {
+      "name": "Sirg'ali tumani",
+      "region_id": 14
+    }
+  },
+  {
+    "pk": 203,
+    "model": "apps.district",
+    "fields": {
+      "name": "Uchtepa tumani",
+      "region_id": 14
+    }
+  },
+  {
+    "pk": 204,
+    "model": "apps.district",
+    "fields": {
+      "name": "Yashnobod tumani",
+      "region_id": 14
+    }
+  },
+  {
+    "pk": 205,
+    "model": "apps.district",
+    "fields": {
+      "name": "Chilonzor tumani",
+      "region_id": 14
+    }
+  },
+  {
+    "pk": 206,
+    "model": "apps.district",
+    "fields": {
+      "name": "Shayxontohur tumani",
+      "region_id": 14
+    }
+  },
+  {
+    "pk": 207,
+    "model": "apps.district",
+    "fields": {
+      "name": "Yunusobod tumani",
+      "region_id": 14
+    }
+  },
+  {
+    "pk": 208,
+    "model": "apps.district",
+    "fields": {
+      "name": "Yakkasaroy tumani",
+      "region_id": 14
+    }
+  },
+  {
+    "pk": 209,
+    "model": "apps.district",
+    "fields": {
+      "name": "Taxiatosh shahri",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 210,
+    "model": "apps.district",
+    "fields": {
+      "name": "Asaka shahri",
+      "region_id": 2
+    }
+  },
+  {
+    "pk": 211,
+    "model": "apps.district",
+    "fields": {
+      "name": "Bandixon tumani",
+      "region_id": 9
+    }
+  },
+  {
+    "pk": 212,
+    "model": "apps.district",
+    "fields": {
+      "name": "Ohangaron shahri",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 213,
+    "model": "apps.district",
+    "fields": {
+      "name": "Yangiyo\u2018l shahri",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 215,
+    "model": "apps.district",
+    "fields": {
+      "name": "Toshkent tumani",
+      "region_id": 11
+    }
+  },
+  {
+    "pk": 216,
+    "model": "apps.district",
+    "fields": {
+      "name": "Xiva shahri",
+      "region_id": 13
+    }
+  },
+  {
+    "pk": 217,
+    "model": "apps.district",
+    "fields": {
+      "name": "Do'stlik shahri",
+      "region_id": 13
+    }
+  },
+  {
+    "pk": 218,
+    "model": "apps.district",
+    "fields": {
+      "name": "Yangihayot tumani",
+      "region_id": 14
+    }
+  },
+  {
+    "pk": 219,
+    "model": "apps.district",
+    "fields": {
+      "name": "Tuproqqala tumani",
+      "region_id": 13
+    }
+  },
+  {
+    "pk": 220,
+    "model": "apps.district",
+    "fields": {
+      "name": "Davlatobod tumani",
+      "region_id": 7
+    }
+  },
+  {
+    "pk": 221,
+    "model": "apps.district",
+    "fields": {
+      "name": "G\u2018ozg\u2018on shahri",
+      "region_id": 6
+    }
+  },
+  {
+    "pk": 222,
+    "model": "apps.district",
+    "fields": {
+      "name": "Bo\u2018zatov tumani",
+      "region_id": 1
+    }
+  },
+  {
+    "pk": 224,
+    "model": "apps.district",
+    "fields": {
+      "name": "Shahrisabz shahri",
+      "region_id": 5
+    }
+  },
+  {
+    "pk": 225,
+    "model": "apps.district",
+    "fields": {
+      "name": "Ko\u2018kdala tumani",
+      "region_id": 5
+    }
+  }
+]

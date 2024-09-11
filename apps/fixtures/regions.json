@@ -1,0 +1,100 @@
+[
+  {
+    "pk": 1,
+    "model": "apps.region",
+    "fields": {
+      "name": "Qoraqalpog\u2018iston Respublikasi"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "apps.region",
+    "fields": {
+      "name": "Andijon viloyati"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "apps.region",
+    "fields": {
+      "name": "Buxoro viloyati"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "apps.region",
+    "fields": {
+      "name": "Jizzax viloyati"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "apps.region",
+    "fields": {
+      "name": "Qashqadaryo viloyati"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "apps.region",
+    "fields": {
+      "name": "Navoiy viloyati"
+    }
+  },
+  {
+    "pk": 7,
+    "model": "apps.region",
+    "fields": {
+      "name": "Namangan viloyati"
+    }
+  },
+  {
+    "pk": 8,
+    "model": "apps.region",
+    "fields": {
+      "name": "Samarqand viloyati"
+    }
+  },
+  {
+    "pk": 9,
+    "model": "apps.region",
+    "fields": {
+      "name": "Surxandaryo viloyati"
+    }
+  },
+  {
+    "pk": 10,
+    "model": "apps.region",
+    "fields": {
+      "name": "Sirdaryo viloyati"
+    }
+  },
+  {
+    "pk": 11,
+    "model": "apps.region",
+    "fields": {
+      "name": "Toshkent viloyati"
+    }
+  },
+  {
+    "pk": 12,
+    "model": "apps.region",
+    "fields": {
+      "name": "Farg\u2018ona viloyati"
+    }
+  },
+  {
+    "pk": 13,
+    "model": "apps.region",
+    "fields": {
+      "name": "Xorazm viloyati"
+    }
+  },
+  {
+    "pk": 14,
+    "model": "apps.region",
+    "fields": {
+      "name": "Toshkent shahri"
+    }
+  }
+]
