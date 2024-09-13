@@ -1,17 +1,21 @@
 from django.urls import path
 
-from apps.views import AllProductListView, LoginRegisterView, LogoutView, ProfileTemplateView, ProfileUpdateView, \
-    PasswordUpdateView, ProductListView, ProductDetailView, ProductSearchListView, OrderAttemptedTemplateView, \
-    ProductOrderCreateView, MyOrdersListView, MarketListView
+from apps.views import AllProductListView, LogoutView, ProfileTemplateView, ProfileUpdateView, \
+    PasswordUpdateView, ProductListView, ProductDetailView, ProductSearchListView, \
+    MarketListView, MyStreamsListView, StreamCreateView, StreamDetailView, \
+    StatisticsListView, MyOrdersTemplateView, OrderDetailView, LoginRegisterView
 
 urlpatterns = [
     path('', AllProductListView.as_view(), name='main-page'),
     path('category', ProductListView.as_view(), name='category'),
     path('market', MarketListView.as_view(), name='market'),
-    path('product/<int:pk>', ProductDetailView.as_view(), name='product-detail'),
-    path('product-order', ProductOrderCreateView.as_view(), name='product-order'),
-    path('success-product', OrderAttemptedTemplateView.as_view(), name='success-product'),
-    path('ordered-products', MyOrdersListView.as_view(), name='ordered-products'),
+    path('stream', MyStreamsListView.as_view(), name='stream'),
+    path('stream-create', StreamCreateView.as_view(), name='stream_create'),
+    path('stream/<int:pk>', StreamDetailView.as_view(), name='stream_detail'),
+    path('statistic', StatisticsListView.as_view(), name='statistic'),
+    path('product/<slug:slug>', ProductDetailView.as_view(), name='product-detail'),
+    path('success-product/<int:pk>', OrderDetailView.as_view(), name='order-detail'),
+    path('ordered-products', MyOrdersTemplateView.as_view(), name='ordered-products'),
     path('search/', ProductSearchListView.as_view(), name='product-search'),
     path('login', LoginRegisterView.as_view(), name='login-page'),
     path('logout', LogoutView.as_view(), name='logout-page'),

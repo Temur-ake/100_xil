@@ -1,0 +1,113 @@
+{% extends 'apps/base.html' %}
+
+{% block title %}
+    {{ request.url }}
+{% endblock %}
+
+
+{% block main_content %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Facebook dan olingan lidlarni yuklash</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" class="form-class" action="/admin_page/upload-csv"
+                                  enctype="multipart/form-data">
+                                <input type="hidden" name="csrfmiddlewaretoken"
+                                       value="TdBBLUatSTbgrTk4IGPa5MO2KRveWxog5uhtAI4nR3CVUrJ3F5wPyCmWdvjiY32T">
+                                <input name="stream_id" type="hidden" id="hidden_stream_id">
+                                <input name="file" type="file" accept=".csv" required="">
+                                <input type="submit" class="btn btn-primary mt-4" value="Csv fayl yuklash">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <br>
+                <h3 class="text-center"> Mening havolalarim </h3>
+                <br>
+
+                <div class="row">
+                    {% for stream in user.stream_set.all %}
+                        <div class="col-sm-4">
+                            <div class="card-header">
+
+                                <h5>{{ stream.name }}</h5>
+
+
+                                <h5>- {{ stream.discount }}</h5>
+
+                            </div>
+                            <div class="card">
+                                <div class="card-body" style="position: relative;">
+                                    <div class="form-group">
+                                        <input type="text" value="{{ request.build_absolute_uri }}/{{ stream.pk }}" readonly=""
+                                               class="ref_link form-control">
+                                    </div>
+                                    <button class="copy_ref_bn btn btn-primary"
+                                            style="float:left; margin-right:9px; margin-top: 9px;">
+                                        Nusxa ko'chirish
+                                    </button>
+
+                                    <a href="{% url 'stream_detail' stream.pk %}" target="_blank">
+                                        <svg width="40px" height="64px" viewBox="0 0 16 20" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                               stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <path d="M2 2V10.5L3.5 12L6.33579 9.16421L12.5858 15.4142L15.4142 12.5858L9.16421 6.33579L12 3.5L10.5 2H2Z"
+                                                      fill="#6e8add"></path>
+                                            </g>
+                                        </svg>
+                                    </a>
+
+                                    <a href="https://t.me/Jaska_ITishnik" target="_blank">
+                                        <svg width="40px" height="64px" viewBox="0 0 280 350" version="1.1"
+                                             xmlns="http://www.w3.org/2000/svg"
+                                             preserveAspectRatio="xMidYMid"
+                                             fill="#000000">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                               stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <g>
+                                                    <path d="M128,0 C57.307,0 0,57.307 0,128 L0,128 C0,198.693 57.307,256 128,256 L128,256 C198.693,256 256,198.693 256,128 L256,128 C256,57.307 198.693,0 128,0 L128,0 Z"
+                                                          fill="#5dbadf"></path>
+                                                    <path d="M190.2826,73.6308 L167.4206,188.8978 C167.4206,188.8978 164.2236,196.8918 155.4306,193.0548 L102.6726,152.6068 L83.4886,143.3348 L51.1946,132.4628 C51.1946,132.4628 46.2386,130.7048 45.7586,126.8678 C45.2796,123.0308 51.3546,120.9528 51.3546,120.9528 L179.7306,70.5928 C179.7306,70.5928 190.2826,65.9568 190.2826,73.6308"
+                                                          fill="#FFFFFF"></path>
+                                                    <path d="M98.6178,187.6035 C98.6178,187.6035 97.0778,187.4595 95.1588,181.3835 C93.2408,175.3085 83.4888,143.3345 83.4888,143.3345 L161.0258,94.0945 C161.0258,94.0945 165.5028,91.3765 165.3428,94.0945 C165.3428,94.0945 166.1418,94.5735 163.7438,96.8115 C161.3458,99.0505 102.8328,151.6475 102.8328,151.6475"
+                                                          fill="#D2E5F1"></path>
+                                                    <path d="M122.9015,168.1154 L102.0335,187.1414 C102.0335,187.1414 100.4025,188.3794 98.6175,187.6034 L102.6135,152.2624"
+                                                          fill="#B5CFE4"></path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </a>
+
+                                    <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                            style="float:left; margin-right:9px; margin-left: 9px; margin-top: 9px;"
+                                            data-bs-target="#exampleModal" name="69805">
+                                        csv
+                                    </button>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    {% endfor %}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

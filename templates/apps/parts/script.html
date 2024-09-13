@@ -8,3 +8,87 @@
     });
     $('#messages-modal').modal('show');
 </script>
+
+
+<script>
+    $(function () {
+        var availableTags = [];
+        $("#search-input").autocomplete({
+            source: availableTags
+        });
+        console.log(availableTags);
+    });
+</script>
+<script>
+    $('.btn_open_modal').on('click', function () {
+        let product_id = $(this).attr('name');
+        $('#hidden_stream_id').val(product_id);
+    });
+
+    function myFunction(stream_id) {
+        var r = confirm("Siz rostdan ham oqimni o'chirmoqchimisiz?");
+        if (r == true) {
+            $.ajax({
+                type: "POST",
+                url: "stream/" + stream_id,
+                data: {
+                    'csrfmiddlewaretoken': 'C5HrCVZOgagRNsQaJ1T0WFy3dx09NEsIOmnjrJTIfkHwg0f9GqAFpv6XGbOdPa6l'
+                },
+                dataType: "text",
+                success: function (response) {
+                    window.location.reload();
+                }
+            });
+            console.log(stream_id);
+        } else {
+            console.log("CANCEL");
+        }
+    }
+
+    $(".card-body .copy_ref_bn").on('click', function () {
+        var copyText = $(this).parent().find('.ref_link').get(0);
+
+        copyText.select();
+        document.execCommand("copy");
+        $(this).text('Nusxa olindi');
+    });
+</script>
+
+<script>
+    $('.btn_open_modal').on('click', function () {
+        let product_id = $(this).attr('name');
+        $('#hidden_product').val(product_id);
+    })
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // When the region (Viloyat) is selected
+        $('#region-select').change(function() {
+            var regionId = $(this).val();  // Get selected region value
+
+            // Clear the district dropdown
+            $('#district-select').empty();
+
+            if (regionId) {
+                // Make an AJAX request to fetch districts based on selected region
+                $.ajax({
+                    url: '/get-districts/',  // Your Django view URL
+                    data: {
+                        'region_id': regionId
+                    },
+                    success: function(data) {
+                        // Populate the district dropdown with the response
+                        $('#district-select').append('<option value="">Select District</option>');
+                        data.districts.forEach(function(district) {
+                            $('#district-select').append('<option value="' + district.id + '">' + district.name + '</option>');
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>

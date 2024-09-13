@@ -19,18 +19,15 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" class="form-class">
-                                <input type="hidden" name="csrfmiddlewaretoken"
-                                       value="Y39iSh1UzVJZAaUNKHSc050UeRbtRPeZakPaH5VOy5aE3IjMH6zRtVyOHvZxTlSC">
-                                <input name="product_id" type="hidden" id="hidden_product" value="test">
-
-                                Oqim nomi <input type="text" name="title" class="form-control" placeholder=""
-                                                 mt-2="Oqim uchun nom kiriting" required="" id="id_title">
-
-                                Chegirma <input type="text" name="discount" class="form-control" placeholder=""
-                                                mt-2="Chegirma miqdori: {{ product.benefit }} so'mgacha"
-                                                id="id_discount">
-
+                            <form action="{% url 'stream_create' %}" method="post" class="form-class">
+                                {% csrf_token %}
+                                Oqim nomi
+                                <input type="text" name="name" class="form-control" placeholder=""
+                                       mt-2="Oqim uchun nom kiriting" required="" id="id_title">
+                                Chegirma
+                                <input type="hidden" name="owner" value="{{ user.pk }}">
+                                <input type="hidden" name="product" id="hidden_product" value="test">
+                                <input type="text" name="discount" class="form-control" placeholder="">
                                 <input type="submit" class="btn btn-primary mt-4" value="Oqim yaratish">
                             </form>
                         </div>
@@ -47,7 +44,7 @@
                     <div class="header_tab_menu">
                         <div class="header_menu" style="overflow: auto">
                             <a href="{% url 'market' %}" class="btn btn-default"> Hammasi </a>
-                            <a href="/admin_page/market/?category=top" class="btn btn-default"> Top tovarlar </a>
+                            <a href="{% url 'market' %}?top=top" class="btn btn-default"> Top tovarlar </a>
                             {% for category in categories %}
                                 <a href="{% url 'market' %}?cat={{ category.slug }}"
                                    class="btn btn-default"> {{ category.name }} </a>
@@ -75,17 +72,17 @@
                     {% for product in products %}
                         <div class="col-sm-4 p-2">
                             <div class="card">
-                                <a href="/product-detail/polirol-avtomashina-uchun" target="_blank">
+                                <a href="{% url 'product-detail' product.slug %}">
                                     <img class="card-img-top" src="{{ product.photo.url }}"
                                          alt="POLIROFKA AVTOMASHINA UCHUN (sarqi karopka)">
                                 </a>
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        <a href="/product-detail/polirol-avtomashina-uchun" target="_blank">
+                                        <a href="{% url 'product-detail' product.slug %}">
                                             {{ product.name }}
                                         </a>
                                     </h5>
-                                    <p class="text-muted"> {{ product.name }} </p>
+                                    <p class="text-muted"> {{ product.price }} </p>
                                 </div>
 
                                 <ul class="list-group list-group-flush">
@@ -104,7 +101,7 @@
                                    class="btn bg-danger text-white mt-2">Reklama
                                     Posti</a>
                                 <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal" name="463">
+                                        data-bs-target="#exampleModal" name="{{ product.pk }}">
                                     Oqim yaratish
                                 </button>
                                 <a href="/admin_page/product/463" class="btn bg-danger text-white mt-2">Batafsil</a>

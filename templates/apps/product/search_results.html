@@ -1,7 +1,7 @@
 {% extends 'apps/base.html' %}
 
 {% block title %}
-    {{ request.path }}
+    {{ request.build_absolute_uri }}
 {% endblock %}
 {% block main_content %}
     <div class="card mb-3">
@@ -12,14 +12,14 @@
                         <div class="border rounded-1 d-flex flex-column justify-content-between pb-3">
                             <div class="overflow-hidden">
                                 <div class="position-relative rounded-top overflow-hidden">
-                                    <a class="d-block" href="{% url 'product-detail' product.pk %}">
+                                    <a class="d-block" href="{% url 'product-detail' product.slug %}">
                                         <img class="img-fluid rounded-top" src="{{ product.photo.url }}" alt="">
                                     </a>
                                 </div>
                                 <div class="p-2">
                                     <h5 class="fs-0">
                                         <a class="text-dark"
-                                           href="{% url 'product-detail' product.pk %}">{{ product.name }}
+                                           href="{% url 'product-detail' product.slug %}">{{ product.name }}
                                         </a>
                                     </h5>
                                     <p class="fs--1 mb-2">
@@ -35,7 +35,7 @@
 
                                 <div>
                                     <a class="btn btn-sm btn-falcon-default" style="width: 130px;"
-                                       href="{% url 'product-detail' product.pk %}" data-bs-toggle="tooltip"
+                                       href="{% url 'product-detail' product.slug %}" data-bs-toggle="tooltip"
                                        data-bs-placement="top">
                                         <svg class="svg-inline--fa fa-cart-plus fa-w-18" aria-hidden="true"
                                              focusable="false" data-prefix="fas" data-icon="cart-plus" role="img"
@@ -52,6 +52,13 @@
                     </div>
                 {% endfor %}
             </div>
+            {% if page_obj.start_index != page_obj.end_index %}
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        {% include 'apps/parts/pagination.html' %}
+                    </ul>
+                </nav>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

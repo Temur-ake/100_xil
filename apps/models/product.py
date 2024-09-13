@@ -1,4 +1,4 @@
-from django.db.models import PositiveIntegerField, ImageField, CharField, ForeignKey, CASCADE, Model, TextChoices
+from django.db.models import PositiveIntegerField, ImageField, CharField, ForeignKey, CASCADE, TextChoices
 from django_ckeditor_5.fields import CKEditor5Field
 
 from apps.models.base import TimeSlugBased, TimeBasedModel
@@ -16,25 +16,30 @@ class Product(TimeSlugBased):
 class Order(TimeBasedModel):
     class Status(TextChoices):
         NEW = 'new', 'New'
-        READY_TO_DELIVER = 'ready_to_deliver', 'Ready_to_deliver'
+        ARCHIVED = 'archived', 'Archived'
+        READY_TO_DELIVER = 'ready_to_deliver', 'Ready to deliver'
         DELIVERING = 'delivering', 'Delivering'
         DELIVERED = 'delivered', 'Delivered'
-        CANT_PHONE = 'cant_phone', 'Cant_phone'
+        BROKEN = 'defective_product', 'Defective product'
+        RETURNED = 'returned', 'Returned'
         CANCELED = 'canceled', 'Canceled'
-        ARCHIVED = 'archived', 'Archived'
+        WAITING = 'waiting', 'Waiting'
 
-    quantity = PositiveIntegerField(default=1, null=True, blank=True)
+    quantity = PositiveIntegerField(db_default=1)
     status = CharField(max_length=50, choices=Status.choices, default=Status.NEW)
     full_name = CharField(max_length=50)
     phone = CharField(max_length=20)
     stream = ForeignKey('apps.Stream', CASCADE, null=True, blank=True)
-    product = ForeignKey('apps.Product', CASCADE)
-    owner = ForeignKey('apps.User', CASCADE)
+    product = ForeignKey('apps.Product', CASCADE, related_name='orders')
+    owner = ForeignKey('apps.User', CASCADE, null=True, blank=True)
+    region = ForeignKey('apps.Region', CASCADE, null=True, blank=True)
+    district = ForeignKey('apps.District', CASCADE, null=True, blank=True)
 
 
 class Stream(TimeBasedModel):
     name = CharField(max_length=255)
-    discount = PositiveIntegerField()
+    discount = PositiveIntegerField(db_default=0)
+    visit_count = PositiveIntegerField(db_default=0)
     product = ForeignKey('apps.Product', CASCADE)
     owner = ForeignKey('apps.User', CASCADE)
 
@@ -44,7 +49,6 @@ class Stream(TimeBasedModel):
     def __str__(self):
         return self.name
 
-
-class Wishlist(Model):
-    product = ForeignKey('apps.Product', CASCADE)
-    owner = ForeignKey('apps.User', CASCADE)
+    @property
+    def changed_price(self):
+        return self.product.price - self.discount

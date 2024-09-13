@@ -1,14 +1,14 @@
 {% extends 'apps/base.html' %}
 
 {% block title %}
-    Buy - {{ product.name }}
+    Buy - {{ stream.product.name }}
 {% endblock %}
 
 {% block main_content %}
     <div class="card mb-3 mt-2">
         <div class="card-body">
             <div class="col-lg-8 swiper-container">
-                <form action="{% url 'product-detail' product.slug %}" method="post">
+                <form action="{% url 'product-detail' stream.product.slug %}" method="post">
                     {% csrf_token %}
                     <div class="mb-2">
                         <label class="form-label" for="formGroupNameInput">Ism:</label>
@@ -31,23 +31,23 @@
             </div>
             <div class="row">
                 <div class="col-lg-8 swiper-container" style="margin-top: 20px;">
-                    <img src="{{ product.photo.url }}" alt="" class="img-main mb-3 img-fluid">
+                    <img src="{{ stream.product.photo.url }}" alt="" class="img-main mb-3 img-fluid">
                     <div class="row mb-5 thumbs">
                     </div>
                 </div>
             </div>
             <div class="col-lg-8 swiper-container">
                 <h5>
-                    {{ product.name }}
+                    {{ stream.product.name }}
                 </h5>
                 <p class="fs--1">
                 </p>
                 <p>
-                    {{ product.description|striptags }}
+                    {{ stream.product.description|striptags }}
                 </p>
                 <h4 class="d-flex align-items-center">
                 <span class="text-warning me-2">
-                {{ product.price }} so'm
+                {{ stream.changed_price }} so'm
                 </span>
                 </h4>
             </div>
