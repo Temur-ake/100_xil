@@ -14,7 +14,9 @@
                         <label class="form-label" for="formGroupNameInput">Ism:</label>
                         <input class="form-control" name="full_name" id="formGroupNameInput" type="text">
                         <input class="form-control" name="product" id="formGroupNameInput" type="hidden"
-                               value="{{ product.pk }}">
+                               value="{{ stream.product_id }}">
+                        <input class="form-control" name="stream" id="formGroupNameInput" type="hidden"
+                               value="{{ stream.pk }}">
                         <input class="form-control" name="owner" id="formGroupNameInput" type="hidden"
                                value="{{ user.pk }}">
                     </div>

@@ -1,7 +1,7 @@
 {% extends 'apps/base.html' %}
 
 {% block title %}
-    {{ request.url }}
+    {{ request.build_absolute_uri }}
 {% endblock %}
 
 {% block main_content %}
@@ -11,11 +11,11 @@
                 <div class="container border-bottom-4">
                     <div class="header_tab_menu">
                         <div class="header_menu" style="overflow: auto">
-                            <a href="/admin_page/stats?period=today" class="btn btn-default">Bugun</a>
-                            <a href="/admin_page/stats?period=last_day" class="btn btn-default">Kechagi</a>
-                            <a href="/admin_page/stats?period=wekly" class="btn btn-default">Haftalik</a>
-                            <a href="/admin_page/stats?period=monthly" class="btn btn-default">Oylik</a>
-                            <a href="/admin_page/stats?period=all" class="btn btn-default">Hammasi</a>
+                            <a href="{% url 'statistic' %}?period=today" class="btn btn-default">Bugun</a>
+                            <a href="{% url 'statistic' %}?period=last_day" class="btn btn-default">Kechagi</a>
+                            <a href="{% url 'statistic' %}?period=weekly" class="btn btn-default">Haftalik</a>
+                            <a href="{% url 'statistic' %}?period=monthly" class="btn btn-default">Oylik</a>
+                            <a href="{% url 'statistic' %}?period=all" class="btn btn-default">Hammasi</a>
                         </div>
                     </div>
                 </div>
@@ -27,158 +27,60 @@
                             <th scope="col">Oqim</th>
                             <th scope="col">Mahsulot</th>
                             <th scope="col">Tashrif</th>
-                            <th scope="col">Yangi</th>
-                            <th scope="col">Dastavkaga tayyor</th>
-                            <th scope="col">Yetkazilmoqda</th>
-                            <th scope="col">Yetqazib berildi</th>
-                            <th scope="col">Telefon ko'tarmadi</th>
-                            <th scope="col">Bekor qilindi</th>
-                            <th scope="col">Arxivlandi</th>
+                            {% for type in order_types %}
+                                <th scope="col">{{ type }}</th>
+                            {% endfor %}
+
+
                         </tr>
                         <tr class="bg-info">
                             <td> JAMI</td>
                             <td></td>
-                            <td> 3</td>
-                            <td> 0</td>
-                            <td> 0</td>
-                            <td> 0</td>
-                            <td> 0</td>
-                            <td> 0</td>
-                            <td> 0</td>
-                            <td> 0</td>
+                            <td>{{ all_count_visits }}</td>
+                            <td>{{ all_count_new }}</td>
+                            <td>{{ all_count_archived }}</td>
+                            <td>{{ all_count_ready_to_deliver }}</td>
+                            <td>{{ all_count_delivering }}</td>
+                            <td>{{ all_count_delivered }}</td>
+                            <td>{{ all_count_defective_product }}</td>
+                            <td>{{ all_count_returned }}</td>
+                            <td>{{ all_count_canceled }}</td>
+                            <td>{{ all_count_waiting }}</td>
                         </tr>
                         </thead>
 
                         <tbody class="text-center">
 
-                        <tr>
-                            <th>rgerthgrth</th>
-                            <th>Kitobli atirlarimiz tuplami</th>
-                            <td>2</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                        </tr>
-
-                        <tr>
-                            <th>gfvdf</th>
-                            <th>Universal Gadjet (2)</th>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                        </tr>
-
-                        <tr>
-                            <th>dfvfvfvfv</th>
-                            <th>O‘zbekiston gerbi va xaritasi tushirilgan soat</th>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                        </tr>
-
-                        <tr>
-                            <th>dfvfv</th>
-                            <th>O‘zbekiston gerbi va xaritasi tushirilgan soat</th>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                        </tr>
-
-                        <tr>
-                            <th>ROLEX</th>
-                            <th>Rolex Lux Copy</th>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                        </tr>
-
-                        <tr>
-                            <th>dfgvhbjk</th>
-                            <th>Avtomobil himoya g'ilofi (TENT)</th>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                        </tr>
-
-                        <tr>
-                            <th>fghj</th>
-                            <th>POLIROFKA AVTOMASHINA UCHUN (sarqi karopka)</th>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                        </tr>
-
-                        <tr>
-                            <th>test</th>
-                            <th>JANNATIM ONAM DAVLATIM OTAM</th>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                        </tr>
-
-                        <tr>
-                            <th>test</th>
-                            <th>JANNATIM ONAM DAVLATIM OTAM</th>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                        </tr>
+                        {% for stream in streams %}
+                            <tr>
+                                <th>{{ stream.name }}</th>
+                                <th>{{ stream.product.name }}</th>
+                                <td>{{ stream.visit_count }}</td>
+                                <td>{{ stream.count_new }}</td>
+                                <td>{{ stream.count_archived }}</td>
+                                <td>{{ stream.count_ready_to_deliver }}</td>
+                                <td>{{ stream.count_delivering }}</td>
+                                <td>{{ stream.count_delivered }}</td>
+                                <td>{{ stream.count_defective_product }}</td>
+                                <td>{{ stream.count_returned }}</td>
+                                <td>{{ stream.count_canceled }}</td>
+                                <td>{{ stream.count_waiting }}</td>
+                            </tr>
+                        {% endfor %}
 
                         <tr class="bg-info">
                             <td> JAMI</td>
                             <td></td>
-                            <td> 3</td>
-                            <td> 0</td>
-                            <td> 0</td>
-                            <td> 0</td>
-                            <td> 0</td>
-                            <td> 0</td>
-                            <td> 0</td>
-                            <td> 0</td>
+                            <td>{{ all_count_visits }}</td>
+                            <td>{{ all_count_new }}</td>
+                            <td>{{ all_count_archived }}</td>
+                            <td>{{ all_count_ready_to_deliver }}</td>
+                            <td>{{ all_count_delivering }}</td>
+                            <td>{{ all_count_delivered }}</td>
+                            <td>{{ all_count_defective_product }}</td>
+                            <td>{{ all_count_returned }}</td>
+                            <td>{{ all_count_canceled }}</td>
+                            <td>{{ all_count_waiting }}</td>
                         </tr>
                         </tbody>
                     </table>

@@ -20,7 +20,7 @@
                         <!-- <span class="fa fa-arrow-right" aria-hidden="true"></span> Font Awesome fontawesome.com -->
                     </a>
                     <div class="content_name_block_text">
-                        <h1>Mahsulot statistikasi</h1>
+                        <h1>{{ product.name }} mahsuloti statistikasi</h1>
                     </div>
                 </div>
             </div>
@@ -39,8 +39,8 @@
                             <tbody>
                             <tr>
                                 <td>Oqimlar</td>
-                                <td>18</td>
-                                <td>0</td>
+                                <td>{{ product.stream_set.count }}</td>
+                                <td>{{ my_stream_count }}</td>
                             </tr>
                             <tr>
                                 <td>Admin bonusi</td>
@@ -49,8 +49,8 @@
                             </tr>
                             <tr>
                                 <td>Mahsulot narxi</td>
-                                <td>199000</td>
-                                <td>199000</td>
+                                <td>{{ product.price }}</td>
+                                <td>{{ product.product_fee }}</td>
                             </tr>
                             </tbody>
                         </table>

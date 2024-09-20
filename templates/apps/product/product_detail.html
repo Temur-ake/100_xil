@@ -19,7 +19,15 @@
                                value="{{ user.pk }}">
                     </div>
                     <div class="mb-4">
-                        <label class="form-label" for="formGroupEmailInput">Telefon nomer:</label>
+                        <label class="form-label" for="formGroupEmailInput">
+                            Telefon nomer:   {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-danger">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        </label>
                         <input class="form-control" id="phone-mask" required="" name="phone" type="text">
                     </div>
                     <span style="padding-bottom: 100px;">

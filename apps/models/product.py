@@ -11,6 +11,7 @@ class Product(TimeSlugBased):
     discount = CharField(max_length=255, null=True, blank=True)
     category = ForeignKey('apps.Category', CASCADE)
     description = CKEditor5Field()
+    product_fee = PositiveIntegerField(help_text="So'mda", null=True, blank=True)
 
 
 class Order(TimeBasedModel):
@@ -27,18 +28,19 @@ class Order(TimeBasedModel):
 
     quantity = PositiveIntegerField(db_default=1)
     status = CharField(max_length=50, choices=Status.choices, default=Status.NEW)
-    full_name = CharField(max_length=50)
+    full_name = CharField(max_length=50, null=True, blank=True)
     phone = CharField(max_length=20)
-    stream = ForeignKey('apps.Stream', CASCADE, null=True, blank=True)
+    stream = ForeignKey('apps.Stream', CASCADE, null=True, blank=True, related_name='orders')
     product = ForeignKey('apps.Product', CASCADE, related_name='orders')
     owner = ForeignKey('apps.User', CASCADE, null=True, blank=True)
     region = ForeignKey('apps.Region', CASCADE, null=True, blank=True)
     district = ForeignKey('apps.District', CASCADE, null=True, blank=True)
+    address = CharField(max_length=255, null=True, blank=True)
 
 
 class Stream(TimeBasedModel):
     name = CharField(max_length=255)
-    discount = PositiveIntegerField(db_default=0)
+    discount = PositiveIntegerField(db_default=0, null=True, blank=True)
     visit_count = PositiveIntegerField(db_default=0)
     product = ForeignKey('apps.Product', CASCADE)
     owner = ForeignKey('apps.User', CASCADE)

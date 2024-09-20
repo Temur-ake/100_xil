@@ -32,7 +32,7 @@
                                 <div class="border rounded-1 d-flex flex-column justify-content-between pb-3">
                                     <div class="overflow-hidden">
                                         <div class="position-relative rounded-top overflow-hidden">
-                                            <a class="d-block" href="{% url 'product-detail' product.pk %}">
+                                            <a class="d-block" href="{% url 'product-detail' product.slug %}">
                                                 <img class="img-fluid rounded-top"
                                                      src="{{ product.photo.url }}" alt="">
                                             </a>
@@ -40,7 +40,7 @@
                                         <div class="p-2">
                                             <h5 class="fs-0">
                                                 <a class="text-dark"
-                                                   href="{% url 'product-detail' product.pk %}">
+                                                   href="{% url 'product-detail' product.slug %}">
                                                     {{ product.name }}
                                                 </a>
                                             </h5>

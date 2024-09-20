@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
-from django.db.models import CharField, TextField, BigIntegerField, TextChoices, Model, ForeignKey, CASCADE
+from django.db.models import CharField, TextField, BigIntegerField, TextChoices, Model, ForeignKey, CASCADE, \
+    PositiveIntegerField
 
 from apps.models.managers import CustomUserManager
 
@@ -37,3 +38,28 @@ class District(Model):
 
     def __str__(self):
         return self.name
+
+
+class SpamUser(Model):
+    phone = CharField(max_length=20, unique=True)
+    user = ForeignKey('apps.User', CASCADE, null=True, blank=True)
+
+
+class SiteSettings(Model):
+    fee_for_operator = PositiveIntegerField()
+
+
+'''
+operator (3000)
+referral user (30000)
+currier
+dostovka narxi (toshkent shahar) 20000
+dostovka narxi (toshkent vil) 25000
+dostovka narxi (viloyatga) 30000
+
+
+kiyim narxi  160,000 so'm
+
+oqim orqali 40,000 so'm
+
+'''

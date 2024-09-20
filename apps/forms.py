@@ -4,17 +4,44 @@ from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, Form, CharField
 
-from apps.models import User, Order
+from apps.models import User, Order, Stream, Product
 
 
 class OrderModelForm(ModelForm):
     class Meta:
         model = Order
-        fields = 'phone', 'full_name', 'product'
+        fields = 'phone', 'full_name', 'product', 'stream', 'owner'
 
     def clean_phone(self):
-        phone = self.cleaned_data.get('phone')
-        return re.sub(r'[^\d]', '', phone)
+        phone: str = re.sub(r'[^\d]', '', self.cleaned_data.get('phone'))
+        if len(phone) != 12 or not phone.startswith('998'):
+            raise ValidationError('Incorrect password or phone number')
+        return phone
+
+
+class StreamModelForm(ModelForm):
+    class Meta:
+        model = Stream
+        fields = 'name', 'product', 'discount', 'owner'
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        return name
+
+    def clean_discount(self):
+        discount = self.cleaned_data.get('discount')
+        if discount < 0:
+            raise ValidationError('Discount is not valid')
+        return discount
+
+    def clean(self):
+        data = super().clean()
+        discount = data.get('discount')
+        product_id = data.get('product').pk
+        product_fee = Product.objects.filter(id=product_id).values_list('product_fee')[0][0]
+        if discount > product_fee:
+            raise ValidationError('Discount must not be exceed than product fee')
+        return data
 
 
 class LoginRegisterModelForm(Form):
@@ -25,24 +52,35 @@ class LoginRegisterModelForm(Form):
         return self._cache_user
 
     def clean_phone(self):
-        phone = self.cleaned_data.get('phone')
-        return re.sub(r'[^\d]', '', phone)
+        phone: str = re.sub(r'[^\d]', '', self.cleaned_data.get('phone'))
+        if len(phone) != 12 or not phone.startswith('998'):
+            raise ValidationError('Incorrect password or phone number')
+        return phone
 
     def clean(self):
         cleaned_data = super().clean()
         phone = cleaned_data.get('phone')
         password = cleaned_data.get('password')
-        self._cache_user, created = User.objects.get_or_create(phone=phone)
-        if not created:
-            self._cache_user = authenticate(phone=phone, password=password)
+        if not phone or not password:
+            raise ValidationError('Phone and password cannot be blank')
+        user, created = User.objects.get_or_create(phone=phone)
+        if created:
+            user.set_password(password)
+            user.save()
 
-        if self._cache_user is None:
-            raise ValidationError('User yoq')
+        user = authenticate(phone=phone, password=password)
 
+        if user is None:
+            raise ValidationError('Password xato')
+        self._cache_user = user
         return cleaned_data
 
 
 class PasswordChangeModelForm(ModelForm):
+    old_password = CharField(max_length=255)
+    new_password = CharField(max_length=255)
+    confirm_password = CharField(max_length=255)
+
     class Meta:
         model = User
         fields = ()

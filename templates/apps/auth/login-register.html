@@ -17,6 +17,13 @@
                         <div class="card-body p-4">
                             <div class="row flex-between-center">
                                 <div class="col-auto">
+                                    {% if messages %}
+                                        {% for mesage in messages %}
+                                            <div class="alert alert-danger">
+                                                {{ mesage }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
                                     <h3>Kirish</h3>
                                 </div>
                             </div>

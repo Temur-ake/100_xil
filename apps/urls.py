@@ -3,11 +3,12 @@ from django.urls import path
 from apps.views import AllProductListView, LogoutView, ProfileTemplateView, ProfileUpdateView, \
     PasswordUpdateView, ProductListView, ProductDetailView, ProductSearchListView, \
     MarketListView, MyStreamsListView, StreamCreateView, StreamDetailView, \
-    StatisticsListView, MyOrdersTemplateView, OrderDetailView, LoginRegisterView
+    StatisticsListView, MyOrdersTemplateView, OrderDetailView, LoginRegisterView, ProductStatisticListView
 
 urlpatterns = [
     path('', AllProductListView.as_view(), name='main-page'),
     path('category', ProductListView.as_view(), name='category'),
+    path('product-statistic/<int:pk>', ProductStatisticListView.as_view(), name='product_statistic'),
     path('market', MarketListView.as_view(), name='market'),
     path('stream', MyStreamsListView.as_view(), name='stream'),
     path('stream-create', StreamCreateView.as_view(), name='stream_create'),

@@ -64,6 +64,15 @@
                                 <!-- <span class="fas fa-search search-box-icon" aria-hidden="true"></span> Font Awesome fontawesome.com -->
                             </form>
                         </div>
+                        <br>
+                        <br>
+                        {% if messages %}
+                            {% for mesage in messages %}
+                                <div class="alert alert-danger">
+                                    {{ mesage }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
 
@@ -86,7 +95,7 @@
                                 </div>
 
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">To'lov: <strong></strong></li>
+                                    <li class="list-group-item">To'lov: <strong>{{ product.product_fee }}</strong></li>
 
                                     <li class="list-group-item">Zaxirada: <strong> {{ product.quantity }} ta </strong>
                                     </li>
@@ -104,7 +113,8 @@
                                         data-bs-target="#exampleModal" name="{{ product.pk }}">
                                     Oqim yaratish
                                 </button>
-                                <a href="/admin_page/product/463" class="btn bg-danger text-white mt-2">Batafsil</a>
+                                <a href="{% url 'product_statistic' product.pk %}"
+                                   class="btn bg-danger text-white mt-2">Batafsil</a>
                             </div>
                         </div>
                     {% endfor %}
