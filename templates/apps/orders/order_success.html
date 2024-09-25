@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-	{{ request.url }}
+    {{ request.url }}
 {% endblock %}
 
 {% block main_content %}
@@ -33,7 +33,11 @@
 
             <tr>
                 <th scope="col">Yetkazib berish</th>
-                <th scope="col">20000, 30000</th>
+                <th scope="col">
+                    Toshkent shahar: {{ tashkent_city }}<br>
+                    Toshkent viloyat: {{ tashkent_region }}<br>
+                    Boshqa viloyatlarga: {{ other_regions }}<br>
+                </th>
             </tr>
 
 

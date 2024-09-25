@@ -1,25 +1,69 @@
 {% extends 'apps/base.html' %}
 {% load static %}
 {% block main_content %}
+    <style>
+        .avatar-profile {
+            position: relative;
+        }
+
+        .avatar-profile img {
+            display: block;
+            border-radius: 40%;
+            transition: opacity 0.3s ease;
+        }
+
+        .avatar-profile img:hover {
+            opacity: 0.8; /* To add a hover effect */
+        }
+
+        .update-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #121e2d;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .image-label:hover .update-text {
+            opacity: 1; /* Show the text on hover */
+        }
+
+        input[type="file"] {
+            display: none; /* Hide the file input */
+        }
+
+    </style>
     <div class="row">
         <div class="col-12">
             <div class="card mb-3 btn-reveal-trigger">
                 <div class="card-header position-relative min-vh-25 mb-8">
-                    <div class="cover-image">
-                        <div class="bg-holder rounded-3 rounded-bottom-0"
-                             style="background-image:url(/static/new_design/assets/img/generic/4.jpg);">
+                    <form action="{% url 'photo-settings' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="cover-image">
+                            <div class="bg-holder rounded-3 rounded-bottom-0"
+                                 style="background-image:url(/static/new_design/assets/img/generic/4.jpg);">
+                            </div>
                         </div>
-                        <input class="d-none" id="upload-cover-image" type="file">
-
-                    </div>
-                    <div class="avatar avatar-5xl avatar-profile shadow-sm img-thumbnail rounded-circle">
-                        <div class="h-100 w-100 rounded-circle overflow-hidden position-relative"><img
-                                src="{% static 'default_active_user.jpg' %}" width="200" alt=""
-                                data-dz-thumbnail="data-dz-thumbnail">
+                        <div class="avatar avatar-5xl avatar-profile shadow-sm img-thumbnail rounded-circle">
+                            <div class="h-100 w-100 rounded-circle overflow-hidden position-relative">
+                                <label for="profile-image" class="image-label" style="cursor: pointer;">
+                                    <img src="{{ user.photo.url }}" width="200" alt=""
+                                         data-dz-thumbnail="data-dz-thumbnail" id="profile-picture">
+                                    <span class="update-text">Update</span>
+                                </label>
+                            </div>
+                            <input id="profile-image" name="photo" type="file" style="display: none;"
+                                   onchange="showUpdateText()"/>
+                            <button class="btn btn-primary mt-3" type="submit">Saqlash</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
+
         </div>
     </div>
     <div class="row g-0">
@@ -58,32 +102,28 @@
                         </div>
 
                         <div class="col-lg-6">
-                            Viloyat
+                            <label for="id_region">Viloyat</label>
                             <select name="region" class="form-control" id="id_region">
-                                <option
-                                        {% if user.district.region.name %}
-                                            value="{{ user.district.region.name }}"
-                                        {% else %}
-                                            value="Viloyatni tanlang">Viloyatni tanlang
-                                        {% endif %}
-                                </option>
+                                <option value="">{{ user.district.region.name|default:"Viloyatni tanlang" }}</option>
                                 {% for region in regions %}
-                                    <option value="tashkent">{{ region.name }}</option>
+                                    <option value="{{ region.id }}" {% if user.district.region.id == region.id %}
+                                            selected {% endif %}>
+                                        {{ region.name }}
+                                    </option>
                                 {% endfor %}
-
                             </select>
-
                         </div>
 
                         <div class="col-lg-6">
-                            Shahar/Tuman
-                            <input type="text" name="district" class="form-control"
-                                    {% if user.district.name %}
-                                   value="{{ user.district.name }}"
-                                    {% endif %}
-                                   maxlength="100" id="id_city">
-
+                            <label for="id_district">Shahar/Tuman</label>
+                            <select name="district" class="form-control" id="id_district">
+                                <option value="">
+                                    {{ user.district.name|default:"Shahar/Tumanni tanlang" }}
+                                </option>
+                                <!-- The options for districts will be populated dynamically via JavaScript -->
+                            </select>
                         </div>
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
                         <div class="col-lg-6">
                             Manzil
@@ -160,4 +200,34 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            $('#id_region').change(function () {
+                var regionId = $(this).val();
+                if (regionId) {
+                    $.ajax({
+                        url: "",  // Send the request to the current view
+                        data: {'region_id': regionId},
+                        success: function (data) {
+                            var districtSelect = $('#id_district');
+                            districtSelect.empty();
+                            districtSelect.append('<option value="">Shahar/Tumanni tanlang</option>');
+                            $.each(data, function (index, district) {
+                                districtSelect.append('<option value="' + district.id + '">' + district.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#id_district').empty();
+                    $('#id_district').append('<option value="">Shahar/Tumanni tanlang</option>');
+                }
+            });
+        });
+    </script>
+    <script>
+        function showUpdateText() {
+            const updateText = document.querySelector('.update-text');
+            updateText.style.opacity = '1'; // Show the 'Update' text when the file input changes
+        }
+    </script>
 {% endblock %}

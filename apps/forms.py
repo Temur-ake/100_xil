@@ -19,6 +19,23 @@ class OrderModelForm(ModelForm):
         return phone
 
 
+class OrderUpdateModelFormView(ModelForm):
+    class Meta:
+        model = Order
+        fields = 'quantity', 'region', 'district', 'send_date', 'status', 'comment'
+
+    def clean(self):
+        cleaned_data = super().clean()
+        order_id = self.instance.id
+        data = {k: v for k, v in cleaned_data.items() if v}
+        if cleaned_data['region']:
+            data['region'] = data['region'].id
+        if cleaned_data['district']:
+            data['district'] = data['district'].id
+        Order.objects.filter(id=order_id).update(**data)
+        return cleaned_data
+
+
 class StreamModelForm(ModelForm):
     class Meta:
         model = Stream

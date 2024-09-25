@@ -4,15 +4,18 @@ from datetime import timedelta
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q, F, Count, Sum
-from django.shortcuts import redirect
+from django.db.models import Q, Count, Sum
+from django.forms import model_to_dict
+from django.http import JsonResponse
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import View
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView, FormView
 
-from apps.forms import PasswordChangeModelForm, OrderModelForm, LoginRegisterModelForm, StreamModelForm
-from apps.models import User, Category, Product, Region, Order, Stream
+from apps.forms import PasswordChangeModelForm, OrderModelForm, LoginRegisterModelForm, StreamModelForm, \
+    OrderUpdateModelFormView
+from apps.models import User, Category, Product, Region, Order, Stream, SiteSettings, District
 
 
 class AllProductListView(ListView):
@@ -52,7 +55,7 @@ class ProfileTemplateView(LoginRequiredMixin, TemplateView):
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     queryset = User.objects.all()
-    fields = 'first_name', 'last_name', 'address', 'telegram_id', 'about'
+    fields = 'first_name', 'last_name', 'address', 'telegram_id', 'about', 'district'
     template_name = 'apps/users/profile_settings.html'
     success_url = reverse_lazy('main-page')
 
@@ -70,6 +73,13 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
                             """
         messages.add_message(self.request, messages.WARNING, text)
         return super().form_invalid(form)
+
+    def get(self, request, *args, **kwargs):
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.GET.get('region_id'):
+            region_id = request.GET.get('region_id')
+            districts = District.objects.filter(region_id=region_id).values('id', 'name')
+            return JsonResponse(list(districts), safe=False)
+        return super().get(request, *args, **kwargs)
 
 
 class ProductDetailView(DetailView, FormView):
@@ -97,10 +107,11 @@ class StreamDetailView(DetailView):
     template_name = 'apps/streams/stream_detail.html'
     context_object_name = 'stream'
 
-    def get_queryset(self):
-        qs = super().get_queryset().filter(id=self.kwargs['pk'])
-        qs.update(visit_count=F('visit_count') + 1)
-        return qs
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        obj.visit_count += 1
+        obj.save()
+        return obj
 
 
 class ProductSearchListView(ListView):
@@ -126,9 +137,14 @@ class OrderDetailView(DetailView):
     template_name = 'apps/orders/order_success.html'
     context_object_name = 'order'
 
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx.update(**model_to_dict(SiteSettings.objects.first(), ('tashkent_city', 'tashkent_region', 'other_regions')))
+        return ctx
 
-class MarketListView(ListView):
-    queryset = Product.objects.all()
+
+class MarketListView(LoginRequiredMixin, ListView):
+    queryset = Product.objects.order_by('-created_at')
     template_name = 'apps/market/market.html'
     context_object_name = 'products'
     paginate_by = 3
@@ -146,7 +162,7 @@ class MarketListView(ListView):
         if category:
             qs = qs.filter(category__slug=category)
         if top == 'top':
-            qs = qs.order_by('-created_at')[:3]
+            qs = qs[:3]
         if search:
             qs = qs.filter(Q(name__icontains=search) | Q(description__icontains=search))
         return qs
@@ -189,7 +205,7 @@ class MyStreamsListView(LoginRequiredMixin, TemplateView):
     template_name = 'apps/streams/my_streams.html'
 
 
-class StatisticsListView(ListView):
+class StatisticsListView(LoginRequiredMixin, ListView):
     queryset = Stream.objects.all()
     template_name = 'apps/streams/statistics.html'
     context_object_name = 'streams'
@@ -245,6 +261,103 @@ class StatisticsListView(ListView):
             all_count_waiting=Sum('count_waiting')
         ))
         return ctx
+
+
+class RequestsTemplateView(TemplateView):
+    template_name = 'apps/parts/requests.html'
+
+
+class ConcursTemplateView(TemplateView):
+    template_name = 'apps/parts/concurs.html'
+
+
+class PaymentTemplateView(TemplateView):
+    template_name = 'apps/parts/payment.html'
+
+
+class DiagramTemplateView(TemplateView):
+    template_name = 'apps/parts/diagrams.html'
+
+
+class OperatorTemplateView(TemplateView):
+    template_name = 'apps/users/operator.html'
+
+
+class AdminPageTemplateView(TemplateView):
+    template_name = 'apps/users/admin_page.html'
+
+
+class OrderListView(ListView):
+    queryset = Order.objects.order_by('-created_at')
+    template_name = 'apps/users/operator.html'
+    context_object_name = 'orders'
+    paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super().get_context_data(object_list=object_list, **kwargs)
+        status = self.kwargs.get('status', 'new')
+        if status != 'all':
+            ctx['products'] = Product.objects.filter(orders__status=status)
+        else:
+            ctx['products'] = Product.objects.all()
+        ctx['regions'] = Region.objects.all()
+        ctx['districts'] = District.objects.all()
+        return ctx
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        status = self.kwargs.get('status', 'new')
+        product = self.request.GET.getlist('product')
+        name = self.request.GET.get('name')
+        region = self.request.GET.getlist('region')
+        district = self.request.GET.get('district')
+        if status:
+            if status != 'all':
+                qs = qs.filter(Q(status=status))
+            if name:
+                qs = qs.filter(Q(product__name__icontains=name))
+            if region:
+                qs = qs.filter(Q(region_id__in=map(int, self.request.GET.getlist('region'))))
+            if district:
+                qs = qs.filter(Q(district_id__in=map(int, self.request.GET.getlist('district'))))
+            if product:
+                qs = qs.filter(Q(product_id__in=map(int, self.request.GET.getlist('product'))))
+        return qs
+
+
+class OperatorOrderDetail(DetailView, FormView):
+    queryset = Order.objects.all()
+    form_class = OrderUpdateModelFormView
+    template_name = 'apps/orders/operator_change_condition.html'
+    context_object_name = 'order'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Order, pk=self.kwargs.get('pk'))
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['regions'] = Region.objects.all()
+        return ctx
+
+    def get(self, request, *args, **kwargs):
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.GET.get('region_id'):
+            region_id = request.GET.get('region_id')
+            districts = District.objects.filter(region_id=region_id).values('id', 'name')
+            return JsonResponse(list(districts), safe=False)
+        return super().get(request, *args, **kwargs)
+
+    # def form_valid(self, form):
+    #     order = form.save()
+    #     return redirect('operator-order-detail', pk=order.id)
+
+
+class UserPhotoUpdateView(UpdateView):
+    template_name = 'apps/users/profile_settings.html'
+    fields = 'photo',
+    success_url = reverse_lazy('main-page')
+
+    def get_object(self, queryset=None):
+        return self.request.user
 
 
 class PasswordUpdateView(UpdateView):

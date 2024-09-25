@@ -1,0 +1,288 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        Operatorlar bo'limi
+        - alijahon.uz</title>
+    <link rel="stylesheet" href="{% static 'apps/assets/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'apps/assets/css/font-awesome.min.css' %}">
+    <link href="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.css" rel="stylesheet">
+    <style>
+        select {
+            width: 100%;
+        }
+    </style>
+
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-dark bg-dark text-white" style="height: 10%;">
+
+
+        <div style="margin-left: 15px;"><a href="/operator/prodcut_add">Zakaz + </a></div>
+
+
+        <div>Buyurtmalar</div>
+        <h4>ID: 721 </h4>
+        <a href="{% url 'admin_page' %}" class="btn btn-danger btn-sm">Asosiy panel</a>
+    </nav>
+    <div class="row">
+        <div class="col-md-2 h-70 text-center" style="background-color: #38ffae; padding-right: 0; position:absolute;">
+            <div class="list-group text-light w-100 h-100">
+                <a style="height: 13%" href="{% url 'operator' 'new' %}"
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator' or request.path == '/operator/new' %}active{% endif %}">
+                    <div>
+                        <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                    </div>
+                    <h6>Yangi buyurtmalar</h6>
+                </a>
+                <a style="height: 13%" href="{% url 'operator' 'ready_to_deliver' %}"
+                   class="btn btn-primary list-group-item text-dark mt-1{% if request.path == '/operator/ready_to_deliver' %}active{% endif %}">
+                    <div>
+                        <i class="fa fa-truck" aria-hidden="true"></i>
+                    </div>
+                    <h6>Dostavka tayyor</h6>
+                </a>
+                <a style="height: 13%" href="{% url 'operator' 'delivering' %}"
+                   class="btn btn-primary list-group-item text-dark mt-1{% if request.path == '/operator/delivering' %}active{% endif %}">
+                    <div>
+                        <i class="fa fa-truck" aria-hidden="true"></i>
+                    </div>
+                    <h6>Yetkazilmoqda</h6>
+                </a>
+                <a style="height: 13%" href="{% url 'operator' 'waiting' %}"
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator/waiting' %}active{% endif %}  ">
+                    <div>
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    </div>
+                    <h6>Kutmoqda</h6>
+                </a>
+                <a style="height: 13%" href="{% url 'operator' 'archived' %}"
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator/archived' %}active{% endif %}  ">
+                    <div>
+                        <i class="fa fa-archive" aria-hidden="true"></i>
+                    </div>
+                    <h6>Arxivlandi</h6>
+                </a>
+                <a style="height: 13%" href="{% url 'operator' 'broken' %}"
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator/broken' %}active{% endif %}  ">
+                    <div>
+                        <i class="fa fa-chain-broken" aria-hidden="true"></i>
+                    </div>
+                    <h6>Nosoz, bekor qilindi</h6>
+                </a>
+                <a style="height: 13%" href="{% url 'operator' 'delivered' %}"
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator/delivered' %}active{% endif %}  ">
+                    <div>
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    </div>
+                    <h6>Yetkazib berildi</h6>
+                </a>
+                <a style="height: 13%" href="{% url 'operator' 'returned' %}"
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator/returned' %}active{% endif %}  ">
+                    <div>
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    </div>
+                    <h6>Qaytib keldi</h6>
+                </a>
+                <a style="height: 13%" href="{% url 'operator' 'canceled' %}"
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator/canceled' %}active{% endif %}  ">
+                    <div>
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    </div>
+                    <h6>Bekor qilindi</h6>
+                </a>
+                <a style="height: 13%" href="{% url 'operator' 'all' %}"
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator/all' %}active{% endif %}  ">
+                    <div>
+                        <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                    </div>
+                    <h6>Hammasi</h6>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10" style="margin-left: 16%;">
+
+            <div class="bg-light w-75 m-auto mt-5">
+                <form method="GET">
+                    <div>
+                        <p>
+                            <label for="id_product">Mahsulot:</label>
+                            <select name="product" id="id_product" multiple>
+                                {% for product in products %}
+                                    <option value="{{ product.id }}">{{ product.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                        <p>
+                            <label for="id_region">Viloyat:</label>
+                            <select name="region" id="id_region" multiple>
+                                {% for region in regions %}
+                                    <option value="{{ region.id }}">{{ region.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                        <p>
+                            <label for="id_district">Tuman:</label>
+                            <select name="district" id="id_district" multiple>
+                                {% for district in districts %}
+                                    <option value="{{ district.id }}">{{ district.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                        <p>
+                            <label for="id_name">Mahsulot nomi:</label>
+                            <input type="text" name="name" id="id_name">
+                        </p>
+                    </div>
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                    <input class="btn btn-primary" type="submit" value="Saqlash">
+                </form>
+
+                {% for order in orders %}
+                    {% if order.status == 'ready_to_deliver' %}
+                        <form method="POST" action="/operator/currier_page">
+                            <input type="hidden" name="csrfmiddlewaretoken"
+                                   value="dCUQoFnokF9rLRrGFdmdwAYC83zRAG6rcSVev8q9AAeT96elf7XlYUICLAbyEIPH">
+
+
+                            <input class="btn btn-primary" type="submit" value="Kuryer" style="margin-top: 10px;">
+
+
+                            <input type="checkbox" onClick="toggle(this)"/> Toggle All<br/>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="orders" value="2130470"
+                                       id="order-1">
+                                <div class="card border-dark mt-5">
+                <span style="position: absolute; right: 0px; border: 1px solid chartreuse; background: chartreuse; padding: 15px; font-size: 26px; font-weight: 700;">
+                    #
+                    722
+                </span>
+                                    <div class="card-body">
+                                        <h2 class="card-title">{{ order.product.name }} - {{ order.product.price }}
+                                            so'm</h2>
+                                        <ul class="text-muted">
+                                            <li class="">Reklama tarqatuvchi ID: uzim</li>
+                                            <li class="">Client: test - +9989XXXXXXXX</li>
+                                            <li class="">Address: {{ order.address|default:"hozircha aniq emas" }} </li>
+                                            <li class="">Narxi: {{ order.product.price }} so'm</li>
+                                            <li class="">Soni: {{ order.quantity }}ta</li>
+                                            <li class="">Vaqti: {{ order.created_at|date:'j - F Y H:i' }}</li>
+                                            <li class="">Yangilangan
+                                                vaqti: {{ order.updated_at|date:'j - F Y H:i' }}</li>
+                                            <li class="">Holati: {{ order.get_status_display }}</li>
+                                        </ul>
+
+                                        <a href="{% url 'operator-order-detail' order.pk %}" class="btn btn-primary">Holatini
+                                            o'zgartirish</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="card border-dark mt-5">
+                            <div class="card-body">
+                                <h2 class="card-title">{{ order.product.name }} - {{ order.product.price }} so'm</h2>
+                                <h3 class="card-title text-danger">ZAKAZ ID: #{{ order.id }}</h3>
+                                <ul class="text-muted">
+                                    <li class="">Reklama tarqatuvchi ID: uzim</li>
+                                    <li class="">Client: test - +9989XXXXXXXX</li>
+                                    <li class="">Address: {{ order.address|default:"hozircha aniq emas" }} </li>
+                                    <li class="">Narxi: {{ order.product.price }} so'm</li>
+                                    <li class="">Soni: {{ order.quantity }}ta</li>
+                                    <li class="">Vaqti: {{ order.created_at|date:'j - F Y H:i' }}</li>
+                                    <li class="">Yangilangan vaqti: {{ order.updated_at|date:'j - F Y H:i' }}</li>
+                                    <li class="">Holati: {{ order.get_status_display }}</li>
+                                </ul>
+                                {% if order.status == 'delivering' %}
+                                    <a href="{% url 'operator-order-detail' order.pk %}" class="btn btn-primary">
+                                        Holatini o'zgartirish
+                                    </a>
+                                    <a href="/order-spam/2130451" class="btn btn-primary"
+                                       style="background: red; border-color: red; float: right;">Spam</a>
+                                {% else %}
+                                    <a href="{% url 'operator-order-detail' order.pk %}" class="btn btn-primary"
+                                       style="float: left; margin-right: 10px;">
+                                        Qabul qilish
+                                    </a>
+                                    <form action="/operator/new/hold" method="post">
+                                        <input type="hidden" name="csrfmiddlewaretoken"
+                                               value="crSpOAirdc41jWUNf1Tjhc158lpX2fZVbHTNV3lct79tHbHsPVurJwL5LS1E6hIb">
+                                        <input type="text" hidden name="order" value="2130632">
+                                        <input class="btn btn-primary" type="submit" value="Hold"
+                                               style="float: right; margin-right: 10px;">
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+
+                        {% include 'apps/parts/operator_pagination.html' %}
+
+                    </ul>
+                </nav>
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<script src="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.js"></script>
+<script src="/static/app/js/regions_filter.js"></script>
+<script>
+    $(function () {
+        $('select').multipleSelect({
+            multiple: true,
+            multipleWidth: 500,
+            maxHeight: 200,
+            maxHeightUnit: 50,
+            filter: true
+        })
+    })
+</script>
+<script>
+    function toggle(source) {
+        checkboxes = document.getElementsByName('orders');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            console.log('askar')
+            checkboxes[i].checked = source.checked;
+        }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#id_region').change(function () {
+            var regionId = $(this).val();
+            if (regionId) {
+                $.ajax({
+                    url: "",  // Send the request to the current view
+                    data: {'region_id': regionId},
+                    success: function (data) {
+                        var districtSelect = $('#id_district');
+                        districtSelect.empty();
+                        districtSelect.append('<option value="">Shahar/Tumanni tanlang</option>');
+                        $.each(data, function (index, district) {
+                            districtSelect.append('<option value="' + district.id + '">' + district.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#id_district').empty();
+                $('#id_district').append('<option value="">Shahar/Tumanni tanlang</option>');
+            }
+        });
+    });
+</script>
+</body>
+</html>

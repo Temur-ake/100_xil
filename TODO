@@ -11,6 +11,15 @@
 
 
 statistikada
-  bugun 00:00 to hozirgacha
-  haftalik (bu hafta) dushanbadan bugungacha
-  oylik (bu oylik) 1-sanadan hozirgacha
+  bugun 00:00 to hozirgacha🟢
+  haftalik (bu hafta) dushanbadan bugungacha🟢
+  oylik (bu oylik) 1-sanadan hozirgacha🟢
+
+for 24.09.2024 tasks
+    start time: 12:20
+
+    operator page make optimization as i could
+    django commands vidio
+    websocket extra tasks
+
+    22:00 go go home

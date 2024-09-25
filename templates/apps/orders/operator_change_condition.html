@@ -1,0 +1,222 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'apps/assets/css/bootstrap.css' %}">
+    <title>Hello, world!</title>
+</head>
+<body>
+
+<div class="container py-5">
+
+    <div class="row">
+        <h1>Hammasi to'g'ri kiritilganligiga e'tibor bering!</h1>
+        <p>Customer: <span>{{ order.owner.phone }} - <a href="tel:{{ order.phone }}">{{ order.phone }}</a></span></p>
+        <p>{{ order.product.name }} - {{ order.product.price }} so'm</p>
+        <p>Dostavka narxi: 30000 ❌</p>
+    </div>
+
+    Hali bog'lanilmagan qurilma
+    <form method="post" action="{% url 'operator-order-detail' order.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ order.pk }}">
+        <div class="row">
+            <div class="col-6">
+                <p>Nechta:</p>
+                <select class="form-select" aria-label="Default select example" name="quantity">
+                    <option value=""> {{ order.quantity }} ta (foydalanuvchi tanlagan)</option>
+
+                    1
+                    <option value="1">1</option>
+
+                    2
+                    <option value="2">2</option>
+
+                    3
+                    <option value="3">3</option>
+
+                    4
+                    <option value="4">4</option>
+
+                    5
+                    <option value="5">5</option>
+
+                    6
+                    <option value="6">6</option>
+
+                    7
+                    <option value="7">7</option>
+
+                    8
+                    <option value="8">8</option>
+
+                    9
+                    <option value="9">9</option>
+
+                    10
+                    <option value="10">10</option>
+
+                </select>
+            </div>
+
+            <div class="col-6">
+                <label>
+                    Chegirma
+                    <input class="form-control mt-3" name="discount" type="text"
+                            {% if order.product.discount %}
+                           value="{{ order.product.discount }}"
+                            {% else %}
+                           value="yo'q"
+                            {% endif %}
+
+                    >
+                </label>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="mb-3 col-12">
+                <label for="id_region">Viloyat:</label>
+                <select class="form-control" id="id_region" name="region">
+                    <option value="{{ order.region.id }}">{{ order.region.name|default:"Viloyatni tanlang" }}</option>
+                    {% for region in regions %}
+                        <option value="{{ region.id }}" {% if order.district.region.id == region.id %}
+                                selected {% endif %}>
+                            {{ region.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col-12">
+                <p>Manzil: </p>
+                <label for="id_district" class="form-label w-50">
+                    <select class="form-control" name="district" id="id_district">
+                        <option value="{{ order.district.id }}">{{ order.district.name|default:"Tanlang" }}</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col-12">
+                <label for="exampleFormControlInput3" class="form-label">Yuborish vaqti
+                    <input type="date" class="form-control" name="send_date"
+                           value="{{ order.send_date|date:'Y-m-d' }}"/></label>
+            </div>
+        </div>
+
+        <div class="row">
+            <h1>Buyurtma holati</h1>
+            <p>Buyurtma holatini o'zgartirishdan oldin har bir ma'lumot to'g'ri to'ldirilganligiga ishonch hosil
+                qiling.</p>
+            <p>Har bir noto'g'ri to'ldirilgan holat uchun 50000 so'm jarima.</p>
+        </div>
+
+        <div class="row">
+            <div class="form-check">
+                <input required class="sr-only form-check-input" type="radio" name="status"
+                       id="new_order"
+                       value="yangi">
+                <label class="form-check-label" for="new_order">
+                    Yangi buyurtma
+                </label>
+                <p>Hali bog'lanilmagan qurilma</p>
+            </div>
+            <div class="form-check">
+                <input
+                        {% if order.status == 'ready_to_deliver' %}
+                            checked="checked"
+                        {% endif %}
+                            required class="form-check-input sr-only" type="radio" name="status"
+                            id="ready_to_deliver"
+                            value="dastavkaga_tayyor">
+                <label class="form-check-label" for="ready_to_deliver">
+                    Dastavkaga tayyor
+                </label>
+                <p class="bg-primary">Klient buyurtma olishga tayyor yoki buyurtma olish uchun sana aniq qilindi</p>
+            </div>
+            <div class="form-check">
+                <input
+                        {% if order.status == 'waiting' %}
+                            checked="checked"
+                        {% endif %}
+                            required class="form-check-input sr-only" type="radio" name="status" id="waiting"
+                            value="keyin_oladi">
+                <label class="form-check-label" for="waiting">
+                    Keyin oladi
+                </label>
+                <p class="bg-warning">2 marta ko'tarmadi, o'chirilgan, xizmat doirasida tashqarida</p>
+            </div>
+            <div class="form-check">
+                <input
+                        {% if order.status == 'broken' %}
+                            checked="checked"
+                        {% endif %}
+                            required class="form-check-input sr-only" type="radio" name="status"
+                            id="broken"
+                            value="nosoz_mahsulot">
+                <label class="form-check-label" for="broken">
+                    Nosoz, bekor qilindi
+                </label>
+                <p class="bg-danger">Klient tomonidan shikoyat tushdi</p>
+            </div>
+            <div class="form-check">
+                <input
+                        {% if order.status == 'archived' %}
+                            checked="checked"
+                        {% endif %}
+                            required class="form-check-input sr-only" type="radio" name="status"
+                            id="archive"
+                            value="arxivlandi">
+                <label class="form-check-label" for="archive">
+                    Arxivlandi
+                </label>
+                <p class="bg-secondary">Noto'g'ri nomer, dubl buyurtma, Bekor qilindi, Olib bo'lgan</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Komment</label>
+            <textarea name="comment" class="form-control" id="exampleFormControlTextarea1"
+                      rows="3">{{ order.comment|default:"Komment mavjud emas!" }}</textarea>
+        </div>
+        <div style="display: flex; justify-content: flex-end;">
+            <a href="{% url 'operator' %}" type="button" class="btn m-3 btn-secondary">Chiqish</a>
+            <input type="submit" class="btn m-3 btn-primary" value="Yuborish"/>
+        </div>
+    </form>
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/static/app/js/regions.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#id_region').change(function () {
+            var regionId = $(this).val();
+            if (regionId) {
+                $.ajax({
+                    url: "",  // Send the request to the current view
+                    data: {'region_id': regionId},
+                    success: function (data) {
+                        var districtSelect = $('#id_district');
+                        districtSelect.empty();
+                        districtSelect.append('<option value="">Tanlang</option>');
+                        $.each(data, function (index, district) {
+                            districtSelect.append('<option value="' + district.id + '">' + district.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#id_district').empty();
+                $('#id_district').append('<option value="">Shahar/Tumanni tanlang</option>');
+            }
+        });
+    });
+</script>
+</body>
+</html> 

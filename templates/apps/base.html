@@ -184,28 +184,32 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/admin_page/requests" aria-expanded="false">
+                                        <a class="nav-link {% if request.path == '/requests' %}active{% endif %}"
+                                           href="{% url 'requests' %}" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">So'rovlar</span>
                                             </div>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/admin_page/competition" aria-expanded="false">
+                                        <a class="nav-link {% if request.path == '/competition' %} active {% endif %}"
+                                           href="{% url 'competition' %}" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">Konkurs</span>
                                             </div>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/admin_page/withdraw" aria-expanded="false">
+                                        <a class="nav-link {% if request.path == '/payment' %}active{% endif %} "
+                                           href="{% url 'payment' %}" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">To'lov</span>
                                             </div>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/admin_page/diagrams" aria-expanded="false">
+                                        <a class="nav-link {% if request.path == '/diagrams' %}active{% endif %}"
+                                           href="{% url 'diagrams' %}" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Diagrammalar</span>
                                             </div>
                                         </a>
@@ -285,7 +289,7 @@
                            aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-xl">
                                 {% if user.is_authenticated %}
-                                    <img class="rounded-circle" src="{% static 'default_active_user.jpg' %}"
+                                    <img class="rounded-circle" src="{{ user.photo.url }}"
                                          alt="card"/>
                                 {% else %}
                                     <img class="rounded-circle" src="{% static 'default_passive_user.png' %}"
@@ -308,11 +312,16 @@
                                        href="{% url 'profile-settings' %}">
                                         Sozlamalar
                                     </a>
-                                    <a class="dropdown-item fw-bold text-warning" href="/admin_page">
+                                    <a class="dropdown-item fw-bold text-warning" href="{% url 'admin_page' %}">
                                         <span class="fas fa-crown me-1"></span>
                                         <span>Adminlar uchun</span>
                                     </a>
-
+                                    {% if user.type == 'operator' %}
+                                        <a class="dropdown-item header_navbar_lang_menu_dropdown_item" target="_blank"
+                                           href="{% url 'operator' %}">
+                                            Operator
+                                        </a>
+                                    {% endif %}
                                     <a class="dropdown-item header_navbar_lang_menu_dropdown_item"
                                        href="{% url 'logout-page' %}">
                                         Chiqish

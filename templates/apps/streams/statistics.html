@@ -36,16 +36,16 @@
                         <tr class="bg-info">
                             <td> JAMI</td>
                             <td></td>
-                            <td>{{ all_count_visits }}</td>
-                            <td>{{ all_count_new }}</td>
-                            <td>{{ all_count_archived }}</td>
-                            <td>{{ all_count_ready_to_deliver }}</td>
-                            <td>{{ all_count_delivering }}</td>
-                            <td>{{ all_count_delivered }}</td>
-                            <td>{{ all_count_defective_product }}</td>
-                            <td>{{ all_count_returned }}</td>
-                            <td>{{ all_count_canceled }}</td>
-                            <td>{{ all_count_waiting }}</td>
+                            <td>{{ all_count_visits|default:0}}</td>
+                            <td>{{ all_count_new|default:0 }}</td>
+                            <td>{{ all_count_archived|default:0 }}</td>
+                            <td>{{ all_count_ready_to_deliver|default:0 }}</td>
+                            <td>{{ all_count_delivering|default:0 }}</td>
+                            <td>{{ all_count_delivered|default:0 }}</td>
+                            <td>{{ all_count_defective_product|default:0 }}</td>
+                            <td>{{ all_count_returned|default:0 }}</td>
+                            <td>{{ all_count_canceled|default:0 }}</td>
+                            <td>{{ all_count_waiting|default:0 }}</td>
                         </tr>
                         </thead>
 
@@ -56,31 +56,31 @@
                                 <th>{{ stream.name }}</th>
                                 <th>{{ stream.product.name }}</th>
                                 <td>{{ stream.visit_count }}</td>
-                                <td>{{ stream.count_new }}</td>
-                                <td>{{ stream.count_archived }}</td>
-                                <td>{{ stream.count_ready_to_deliver }}</td>
-                                <td>{{ stream.count_delivering }}</td>
-                                <td>{{ stream.count_delivered }}</td>
-                                <td>{{ stream.count_defective_product }}</td>
-                                <td>{{ stream.count_returned }}</td>
-                                <td>{{ stream.count_canceled }}</td>
-                                <td>{{ stream.count_waiting }}</td>
+                                <td>{{ stream.count_new|default:0 }}</td>
+                                <td>{{ stream.count_archived|default:0 }}</td>
+                                <td>{{ stream.count_ready_to_deliver|default:0 }}</td>
+                                <td>{{ stream.count_delivering|default:0 }}</td>
+                                <td>{{ stream.count_delivered|default:0 }}</td>
+                                <td>{{ stream.count_defective_product|default:0 }}</td>
+                                <td>{{ stream.count_returned|default:0 }}</td>
+                                <td>{{ stream.count_canceled|default:0 }}</td>
+                                <td>{{ stream.count_waiting|default:0 }}</td>
                             </tr>
                         {% endfor %}
 
                         <tr class="bg-info">
                             <td> JAMI</td>
                             <td></td>
-                            <td>{{ all_count_visits }}</td>
-                            <td>{{ all_count_new }}</td>
-                            <td>{{ all_count_archived }}</td>
-                            <td>{{ all_count_ready_to_deliver }}</td>
-                            <td>{{ all_count_delivering }}</td>
-                            <td>{{ all_count_delivered }}</td>
-                            <td>{{ all_count_defective_product }}</td>
-                            <td>{{ all_count_returned }}</td>
-                            <td>{{ all_count_canceled }}</td>
-                            <td>{{ all_count_waiting }}</td>
+                            <td>{{ all_count_visits|default:0}}</td>
+                            <td>{{ all_count_new|default:0 }}</td>
+                            <td>{{ all_count_archived|default:0 }}</td>
+                            <td>{{ all_count_ready_to_deliver|default:0 }}</td>
+                            <td>{{ all_count_delivering|default:0 }}</td>
+                            <td>{{ all_count_delivered|default:0 }}</td>
+                            <td>{{ all_count_defective_product|default:0 }}</td>
+                            <td>{{ all_count_returned|default:0 }}</td>
+                            <td>{{ all_count_canceled|default:0 }}</td>
+                            <td>{{ all_count_waiting|default:0 }}</td>
                         </tr>
                         </tbody>
                     </table>

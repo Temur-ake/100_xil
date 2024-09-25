@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db.models import CharField, TextField, BigIntegerField, TextChoices, Model, ForeignKey, CASCADE, \
-    PositiveIntegerField
+    PositiveIntegerField, ImageField
 
 from apps.models.managers import CustomUserManager
 
@@ -15,6 +15,7 @@ class User(AbstractUser):
     email = None
     username = None
     phone = CharField(max_length=20, unique=True)
+    photo = ImageField(upload_to='users/%Y/%m/%d', default='default_active_user.jpg', null=True, blank=True)
     address = CharField(max_length=255, null=True, blank=True)
     about = TextField(null=True, blank=True)
     telegram_id = BigIntegerField(unique=True, null=True, blank=True)
@@ -46,7 +47,12 @@ class SpamUser(Model):
 
 
 class SiteSettings(Model):
-    fee_for_operator = PositiveIntegerField()
+    fee_for_operator = PositiveIntegerField(blank=True, default=4000)
+    fee_for_currier = PositiveIntegerField(blank=True, default=10000)
+    concurs_photo = ImageField(upload_to='concurs/%Y/%m/%d', null=True, blank=True)
+    tashkent_city = PositiveIntegerField(blank=True, default=20000)
+    tashkent_region = PositiveIntegerField(blank=True, default=25000)
+    other_regions = PositiveIntegerField(blank=True, default=35000)
 
 
 '''

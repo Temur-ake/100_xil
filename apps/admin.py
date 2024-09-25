@@ -3,6 +3,7 @@ from django.contrib.admin import ModelAdmin
 from django.utils.safestring import mark_safe
 
 from apps.models import Category, Product
+from apps.models.users import SiteSettings
 
 
 # Register your models here.
@@ -22,3 +23,7 @@ class ProductModelAdmin(ModelAdmin):
         if img:
             return mark_safe(f"<img src={img.url} alt='img' width='60px' height='60px'")
         return 'None'
+
+@admin.register(SiteSettings)
+class SiteSettingsAdmin(ModelAdmin):
+    pass
