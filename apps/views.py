@@ -1,13 +1,12 @@
-import re
 from datetime import timedelta
 
 from django.contrib import messages
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Count, Sum
 from django.forms import model_to_dict
 from django.http import JsonResponse
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import View
@@ -15,7 +14,7 @@ from django.views.generic import ListView, TemplateView, UpdateView, DetailView,
 
 from apps.forms import PasswordChangeModelForm, OrderModelForm, LoginRegisterModelForm, StreamModelForm, \
     OrderUpdateModelFormView
-from apps.models import User, Category, Product, Region, Order, Stream, SiteSettings, District
+from apps.models import User, Category, Product, Region, Order, Stream, SiteSettings, District, Concurs, Payment
 
 
 class AllProductListView(ListView):
@@ -34,7 +33,7 @@ class ProductListView(ListView):
     queryset = Product.objects.all()
     template_name = 'apps/product/product_list.html'
     context_object_name = 'products'
-    paginate_by = 3
+    paginate_by = 5
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -73,13 +72,6 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
                             """
         messages.add_message(self.request, messages.WARNING, text)
         return super().form_invalid(form)
-
-    def get(self, request, *args, **kwargs):
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.GET.get('region_id'):
-            region_id = request.GET.get('region_id')
-            districts = District.objects.filter(region_id=region_id).values('id', 'name')
-            return JsonResponse(list(districts), safe=False)
-        return super().get(request, *args, **kwargs)
 
 
 class ProductDetailView(DetailView, FormView):
@@ -193,8 +185,7 @@ class ProductStatisticListView(DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        session_product = Stream.objects.filter(product_id=self.kwargs.get('pk'),
-                                                owner_id=self.request.user.pk)
+        session_product = Stream.objects.filter(product_id=self.kwargs.get('pk'), owner=self.request.user)
         ctx['my_stream_count'] = session_product.count()
         return ctx
 
@@ -263,24 +254,61 @@ class StatisticsListView(LoginRequiredMixin, ListView):
         return ctx
 
 
-class RequestsTemplateView(TemplateView):
-    template_name = 'apps/parts/requests.html'
-
-
-class ConcursTemplateView(TemplateView):
+class CompetitionListView(ListView):
+    queryset = Concurs.objects.all()
     template_name = 'apps/parts/concurs.html'
+    context_object_name = 'concurs'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super().get_context_data(object_list=object_list, **kwargs)
+        ctx['customers'] = User.objects.filter(type=User.Type.CUSTOMER)
+        qs = self.get_queryset()
+        start_date = qs.start_date
+        end_date = qs.end_date
+        customers_ids_list = ctx['customers'].values_list('id', flat=True)
+        query_set = Stream.objects.annotate(
+            order_count=Count('orders',
+                              filter=Q(orders__status=Order.Status.DELIVERED) &
+                                     Q(owner__type=User.Type.CUSTOMER) &
+                                     Q(orders__created_at__gte=start_date) &
+                                     Q(orders__updated_at__lte=end_date)
+                              )
+        )
+        res = [query_set.aggregate(sum_of_orders=Sum('order_count', filter=Q(owner_id=i))) for i in customers_ids_list]
+        ctx['concurs_statistics'] = [r['sum_of_orders'] for r in res]
+        return ctx
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(is_active=True).first()
 
 
-class PaymentTemplateView(TemplateView):
+class RequestListView(ListView):
+    queryset = Order.objects.all()
+    template_name = 'apps/parts/requests.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        qs = super().get_queryset().filter(stream__owner=self.request.user)
+        return qs
+
+
+class PaymentListView(ListView):
+    queryset = Payment.objects.all()
     template_name = 'apps/parts/payment.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super().get_context_data(object_list=object_list, **kwargs)
+        ctx['min_balance'] = SiteSettings.objects.values_list('min_balance_amount', flat=True).first()
+        return ctx
+
+
+class PaymentFormView(FormView):
+    pass
 
 
 class DiagramTemplateView(TemplateView):
     template_name = 'apps/parts/diagrams.html'
-
-
-class OperatorTemplateView(TemplateView):
-    template_name = 'apps/users/operator.html'
 
 
 class AdminPageTemplateView(TemplateView):
@@ -325,30 +353,28 @@ class OrderListView(ListView):
         return qs
 
 
-class OperatorOrderDetail(DetailView, FormView):
+class OperatorOrderDetail(UpdateView):
     queryset = Order.objects.all()
     form_class = OrderUpdateModelFormView
     template_name = 'apps/orders/operator_change_condition.html'
     context_object_name = 'order'
+    success_url = reverse_lazy('operator')
 
-    def get_object(self, queryset=None):
-        return get_object_or_404(Order, pk=self.kwargs.get('pk'))
+    def form_valid(self, form):
+        return redirect('operator')
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['regions'] = Region.objects.all()
         return ctx
 
-    def get(self, request, *args, **kwargs):
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.GET.get('region_id'):
-            region_id = request.GET.get('region_id')
-            districts = District.objects.filter(region_id=region_id).values('id', 'name')
-            return JsonResponse(list(districts), safe=False)
-        return super().get(request, *args, **kwargs)
-
-    # def form_valid(self, form):
-    #     order = form.save()
-    #     return redirect('operator-order-detail', pk=order.id)
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        session_operator = self.request.user
+        if obj.status == Order.Status.NEW:
+            obj.operator = session_operator
+            obj.save()
+        return obj
 
 
 class UserPhotoUpdateView(UpdateView):
@@ -368,12 +394,12 @@ class PasswordUpdateView(UpdateView):
     def get_object(self, queryset=None):
         return self.request.user
 
+    def form_valid(self, form):
+        login(self.request, self.request.user)
+        return super().form_valid(form)
+
     def form_invalid(self, form):
         return redirect('pass-settings')
-
-    def get_success_url(self):
-        login(self.request, self.request.user)
-        return super().get_success_url()
 
 
 class LoginRegisterView(FormView):
@@ -386,16 +412,8 @@ class LoginRegisterView(FormView):
         return redirect('main-page')
 
     def form_invalid(self, form):
-        phone = re.sub(r'[^\d]', '', form.data['phone'])
-        password = form.data['password']
-        text = ""
-        user = authenticate(self.request, phone=phone, password=password)
-        if len(phone) != 12 or not phone.startswith('998') or user is None:
-            text = "Incorrect password or phone number!"
-        if not phone or not password:
-            text = "Phone and password cannot be blank"
-        if text:
-            messages.add_message(self.request, messages.WARNING, text)
+        text = form.errors['__all__'][0]
+        messages.add_message(self.request, messages.WARNING, text)
         return super().form_invalid(form)
 
 
@@ -403,3 +421,8 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect('main-page')
+
+
+def get_districts_by_region(request, region_id):
+    districts = District.objects.filter(region_id=region_id).values('id', 'name')
+    return JsonResponse(list(districts), safe=False)

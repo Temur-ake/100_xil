@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
                 ('address', models.CharField(blank=True, max_length=255, null=True)),
                 ('about', models.TextField(blank=True, null=True)),
                 ('telegram_id', models.BigIntegerField(blank=True, null=True, unique=True)),
-                ('type', models.CharField(choices=[('admin', 'Admin'), ('user', 'User'), ('operator', 'Operator'), ('currier', 'Kuryer')], default='user', max_length=15)),
+                ('type', models.CharField(choices=[('admin', 'Admin'), ('customer', 'Customer'), ('operator', 'Operator'), ('currier', 'Currier')], default='customer', max_length=15)),
                 ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
                 ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),
                 ('district', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='apps.district')),

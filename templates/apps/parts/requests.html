@@ -22,6 +22,20 @@
                             <th scope="col">Izoh</th>
                             <th scope="col">Sana</th>
                         </tr>
+                        {% for order in orders %}
+                            <tr>
+                                <th scope="col">{{ forloop.counter }}</th>
+                                <th scope="col">{{ order.operator.first_name|default:'-' }}</th>
+                                <th scope="col">{{ order.product.name }}</th>
+                                <th scope="col">{{ order.stream.name }}</th>
+                                <th scope="col">{{ order.owner|default:'aniq emas' }}</th>
+                                <th scope="col">{{ order.region.name|default:'hali nomalum' }}</th>
+                                <th scope="col">{{ order.status }}</th>
+                                <th scope="col">{{ order.comment|default:'Izoh mavjud emas' }}</th>
+                                <th scope="col">{{ order.send_date|date|default:'Hali nomalum' }}</th>
+                            </tr>
+                        {% endfor %}
+
                         </thead>
 
                         <tbody class="text-center">

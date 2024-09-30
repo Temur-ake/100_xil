@@ -29,7 +29,7 @@
             <div class="col-6">
                 <p>Nechta:</p>
                 <select class="form-select" aria-label="Default select example" name="quantity">
-                    <option value=""> {{ order.quantity }} ta (foydalanuvchi tanlagan)</option>
+                    <option value="{{ order.quantity }}"> {{ order.quantity }} ta (foydalanuvchi tanlagan)</option>
 
                     1
                     <option value="1">1</option>
@@ -120,9 +120,13 @@
 
         <div class="row">
             <div class="form-check">
-                <input required class="sr-only form-check-input" type="radio" name="status"
-                       id="new_order"
-                       value="yangi">
+                <input
+                        {% if order.status == 'new' %}
+                            checked="checked"
+                        {% endif %}
+                            required class="sr-only form-check-input" type="radio" name="status"
+                            id="new_order"
+                            value="new">
                 <label class="form-check-label" for="new_order">
                     Yangi buyurtma
                 </label>
@@ -135,7 +139,7 @@
                         {% endif %}
                             required class="form-check-input sr-only" type="radio" name="status"
                             id="ready_to_deliver"
-                            value="dastavkaga_tayyor">
+                            value="ready_to_deliver">
                 <label class="form-check-label" for="ready_to_deliver">
                     Dastavkaga tayyor
                 </label>
@@ -147,7 +151,7 @@
                             checked="checked"
                         {% endif %}
                             required class="form-check-input sr-only" type="radio" name="status" id="waiting"
-                            value="keyin_oladi">
+                            value="waiting">
                 <label class="form-check-label" for="waiting">
                     Keyin oladi
                 </label>
@@ -160,7 +164,7 @@
                         {% endif %}
                             required class="form-check-input sr-only" type="radio" name="status"
                             id="broken"
-                            value="nosoz_mahsulot">
+                            value="broken">
                 <label class="form-check-label" for="broken">
                     Nosoz, bekor qilindi
                 </label>
@@ -173,7 +177,7 @@
                         {% endif %}
                             required class="form-check-input sr-only" type="radio" name="status"
                             id="archive"
-                            value="arxivlandi">
+                            value="archived">
                 <label class="form-check-label" for="archive">
                     Arxivlandi
                 </label>
@@ -194,29 +198,6 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="/static/app/js/regions.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#id_region').change(function () {
-            var regionId = $(this).val();
-            if (regionId) {
-                $.ajax({
-                    url: "",  // Send the request to the current view
-                    data: {'region_id': regionId},
-                    success: function (data) {
-                        var districtSelect = $('#id_district');
-                        districtSelect.empty();
-                        districtSelect.append('<option value="">Tanlang</option>');
-                        $.each(data, function (index, district) {
-                            districtSelect.append('<option value="' + district.id + '">' + district.name + '</option>');
-                        });
-                    }
-                });
-            } else {
-                $('#id_district').empty();
-                $('#id_district').append('<option value="">Shahar/Tumanni tanlang</option>');
-            }
-        });
-    });
-</script>
+{% include 'apps/parts/region_districts_script.html' %}
 </body>
 </html> 

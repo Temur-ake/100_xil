@@ -1,6 +1,7 @@
 import re
 
 from django.contrib.auth import authenticate
+from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, Form, CharField
 
@@ -10,12 +11,13 @@ from apps.models import User, Order, Stream, Product
 class OrderModelForm(ModelForm):
     class Meta:
         model = Order
-        fields = 'phone', 'full_name', 'product', 'stream', 'owner'
+        fields = 'full_name', 'product', 'stream', 'owner', 'phone',
 
     def clean_phone(self):
         phone: str = re.sub(r'[^\d]', '', self.cleaned_data.get('phone'))
         if len(phone) != 12 or not phone.startswith('998'):
-            raise ValidationError('Incorrect password or phone number')
+            raise ValidationError('Incorrect phone number')
+        phone = phone[-9:]
         return phone
 
 
@@ -68,19 +70,16 @@ class LoginRegisterModelForm(Form):
     def get_user(self):
         return self._cache_user
 
-    def clean_phone(self):
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
         phone: str = re.sub(r'[^\d]', '', self.cleaned_data.get('phone'))
         if len(phone) != 12 or not phone.startswith('998'):
             raise ValidationError('Incorrect password or phone number')
-        return phone
-
-    def clean(self):
-        cleaned_data = super().clean()
-        phone = cleaned_data.get('phone')
-        password = cleaned_data.get('password')
         if not phone or not password:
             raise ValidationError('Phone and password cannot be blank')
-        user, created = User.objects.get_or_create(phone=phone)
+        phone = phone[-9:]
+        user, created = User.objects.get_or_create(phone=phone[-9:])
         if created:
             user.set_password(password)
             user.save()
@@ -114,3 +113,12 @@ class PasswordChangeModelForm(ModelForm):
         else:
             raise ValidationError('Xato parol')
         return cleaned_data
+
+
+class CustomAdminAuthenticationForm(AuthenticationForm):
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        username = re.sub(r'[^\d]', '', username)
+        if len(username) > 9:
+            username = username[-9:]
+        return username

@@ -4,8 +4,9 @@ from apps.views import AllProductListView, LogoutView, ProfileTemplateView, Prof
     PasswordUpdateView, ProductListView, ProductDetailView, ProductSearchListView, \
     MarketListView, MyStreamsListView, StreamCreateView, StreamDetailView, \
     StatisticsListView, MyOrdersTemplateView, OrderDetailView, LoginRegisterView, ProductStatisticListView, \
-    RequestsTemplateView, ConcursTemplateView, PaymentTemplateView, DiagramTemplateView, OperatorTemplateView, \
-    AdminPageTemplateView, OrderListView, OperatorOrderDetail, UserPhotoUpdateView
+    RequestListView, CompetitionListView, DiagramTemplateView, \
+    AdminPageTemplateView, OrderListView, OperatorOrderDetail, UserPhotoUpdateView, get_districts_by_region, \
+    PaymentListView
 
 urlpatterns = [
     path('', AllProductListView.as_view(), name='main-page'),
@@ -20,9 +21,9 @@ urlpatterns = [
     path('success-product/<int:pk>', OrderDetailView.as_view(), name='order-detail'),
     path('ordered-products', MyOrdersTemplateView.as_view(), name='ordered-products'),
     path('search/', ProductSearchListView.as_view(), name='product-search'),
-    path('requests', RequestsTemplateView.as_view(), name='requests'),
-    path('competition', ConcursTemplateView.as_view(), name='competition'),
-    path('payment', PaymentTemplateView.as_view(), name='payment'),
+    path('requests', RequestListView.as_view(), name='requests'),
+    path('competition', CompetitionListView.as_view(), name='competition'),
+    path('payment', PaymentListView.as_view(), name='payment'),
     path('diagrams', DiagramTemplateView.as_view(), name='diagrams'),
     path('operator', OrderListView.as_view(), name='operator'),
     path('operator/<str:status>', OrderListView.as_view(), name='operator'),
@@ -33,5 +34,7 @@ urlpatterns = [
     path('users/profile', ProfileTemplateView.as_view(), name='profile'),
     path('users/profile-settings', ProfileUpdateView.as_view(), name='profile-settings'),
     path('users/photo-settings', UserPhotoUpdateView.as_view(), name='photo-settings'),
-    path('users/password-change', PasswordUpdateView.as_view(), name='pass-settings')
+    path('users/password-change', PasswordUpdateView.as_view(), name='pass-settings'),
+    # path('users/get_districts_by_region/<int:region_id>', PasswordUpdateView.as_view(), name='pass-settings')
+    path('get_districts_by_region/<int:region_id>', get_districts_by_region, name='get_districts_by_region')
 ]

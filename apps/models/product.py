@@ -1,5 +1,6 @@
 from django.db.models import PositiveIntegerField, ImageField, CharField, ForeignKey, CASCADE, TextChoices, TextField, \
     DateTimeField
+from django.utils.translation import gettext_lazy as _
 from django_ckeditor_5.fields import CKEditor5Field
 
 from apps.models.base import TimeSlugBased, TimeBasedModel
@@ -13,6 +14,10 @@ class Product(TimeSlugBased):
     category = ForeignKey('apps.Category', CASCADE)
     description = CKEditor5Field()
     product_fee = PositiveIntegerField(help_text="So'mda", null=True, blank=True)
+
+    class Meta:
+        verbose_name = _('Product')
+        verbose_name_plural = _('Products')
 
 
 class Order(TimeBasedModel):
@@ -34,11 +39,17 @@ class Order(TimeBasedModel):
     stream = ForeignKey('apps.Stream', CASCADE, null=True, blank=True, related_name='orders')
     product = ForeignKey('apps.Product', CASCADE, related_name='orders')
     owner = ForeignKey('apps.User', CASCADE, null=True, blank=True)
+    operator = ForeignKey('apps.User', CASCADE, null=True, blank=True, related_name='operator_orders')
+    currier = ForeignKey('apps.User', CASCADE, null=True, blank=True, related_name='currier_orders')
     region = ForeignKey('apps.Region', CASCADE, null=True, blank=True)
     district = ForeignKey('apps.District', CASCADE, null=True, blank=True)
     comment = TextField(null=True, blank=True)
     address = CharField(max_length=255, null=True, blank=True)
     send_date = DateTimeField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Order')
+        verbose_name_plural = _('Orders')
 
 
 class Stream(TimeBasedModel):

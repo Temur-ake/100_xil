@@ -8,3 +8,12 @@ super:
 loaddata:
 	python manage.py loaddata regions
 	python manage.py loaddata districts
+
+uzbek:
+	python manage.py makemessages -l uz
+
+russia:
+	python manage.py makemessages -l ru
+
+compile:
+	python manage.py compilemessages --ignore=.venv

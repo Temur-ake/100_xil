@@ -15,8 +15,10 @@
                         <input class="form-control" name="full_name" id="formGroupNameInput" type="text">
                         <input class="form-control" name="product" id="formGroupNameInput" type="hidden"
                                value="{{ product.pk }}">
-                        <input class="form-control" name="owner" id="formGroupNameInput" type="hidden"
-                               value="{{ user.pk }}">
+                        {% if user.is_authenticated %}
+                            <input class="form-control" name="owner" id="formGroupNameInput" type="hidden"
+                                   value="{{ user.pk }}">
+                        {% endif %}
                     </div>
                     <div class="mb-4">
                         <label class="form-label" for="formGroupEmailInput">

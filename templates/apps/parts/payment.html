@@ -1,5 +1,5 @@
 {% extends 'apps/base.html' %}
-
+{% load humanize %}
 {% block title %}
     {{ request.build_absolute_uri }} - Withdraw Money
 {% endblock %}
@@ -16,8 +16,9 @@
                                 <h5>Mening hisobim</h5>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">Asosiy balansda: 0 so'm</h5>
+                                <h5 class="card-title">Asosiy balansda: {{ user.balance }} so'm</h5>
                                 <h5 class="card-title">To'lab berildi: 0 so'm</h5>
+                                <h5 class="card-title">Minimal o'tkazma summasi: {{ min_balance|intcomma }} so'm</h5>
                             </div>
                         </div>
 

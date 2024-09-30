@@ -1,6 +1,9 @@
 import os
 from pathlib import Path
 
+from django.utils.translation import gettext_lazy as _
+from psycopg2.errorcodes import ADMIN_SHUTDOWN
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-2i%1#ggus-iqy6j-fl1(0_qy1mc4yav68k1o78v@y)pe*760-o'
@@ -18,11 +21,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.apps.AppsConfig',
     'django_ckeditor_5',
+    'django.contrib.humanize'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -35,8 +40,7 @@ ROOT_URLCONF = 'root.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -51,6 +55,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'root.wsgi.application'
 AUTH_USER_MODEL = 'apps.User'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -79,10 +84,17 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+LANGUAGES = [
+    ('en', _('English')),
+    ('ru', _('Russia')),
+    ('uz', _('Uzbek')),
+    # ('zh-hans', _('Simplified Chinese')),
+]
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 TIME_ZONE = 'UTC'
 
-# USE_I18N = True
-
+USE_I18N = True
+USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
@@ -179,7 +191,6 @@ CKEDITOR_5_CONFIGS = {
         }
     }
 }
-
 
 # LOGGING = {
 #     'version': 1,

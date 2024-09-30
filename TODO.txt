@@ -1,0 +1,46 @@
+#  for 13.09.2024
+    1) ProductDetail and StreamDetail combine
+    2) Districts and Regions Script
+    3) LoginRegister with forms
+
+#
+    1)Spam model🟢
+    2)Success orderda yetkazib berishda hamma  joylarni narxini ko'rsatish
+    3)Discount stream🟢
+    4)Maxsulot atatiskasida referal user oladigan summani chiqarish🟢
+
+
+statistikada
+  bugun 00:00 to hozirgacha🟢
+  haftalik (bu hafta) dushanbadan bugungacha🟢
+  oylik (bu oylik) 1-sanadan hozirgacha🟢
+
+for 24.09.2024 tasks
+    start time: 12:20
+
+    operator page make optimization as i could🟢
+    django commands vidio🟢
+    websocket extra tasks
+
+    22:00 go go home🟢
+
+
+
+# Add to operator passport number and start finish time fields
+
+
+hTODO
+1. i18n qoshish kk (uz, en, ru, oz) (faqat adminkaga chiqadigan model nomlari tarjima boladi)🌗
+2. adminkada modellarni berilgan tartibda bolishi ()
+3. adminkaga kirishda nomerni chiroyli qilish🟢
+4. klient qoshishda (nomer kiritadigan joyi chiroyli bolishi kk) (db da 901001010 formatda saqlanishi kk)🟢
+5. adminkada balance report degan bolim ochish (user ni har bir type boyicha balance lari korsatilsin)
+6. http://localhost:8000/category?page=2 search qiligandan keyin pagenation ni ishlatish🟢
+7. konkurs larni amdinkadan qoshish imkoniyati bolishi kk🟢
+8. operator ni ... dan ... gacha ishlash vaqti va passport seriasini alohida field qoshish kk [Stackedinline]🟢
+9. balance ni chiqarish da minimal summa bolishi kk (sayt sozlamasi orqali qoshiladi)🟢
+10. tolov qismi
+11. aktivniy konkurs faqat 1ta bolishi shart
+(agar adminkadan aktivniy konkurs bolsayu,
+yana aktivniy konkurs qoshmoqchi bolsa ogohlantirish chiqishi kk (aktivniy konkurs bor) db)
+12. konkursda adminlardan tashqarilarni hisoblash kk

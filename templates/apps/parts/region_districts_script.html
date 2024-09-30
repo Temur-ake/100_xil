@@ -1,0 +1,24 @@
+<script>
+    $(document).ready(function () {
+        $('#id_region').change(function () {
+            var regionId = $(this).val();
+            if (regionId) {
+                $.ajax({
+                    url: "{% url 'get_districts_by_region' 0 %}".replace('0', regionId),  // Send the request to the current view
+                    data: {'region_id': regionId},
+                    success: function (data) {
+                        var districtSelect = $('#id_district');
+                        districtSelect.empty();
+                        districtSelect.append('<option value="">Tanlang</option>');
+                        $.each(data, function (index, district) {
+                            districtSelect.append('<option value="' + district.id + '">' + district.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#id_district').empty();
+                $('#id_district').append('<option value="">Shahar/Tumanni tanlang</option>');
+            }
+        });
+    });
+</script>
