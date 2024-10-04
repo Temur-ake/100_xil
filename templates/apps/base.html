@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_tags %}
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
 
@@ -131,7 +132,7 @@
                         <li class="nav-item">
                             <ul class="nav collapse show" id="dashboard">
                                 <li class="nav-item">
-                                    <a class="nav-link {% if request.path == '/' %}active{% endif %}"
+                                    <a class="nav-link {% if request.path|path_endswith:'/' %}active{% endif %}"
                                        href="{% url 'main-page' %}" aria-expanded="false">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text ps-1">Bosh sahifa</span>
@@ -139,7 +140,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {% if request.path == '/category' %}active{% endif %}"
+                                    <a class="nav-link {% if request.path|path_endswith:'/category' %}active{% endif %}"
                                        href="{% url 'category' %}" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span
                                                 class="nav-link-text ps-1">Mahsulotlar</span>
@@ -147,7 +148,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {% if request.path == '/ordered-products' %}active{% endif %}"
+                                    <a class="nav-link {% if request.path|path_endswith:'/ordered-products' %}active{% endif %}"
                                        href="{% url 'ordered-products' %}" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span
                                                 class="nav-link-text ps-1">Buyurtmalar</span>
@@ -160,7 +161,7 @@
                                 <hr class="mb-0 navbar-vertical-divider"/>
                                 <ul class="nav collapse show" id="dashboard">
                                     <li class="nav-item">
-                                        <a class="nav-link {% if request.path == '/market' %}active{% endif %}"
+                                        <a class="nav-link {% if request.path|path_endswith:'/market' %}active{% endif %}"
                                            href="{% url 'market' %}" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">Market</span>
@@ -168,7 +169,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {% if request.path == '/stream' %}active{% endif %} "
+                                        <a class="nav-link {% if request.path|path_endswith:'/stream' %}active{% endif %} "
                                            href="{% url 'stream' %}" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">Oqim</span>
@@ -176,7 +177,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {% if request.path == '/statistic' %}active{% endif %}"
+                                        <a class="nav-link {% if request.path|path_endswith:'/statistic' %}active{% endif %}"
                                            href="{% url 'statistic' %}" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">Statistika</span>
@@ -184,7 +185,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {% if request.path == '/requests' %}active{% endif %}"
+                                        <a class="nav-link {% if request.path|path_endswith:'/requests' %}active{% endif %}"
                                            href="{% url 'requests' %}" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">So'rovlar</span>
@@ -192,7 +193,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {% if request.path == '/competition' %} active {% endif %}"
+                                        <a class="nav-link {% if request.path|path_endswith:'/competition' %} active {% endif %}"
                                            href="{% url 'competition' %}" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">Konkurs</span>
@@ -200,7 +201,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {% if request.path == '/payment' %}active{% endif %} "
+                                        <a class="nav-link {% if request.path|path_endswith:'/payment' %}active{% endif %} "
                                            href="{% url 'payment' %}" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">To'lov</span>
@@ -208,7 +209,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {% if request.path == '/diagrams' %}active{% endif %}"
+                                        <a class="nav-link {% if request.path|path_endswith:'/diagrams' %}active{% endif %}"
                                            href="{% url 'diagrams' %}" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Diagrammalar</span>
                                             </div>

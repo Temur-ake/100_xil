@@ -15,5 +15,8 @@ uzbek:
 russia:
 	python manage.py makemessages -l ru
 
+uzbek_kiril:
+	python manage.py makemessages -l oz
+
 compile:
 	python manage.py compilemessages --ignore=.venv

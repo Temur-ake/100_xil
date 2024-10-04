@@ -7,13 +7,13 @@ from apps.models.base import TimeSlugBased, TimeBasedModel
 
 
 class Product(TimeSlugBased):
-    price = PositiveIntegerField(help_text="So'mda")
-    photo = ImageField(upload_to='products/%Y/%m/%d')
-    quantity = PositiveIntegerField()
-    discount = CharField(max_length=255, null=True, blank=True)
-    category = ForeignKey('apps.Category', CASCADE)
-    description = CKEditor5Field()
-    product_fee = PositiveIntegerField(help_text="So'mda", null=True, blank=True)
+    price = PositiveIntegerField(verbose_name=_('Price'), help_text=_("In sum"))
+    photo = ImageField(verbose_name=_('Photo'), upload_to='products/%Y/%m/%d')
+    quantity = PositiveIntegerField(verbose_name=_('Quantity'))
+    discount = CharField(verbose_name=_('Discount'), max_length=255, null=True, blank=True)
+    category = ForeignKey('apps.Category', CASCADE, verbose_name=_('Category'))
+    description = CKEditor5Field(verbose_name=_('Description'))
+    product_fee = PositiveIntegerField(verbose_name=_('Product fee'), help_text=_("In sum"), null=True, blank=True)
 
     class Meta:
         verbose_name = _('Product')
@@ -32,20 +32,20 @@ class Order(TimeBasedModel):
         CANCELED = 'canceled', 'Canceled'
         WAITING = 'waiting', 'Waiting'
 
-    quantity = PositiveIntegerField(db_default=1)
-    status = CharField(max_length=50, choices=Status.choices, default=Status.NEW)
-    full_name = CharField(max_length=50, null=True, blank=True)
-    phone = CharField(max_length=20)
-    stream = ForeignKey('apps.Stream', CASCADE, null=True, blank=True, related_name='orders')
-    product = ForeignKey('apps.Product', CASCADE, related_name='orders')
-    owner = ForeignKey('apps.User', CASCADE, null=True, blank=True)
-    operator = ForeignKey('apps.User', CASCADE, null=True, blank=True, related_name='operator_orders')
-    currier = ForeignKey('apps.User', CASCADE, null=True, blank=True, related_name='currier_orders')
-    region = ForeignKey('apps.Region', CASCADE, null=True, blank=True)
-    district = ForeignKey('apps.District', CASCADE, null=True, blank=True)
-    comment = TextField(null=True, blank=True)
-    address = CharField(max_length=255, null=True, blank=True)
-    send_date = DateTimeField(blank=True, null=True)
+    quantity = PositiveIntegerField(verbose_name=_('Quantity'), db_default=1)
+    status = CharField(verbose_name=_('Status'), max_length=50, choices=Status.choices, default=Status.NEW)
+    full_name = CharField(verbose_name=_('Fullname'), max_length=50, null=True, blank=True)
+    phone = CharField(verbose_name=_('Phone'), max_length=20)
+    stream = ForeignKey('apps.Stream', CASCADE, null=True, blank=True, related_name='orders', verbose_name=_('Stream'))
+    product = ForeignKey('apps.Product', CASCADE, related_name='orders', verbose_name=_('Product'))
+    owner = ForeignKey('apps.User', CASCADE, null=True, blank=True, verbose_name=_('Owner'))
+    operator = ForeignKey('apps.User', CASCADE, limit_choices_to={'type': 'operator'}, null=True, blank=True, related_name='operator_orders', verbose_name=_('Operator'))
+    currier = ForeignKey('apps.User', CASCADE, limit_choices_to={'type': 'currier'}, null=True, blank=True, related_name='currier_orders', verbose_name=_('Currier'))
+    region = ForeignKey('apps.Region', CASCADE, null=True, blank=True, verbose_name=_('Region'))
+    district = ForeignKey('apps.District', CASCADE, null=True, blank=True, verbose_name=_('District'))
+    comment = TextField(verbose_name=_('Comment'), null=True, blank=True)
+    address = CharField(_('Address'), max_length=255, null=True, blank=True)
+    send_date = DateTimeField(verbose_name=_('Send date'), blank=True, null=True)
 
     class Meta:
         verbose_name = _('Order')
@@ -53,11 +53,11 @@ class Order(TimeBasedModel):
 
 
 class Stream(TimeBasedModel):
-    name = CharField(max_length=255)
-    discount = PositiveIntegerField(db_default=0, null=True, blank=True)
-    visit_count = PositiveIntegerField(db_default=0)
-    product = ForeignKey('apps.Product', CASCADE)
-    owner = ForeignKey('apps.User', CASCADE)
+    name = CharField(verbose_name=_('Name'), max_length=255)
+    discount = PositiveIntegerField(verbose_name=_('Discount'), db_default=0, null=True, blank=True)
+    visit_count = PositiveIntegerField(verbose_name=_('Amount of visits'), db_default=0)
+    product = ForeignKey('apps.Product', CASCADE, verbose_name=_('Product'))
+    owner = ForeignKey('apps.User', CASCADE, verbose_name=_('Owner'))
 
     class Meta:
         ordering = '-id',

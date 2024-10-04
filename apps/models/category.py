@@ -5,7 +5,7 @@ from apps.models.base import TimeSlugBased
 
 
 class Category(TimeSlugBased):
-    photo = ImageField(upload_to='categories/%Y/%m/%d')
+    photo = ImageField(verbose_name=_('Photo'), upload_to='categories/%Y/%m/%d')
 
     class Meta:
         verbose_name = _('Category')

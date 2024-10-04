@@ -14,5 +14,5 @@ def customlen(itr):
 
 
 @register.filter()
-def partition_amount(money: int):
-    pass
+def path_endswith(path: str, end: str):
+    return path.endswith(end)

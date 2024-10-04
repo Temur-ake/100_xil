@@ -1,5 +1,5 @@
 {% extends 'apps/base.html' %}
-
+{% load humanize %}
 {% block title %}
     Buy - {{ stream.product.name }}
 {% endblock %}
@@ -49,7 +49,7 @@
                 </p>
                 <h4 class="d-flex align-items-center">
                 <span class="text-warning me-2">
-                {{ stream.changed_price }} so'm
+                {{ stream.changed_price|intcomma }} so'm
                 </span>
                 </h4>
             </div>

@@ -1,6 +1,7 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.admin import ModelAdmin, StackedInline
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Group
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
@@ -13,6 +14,41 @@ from apps.models import Category, SiteSettings, AdminUserProxy, OperatorUserProx
 from apps.models.proxy import CustomerUserProxy, CurrierUserProxy, NewOrderProxy, ArchivedOrderProxy, \
     ReadyToDeliverOrderProxy, DeliveringOrderProxy, DeliveredOrderProxy, BrokenOrderProxy, ReturnedOrderProxy, \
     CanceledOrderProxy, WaitingOrderProxy
+
+
+def get_app_list(self, request, app_label=None):
+    ordering = {
+        'Order': 1,
+        'NewOrderProxy': 2,
+        'ArchivedOrderProxy': 3,
+        'ReadyToDeliverOrderProxy': 4,
+        'DeliveringOrderProxy': 5,
+        'DeliveredOrderProxy': 6,
+        'BrokenOrderProxy': 7,
+        'ReturnedOrderProxy': 8,
+        'CanceledOrderProxy': 9,
+        'WaitingOrderProxy': 10,
+        'Category': 11,
+        'Product': 12,
+        'User': 13,
+        'AdminUserProxy': 14,
+        'OperatorUserProxy': 15,
+        'CustomerUserProxy': 16,
+        'CurrierUserProxy': 17,
+        'SiteSettings': 18,
+        'Concurs': 19,
+    }
+    app_dict = self._build_app_dict(request)
+
+    app_list = sorted(app_dict.values(), key=lambda x: x['name'].lower())
+
+    for app in app_list:
+        app['models'].sort(key=lambda x: ordering[x['object_name']])
+
+    return app_list
+
+
+admin.AdminSite.get_app_list = get_app_list
 
 
 class CustomUserAdmin(UserAdmin):
@@ -56,6 +92,11 @@ class CustomUserAdmin(UserAdmin):
     def save_model(self, request, obj, form, change):
         obj.type = self._type
         super().save_model(request, obj, form, change)
+
+
+class CustomModelAdmin(ModelAdmin):
+    list_display = ['phone']
+    ordering = ['phone']
 
 
 @admin.register(Category)
@@ -111,63 +152,53 @@ class CurrierUserProxyModelAdmin(CustomUserAdmin):
 
 
 @admin.register(Order)
-class OrderModelAdmin(ModelAdmin):
-    list_display = ['phone']
-    ordering = ['phone']
+class OrderModelAdmin(CustomModelAdmin):
+    pass
 
 
 @admin.register(NewOrderProxy)
-class NewOrderProxyModelAdmin(ModelAdmin):
-    list_display = ['phone']
-    ordering = ['phone']
+class NewOrderProxyModelAdmin(CustomModelAdmin):
+    pass
 
 
 @admin.register(ArchivedOrderProxy)
-class ArchivedOrderProxyModelAdmin(ModelAdmin):
-    list_display = ['phone']
-    ordering = ['phone']
+class ArchivedOrderProxyModelAdmin(CustomModelAdmin):
+    pass
 
 
 @admin.register(ReadyToDeliverOrderProxy)
-class ReadyToDeliverOrderProxyModelAdmin(ModelAdmin):
-    list_display = ['phone']
-    ordering = ['phone']
+class ReadyToDeliverOrderProxyModelAdmin(CustomModelAdmin):
+    pass
 
 
 @admin.register(DeliveringOrderProxy)
-class DeliveringOrderProxyModelAdmin(ModelAdmin):
-    list_display = ['phone']
-    ordering = ['phone']
+class DeliveringOrderProxyModelAdmin(CustomModelAdmin):
+    pass
 
 
 @admin.register(DeliveredOrderProxy)
-class DeliveredOrderProxyModelAdmin(ModelAdmin):
-    list_display = ['phone']
-    ordering = ['phone']
+class DeliveredOrderProxyModelAdmin(CustomModelAdmin):
+    pass
 
 
 @admin.register(BrokenOrderProxy)
-class BrokenOrderProxyModelAdmin(ModelAdmin):
-    list_display = ['phone']
-    ordering = ['phone']
+class BrokenOrderProxyModelAdmin(CustomModelAdmin):
+    pass
 
 
 @admin.register(ReturnedOrderProxy)
-class ReturnedOrderProxyModelAdmin(ModelAdmin):
-    list_display = ['phone']
-    ordering = ['phone']
+class ReturnedOrderProxyModelAdmin(CustomModelAdmin):
+    pass
 
 
 @admin.register(CanceledOrderProxy)
-class CanceledOrderProxyModelAdmin(ModelAdmin):
-    list_display = ['phone']
-    ordering = ['phone']
+class CanceledOrderProxyModelAdmin(CustomModelAdmin):
+    pass
 
 
 @admin.register(WaitingOrderProxy)
-class WaitingOrderProxyModelAdmin(ModelAdmin):
-    list_display = ['phone']
-    ordering = ['phone']
+class WaitingOrderProxyModelAdmin(CustomModelAdmin):
+    pass
 
 
 @admin.register(SiteSettings)
@@ -177,4 +208,26 @@ class SiteSettingsAdmin(ModelAdmin):
 
 @admin.register(Concurs)
 class ConcursAdmin(admin.ModelAdmin):
-    pass
+    list_display = 'start_date', 'end_date', 'is_active', 'photo_'
+    list_display_links = 'start_date', 'end_date'
+
+    @admin.display(description='Photo')
+    def photo_(self, obj: Concurs):
+        img = obj.photo
+        if img:
+            return mark_safe(f"<img src={img.url} alt='img' width='60px' height='60px'")
+        return 'None image'
+
+    def message_user(self, request, message, level=messages.INFO, extra_tags="", fail_silently=False):
+        pass
+
+    def save_model(self, request, obj, form, change):
+        if (obj.id is None and obj.is_active) and Concurs.objects.filter(is_active=True).exists():
+            messages.add_message(request, messages.WARNING, 'Already exists active competition✋')
+            return
+        messages.add_message(request, messages.INFO,
+                             f'The Konkurs was {obj.description} added successfully.')
+        super().save_model(request, obj, form, change)
+
+
+admin.site.unregister(Group)

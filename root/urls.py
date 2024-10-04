@@ -1,3 +1,4 @@
+from debug_toolbar.toolbar import debug_toolbar_urls
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -14,4 +15,4 @@ urlpatterns = i18n_patterns(
     path("ckeditor5/", include('django_ckeditor_5.urls')),
     path("", include('apps.urls')),
     prefix_default_language=True
-) + static(STATIC_URL, document_root=STATIC_ROOT) + static(MEDIA_URL, document_root=MEDIA_ROOT)
+) + static(STATIC_URL, document_root=STATIC_ROOT) + static(MEDIA_URL, document_root=MEDIA_ROOT) + debug_toolbar_urls()

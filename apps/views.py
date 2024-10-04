@@ -14,7 +14,7 @@ from django.views.generic import ListView, TemplateView, UpdateView, DetailView,
 
 from apps.forms import PasswordChangeModelForm, OrderModelForm, LoginRegisterModelForm, StreamModelForm, \
     OrderUpdateModelFormView
-from apps.models import User, Category, Product, Region, Order, Stream, SiteSettings, District, Concurs, Payment
+from apps.models import User, Category, Product, Region, Order, Stream, SiteSettings, District, Concurs, Transaction
 
 
 class AllProductListView(ListView):
@@ -255,32 +255,30 @@ class StatisticsListView(LoginRequiredMixin, ListView):
 
 
 class CompetitionListView(ListView):
-    queryset = Concurs.objects.all()
+    queryset = User.objects.all()
     template_name = 'apps/parts/concurs.html'
-    context_object_name = 'concurs'
+    context_object_name = 'users'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(object_list=object_list, **kwargs)
-        ctx['customers'] = User.objects.filter(type=User.Type.CUSTOMER)
-        qs = self.get_queryset()
-        start_date = qs.start_date
-        end_date = qs.end_date
-        customers_ids_list = ctx['customers'].values_list('id', flat=True)
-        query_set = Stream.objects.annotate(
-            order_count=Count('orders',
-                              filter=Q(orders__status=Order.Status.DELIVERED) &
-                                     Q(owner__type=User.Type.CUSTOMER) &
-                                     Q(orders__created_at__gte=start_date) &
-                                     Q(orders__updated_at__lte=end_date)
-                              )
-        )
-        res = [query_set.aggregate(sum_of_orders=Sum('order_count', filter=Q(owner_id=i))) for i in customers_ids_list]
-        ctx['concurs_statistics'] = [r['sum_of_orders'] for r in res]
+        ctx['concurs'] = Concurs.objects.filter(is_active=True).first()
         return ctx
 
     def get_queryset(self):
+        competition = Concurs.objects.filter(is_active=True).first()
         qs = super().get_queryset()
-        return qs.filter(is_active=True).first()
+        if competition:
+            start_date = competition.start_date
+            end_date = competition.end_date
+            qs = super().get_queryset()
+            qs = qs.exclude(type=User.Type.ADMIN).annotate(
+                order_product_count=Sum('stream__orders__quantity',
+                                        filter=Q(stream__orders__status=Order.Status.DELIVERED) &
+                                               Q(stream__orders__created_at__gte=start_date) &
+                                               Q(stream__orders__created_at__lte=end_date)
+                                        )
+            ).filter(order_product_count__isnull=False).order_by('-order_product_count')
+        return qs
 
 
 class RequestListView(ListView):
@@ -294,7 +292,7 @@ class RequestListView(ListView):
 
 
 class PaymentListView(ListView):
-    queryset = Payment.objects.all()
+    queryset = Transaction.objects.all()
     template_name = 'apps/parts/payment.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -415,6 +413,11 @@ class LoginRegisterView(FormView):
         text = form.errors['__all__'][0]
         messages.add_message(self.request, messages.WARNING, text)
         return super().form_invalid(form)
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('main-page')
+        return super().dispatch(request, *args, **kwargs)
 
 
 class LogoutView(View):

@@ -44,7 +44,7 @@ class NewOrderProxy(Order):
     class Meta:
         proxy = True
         verbose_name = _('New')
-        verbose_name_plural = _('News')
+        verbose_name_plural = _('New')
 
 
 class ArchivedOrderProxy(Order):

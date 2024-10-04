@@ -10,7 +10,7 @@ SECRET_KEY = 'django-insecure-2i%1#ggus-iqy6j-fl1(0_qy1mc4yav68k1o78v@y)pe*760-o
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -21,7 +21,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.apps.AppsConfig',
     'django_ckeditor_5',
+    "debug_toolbar",
     'django.contrib.humanize'
+]
+
+INTERNAL_IPS = [
+    "127.0.0.1",
 ]
 
 MIDDLEWARE = [
@@ -30,6 +35,7 @@ MIDDLEWARE = [
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -82,14 +88,32 @@ AUTH_PASSWORD_VALIDATORS = [
     # },
 ]
 
+EXTRA_LANG_INFO = {
+    'oz': {
+        'bidi': False,
+        'code': 'oz',
+        'name': "O'zbek",
+        'name_local': u"O'zbek",  # unicode codepoints here
+    },
+}
+from django.conf import global_settings
+
+gettext_noop = lambda s: s
 LANGUAGE_CODE = 'en-us'
 
 LANGUAGES = [
     ('en', _('English')),
     ('ru', _('Russia')),
     ('uz', _('Uzbek')),
-    # ('zh-hans', _('Simplified Chinese')),
+    ('oz', gettext_noop("O'zbek")),
 ]
+import django.conf.locale
+from django.conf import global_settings
+
+LANG_INFO = dict(django.conf.locale.LANG_INFO, **EXTRA_LANG_INFO)
+django.conf.locale.LANG_INFO = LANG_INFO
+
+global_settings.LANGUAGES = global_settings.LANGUAGES + (["oz", "O'zbek"])
 LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 TIME_ZONE = 'UTC'
 

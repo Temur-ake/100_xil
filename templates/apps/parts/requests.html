@@ -30,9 +30,9 @@
                                 <th scope="col">{{ order.stream.name }}</th>
                                 <th scope="col">{{ order.owner|default:'aniq emas' }}</th>
                                 <th scope="col">{{ order.region.name|default:'hali nomalum' }}</th>
-                                <th scope="col">{{ order.status }}</th>
+                                <th scope="col">{{ order.get_status_display }}</th>
                                 <th scope="col">{{ order.comment|default:'Izoh mavjud emas' }}</th>
-                                <th scope="col">{{ order.send_date|date|default:'Hali nomalum' }}</th>
+                                 <th scope="col">{{ order.send_date|date|default:'Hali nomalum' }}</th>
                             </tr>
                         {% endfor %}
 

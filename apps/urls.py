@@ -35,6 +35,5 @@ urlpatterns = [
     path('users/profile-settings', ProfileUpdateView.as_view(), name='profile-settings'),
     path('users/photo-settings', UserPhotoUpdateView.as_view(), name='photo-settings'),
     path('users/password-change', PasswordUpdateView.as_view(), name='pass-settings'),
-    # path('users/get_districts_by_region/<int:region_id>', PasswordUpdateView.as_view(), name='pass-settings')
     path('get_districts_by_region/<int:region_id>', get_districts_by_region, name='get_districts_by_region')
 ]

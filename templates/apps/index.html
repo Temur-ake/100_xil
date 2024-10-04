@@ -1,5 +1,5 @@
 {% extends 'apps/base.html' %}
-
+{% load humanize %}
 {% block title %}
     Internet do'kon O'zbekiston bo'ylab bepul yetqazib berish - alijahon.uz
 {% endblock %}
@@ -56,13 +56,13 @@
                                 <div class="p-2">
                                     <h5 class="fs-0">
                                         <a class="text-dark"
-                                           href="{% url 'product-detail' product.pk %}">{{ product.name }}
+                                           href="{% url 'product-detail' product.slug %}">{{ product.name }}
                                         </a>
                                     </h5>
                                     <p class="fs--1 mb-2">
                                         <a class="text-500" href="/category/uy-uchun">{{ product.category.name }}</a>
                                     </p>
-                                    <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-2"> {{ product.price }}
+                                    <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-2"> {{ product.price|intcomma }}
                                         <!-- <del class="ms-2 fs--1 text-500">180 000 so'm </del> -->
                                     </h5>
                                 </div>
@@ -72,7 +72,7 @@
 
                                 <div>
                                     <a class="btn btn-sm btn-falcon-default" style="width: 130px;"
-                                       href="{% url 'product-detail' product.pk %}" data-bs-toggle="tooltip"
+                                       href="{% url 'product-detail' product.slug %}" data-bs-toggle="tooltip"
                                        data-bs-placement="top">
                                         <svg class="svg-inline--fa fa-cart-plus fa-w-18" aria-hidden="true"
                                              focusable="false" data-prefix="fas" data-icon="cart-plus" role="img"

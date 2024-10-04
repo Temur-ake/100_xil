@@ -1,4 +1,7 @@
+import re
+
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db.models import CharField, TextField, BigIntegerField, TextChoices, Model, ForeignKey, CASCADE, \
     PositiveIntegerField, ImageField, OneToOneField, TimeField, IntegerField
 from django.utils.translation import gettext_lazy as _
@@ -15,29 +18,30 @@ class User(AbstractUser):
 
     email = None
     username = None
-    phone = CharField(max_length=20, unique=True)
-    photo = ImageField(upload_to='users/%Y/%m/%d', default='default_active_user.jpg', null=True, blank=True)
-    address = CharField(max_length=255, null=True, blank=True)
-    about = TextField(null=True, blank=True)
-    telegram_id = BigIntegerField(unique=True, null=True, blank=True)
-    type = CharField(max_length=15, choices=Type.choices, default=Type.CUSTOMER)
-    district = ForeignKey('apps.District', CASCADE, null=True, blank=True)
-    balance = IntegerField(null=True, blank=True, default=0)
+    phone = CharField(verbose_name=_('Phone'), max_length=20, unique=True)
+    photo = ImageField(verbose_name=_('Photo'), upload_to='users/%Y/%m/%d', default='default_active_user.jpg',
+                       null=True, blank=True)
+    address = CharField(verbose_name=_('Address'), max_length=255, null=True, blank=True)
+    about = TextField(verbose_name=_('About user'), null=True, blank=True)
+    telegram_id = BigIntegerField(verbose_name=_('Telegram ID'), unique=True, null=True, blank=True)
+    type = CharField(verbose_name=_('Type'), max_length=15, choices=Type.choices, default=Type.CUSTOMER)
+    district = ForeignKey('apps.District', CASCADE, null=True, blank=True, verbose_name=_('District'))
+    balance = IntegerField(verbose_name=_('Balance'), null=True, blank=True, default=0)
 
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = []
 
-    # def clean_fields(self, exclude=None):
-    #     self.phone = re.sub(r'[^\d]', '', self.phone)
-    #     if len(self.phone) > 9:
-    #         self.phone = self.phone[-9:]
-    #
-    #     if len(self.phone) != 9:
-    #         raise ValidationError('Nomer xatoku')
-    #
-    #     return super().clean_fields(exclude)
+    def clean_fields(self, exclude=None):
+        self.phone = re.sub(r'[^\d]', '', self.phone)
+        if len(self.phone) > 9:
+            self.phone = self.phone[-9:]
+
+        if len(self.phone) != 9:
+            raise ValidationError('Nomer xatoku')
+
+        return super().clean_fields(exclude)
 
     def is_operator(self):
         return self.type == self.Type.OPERATOR
@@ -48,33 +52,33 @@ class User(AbstractUser):
 
 
 class Operator(Model):
-    user = OneToOneField('apps.User', CASCADE)
-    passport_number = CharField(verbose_name='Passport raqami', max_length=20)
-    start_work_time = TimeField(verbose_name='Ish boshlash vaqti')
-    end_work_time = TimeField(verbose_name='Ish tugash vaqti')
+    user = OneToOneField('apps.User', CASCADE, limit_choices_to={'type': User.Type.OPERATOR})
+    passport_number = CharField(verbose_name=_('Passport number'), max_length=20)
+    start_work_time = TimeField(verbose_name=_('Start work time'))
+    end_work_time = TimeField(verbose_name=_('End work time'))
 
     def __str__(self):
         return f"{self.user.username} - Operator"
 
 
 class Region(Model):
-    name = CharField(max_length=50)
+    name = CharField(verbose_name=_('Name'), max_length=50)
 
     def __str__(self):
         return self.name
 
 
 class District(Model):
-    name = CharField(max_length=50)
-    region = ForeignKey('apps.Region', CASCADE)
+    name = CharField(verbose_name=_('Name'), max_length=50)
+    region = ForeignKey('apps.Region', CASCADE, verbose_name=_('Region'))
 
     def __str__(self):
         return self.name
 
 
 class SpamUser(Model):
-    phone = CharField(max_length=20, unique=True)
-    user = ForeignKey('apps.User', CASCADE, null=True, blank=True)
+    phone = CharField(verbose_name=_('Phone'), max_length=20, unique=True)
+    user = ForeignKey('apps.User', CASCADE, null=True, blank=True, verbose_name=_('User'))
 
     class Meta:
         verbose_name = _('Spam')
@@ -82,12 +86,13 @@ class SpamUser(Model):
 
 
 class SiteSettings(Model):
-    fee_for_operator = PositiveIntegerField(blank=True, default=4000)
-    fee_for_currier = PositiveIntegerField(blank=True, default=10000)
-    tashkent_city = PositiveIntegerField(blank=True, default=20000)
-    tashkent_region = PositiveIntegerField(blank=True, default=25000)
-    other_regions = PositiveIntegerField(blank=True, default=35000)
-    min_balance_amount = IntegerField(default=100000)
+    fee_for_operator = PositiveIntegerField(verbose_name=_('Operator fee'), blank=True, default=4000)
+    fee_for_currier = PositiveIntegerField(verbose_name=_('Currier fee'), blank=True, default=10000)
+    tashkent_city = PositiveIntegerField(verbose_name=_('Delivery price for Tashkent city'), blank=True, default=20000)
+    tashkent_region = PositiveIntegerField(verbose_name=_('Delivery price for Tashkent region'), blank=True,
+                                           default=25000)
+    other_regions = PositiveIntegerField(verbose_name=_('Delivery price for other regions'), blank=True, default=35000)
+    min_balance_amount = IntegerField(verbose_name=_('Minimum amount for withdraw'), default=100000)
 
     class Meta:
         verbose_name = _('Site Setting')

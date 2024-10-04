@@ -16,7 +16,7 @@
 
         </button>
     {% else %}
-        <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.cat %}&cat={{ request.GET.cat }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+        <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.cat %}&cat={{ request.GET.cat }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.top %}&top={{ request.GET.top }}{% endif %}">
             <button class="btn btn-falcon-default btn-sm me-2"
                     id="DataTables_Table_0_next">
                 <svg class="svg-inline--fa fa-chevron-left fa-w-10"
@@ -32,17 +32,17 @@
             </button>
         </a>
         <a class="btn btn-sm btn-falcon-default text me-2"
-           href="?page={{ page_obj.previous_page_number }}{% if request.GET.cat %}&cat={{ request.GET.cat }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+           href="?page={{ page_obj.previous_page_number }}{% if request.GET.cat %}&cat={{ request.GET.cat }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.top %}&top={{ request.GET.top }}{% endif %}">
             {{ page_obj.previous_page_number }}</a>
     {% endif %}
 
 
     <a class="btn btn-sm btn-falcon-default text-primary me-2"
-       href="?page={{ page_obj.number }}{% if request.GET.cat %}&cat={{ request.GET.cat }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+       href="?page={{ page_obj.number }}{% if request.GET.cat %}&cat={{ request.GET.cat }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.top %}&top={{ request.GET.top }}{% endif %}">
         {{ page_obj.number }}</a>
     {% if page_obj.has_next and page_obj.next_page_number != page_obj.paginator.num_pages %}
         <a class="btn btn-sm btn-falcon-default text me-2"
-           href="?page={{ page_obj.next_page_number }}{% if request.GET.cat %}&cat={{ request.GET.cat }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+           href="?page={{ page_obj.next_page_number }}{% if request.GET.cat %}&cat={{ request.GET.cat }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.top %}&top={{ request.GET.top }}{% endif %}">
             {{ page_obj.next_page_number }}</a>
     {% endif %}
 
@@ -61,7 +61,7 @@
             </svg>
         </button>
     {% else %}
-        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.cat %}&cat={{ request.GET.cat }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.cat %}&cat={{ request.GET.cat }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.top %}&top={{ request.GET.top }}{% endif %}">
             <button class="btn btn-falcon-default btn-sm me-2">
                 <svg class="svg-inline--fa fa-chevron-right fa-w-10"
                      aria-hidden="true"

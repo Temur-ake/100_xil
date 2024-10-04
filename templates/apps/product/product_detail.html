@@ -1,5 +1,5 @@
 {% extends 'apps/base.html' %}
-
+{% load humanize %}
 {% block title %}
     Buy - {{ product.name }}
 {% endblock %}
@@ -57,7 +57,7 @@
                 </p>
                 <h4 class="d-flex align-items-center">
                 <span class="text-warning me-2">
-                {{ product.price }} so'm
+                {{ product.price|intcomma }} so'm
                 </span>
                 </h4>
             </div>
