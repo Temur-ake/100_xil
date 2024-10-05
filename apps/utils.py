@@ -1,4 +1,8 @@
+import unicodedata
+import re
+
 from django.conf import settings
+from django.utils.functional import keep_lazy_text
 
 
 def switch_lang_code(path, language):
@@ -25,3 +29,23 @@ def switch_lang_code(path, language):
     # Return the full new path
     return '/'.join(parts)
 
+
+@keep_lazy_text
+def custom_slugify(value, allow_unicode=True):
+    """
+    Convert to ASCII if 'allow_unicode' is False. Convert spaces or repeated
+    dashes to single dashes. Remove characters that aren't alphanumerics,
+    underscores, or hyphens. Convert to lowercase. Also strip leading and
+    trailing whitespace, dashes, and underscores.
+    """
+    value = str(value)
+    if allow_unicode:
+        value = unicodedata.normalize("NFKC", value)
+    else:
+        value = (
+            unicodedata.normalize("NFKD", value)
+            .encode("ascii", "ignore")
+            .decode("ascii")
+        )
+    value = re.sub(r"[^\w\s-]", "", value.lower())
+    return re.sub(r"[-\s]+", "-", value).strip("-_")

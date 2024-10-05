@@ -10,7 +10,7 @@ from apps.forms import CustomAdminAuthenticationForm
 admin.site.login_form = CustomAdminAuthenticationForm
 
 from apps.models import Category, SiteSettings, AdminUserProxy, OperatorUserProxy, Order, Product, User, Concurs, \
-    Operator
+    Operator, Transaction
 from apps.models.proxy import CustomerUserProxy, CurrierUserProxy, NewOrderProxy, ArchivedOrderProxy, \
     ReadyToDeliverOrderProxy, DeliveringOrderProxy, DeliveredOrderProxy, BrokenOrderProxy, ReturnedOrderProxy, \
     CanceledOrderProxy, WaitingOrderProxy
@@ -37,6 +37,7 @@ def get_app_list(self, request, app_label=None):
         'CurrierUserProxy': 17,
         'SiteSettings': 18,
         'Concurs': 19,
+        'Transaction': 20
     }
     app_dict = self._build_app_dict(request)
 
@@ -153,8 +154,9 @@ class CurrierUserProxyModelAdmin(CustomUserAdmin):
 
 @admin.register(Order)
 class OrderModelAdmin(CustomModelAdmin):
-    pass
-
+    list_display = 'quantity', 'status', 'phone', 'product', 'owner', 'operator', 'currier', 'address'
+    list_display_links = 'status',
+    list_filter = 'id', 'phone'
 
 @admin.register(NewOrderProxy)
 class NewOrderProxyModelAdmin(CustomModelAdmin):
@@ -228,6 +230,19 @@ class ConcursAdmin(admin.ModelAdmin):
         messages.add_message(request, messages.INFO,
                              f'The Konkurs was {obj.description} added successfully.')
         super().save_model(request, obj, form, change)
+
+
+@admin.register(Transaction)
+class TransactionModelAdmin(ModelAdmin):
+    list_display = 'status', 'amount', 'message', 'bill_photo', 'owner'
+    list_display_links = 'amount',
+
+    @admin.display(description='Photo')
+    def bill_photo(self, obj: Transaction):
+        img = obj.photo
+        if img:
+            return mark_safe(f"<img src={img.url} alt='img' width='60px' height='60px'")
+        return 'None image'
 
 
 admin.site.unregister(Group)

@@ -39,14 +39,14 @@ for 24.09.2024 tasks
 7. konkurs larni amdinkadan qoshish imkoniyati bolishi kk🟢
 8. operator ni ... dan ... gacha ishlash vaqti va passport seriasini alohida field qoshish kk [Stackedinline]🟢
 9. balance ni chiqarish da minimal summa bolishi kk (sayt sozlamasi orqali qoshiladi)🟢
-10. tolov qismi
+10. tolov qismi🟢
 11. aktivniy konkurs faqat 1ta bolishi shart(agar adminkadan aktivniy konkurs bolsayu,yana aktivniy konkurs qoshmoqchi bolsa ogohlantirish chiqishi kk (aktivniy konkurs bor) db)🟢
 12. konkursda adminlardan tashqarilarni hisoblash kk🟢
 
 
 
 # Sveji
-13.Delivered bir marta qo'shilishi kerak user balance ga
-14. Stream detal bilan Product detail bitta
-15 Kiril harfliy product ham qo'shsin
-16. Buyurtmalarga nomer yoki id bo'uicha filter qilish
+13.Delivered bir marta qo'shilishi kerak user balance ga🟢
+14. Stream detal bilan Product detail bitta🟢
+15 Kiril harfliy product ham qo'shsin🟢
+16. Buyurtmalarga nomer yoki id bo'uicha filter qilish🟢

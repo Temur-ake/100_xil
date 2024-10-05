@@ -1,123 +1,20 @@
 from datetime import timedelta
 
 from django.contrib import messages
-from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Count, Sum
 from django.forms import model_to_dict
-from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views import View
-from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView, FormView
+from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView
 
-from apps.forms import PasswordChangeModelForm, OrderModelForm, LoginRegisterModelForm, StreamModelForm, \
+from apps.forms import StreamModelForm, \
     OrderUpdateModelFormView
-from apps.models import User, Category, Product, Region, Order, Stream, SiteSettings, District, Concurs, Transaction
+from apps.models import User, Category, Product, Region, Order, Stream, SiteSettings, District, Concurs
 
 
-class AllProductListView(ListView):
-    queryset = Product.objects.select_related('category').order_by('-created_at')
-    template_name = 'apps/index.html'
-    context_object_name = 'products'
-    paginate_by = 25
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        ctx = super().get_context_data(object_list=object_list, **kwargs)
-        ctx['categories'] = Category.objects.all()
-        return ctx
-
-
-class ProductListView(ListView):
-    queryset = Product.objects.all()
-    template_name = 'apps/product/product_list.html'
-    context_object_name = 'products'
-    paginate_by = 5
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        category = self.request.GET.get('cat')
-        if category:
-            return qs.filter(category__slug=category)
-        return qs
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        ctx = super().get_context_data(object_list=object_list, **kwargs)
-        ctx['categories'] = Category.objects.all()
-        return ctx
-
-
-class ProfileTemplateView(LoginRequiredMixin, TemplateView):
-    template_name = 'apps/users/profile.html'
-
-
-class ProfileUpdateView(LoginRequiredMixin, UpdateView):
-    queryset = User.objects.all()
-    fields = 'first_name', 'last_name', 'address', 'telegram_id', 'about', 'district'
-    template_name = 'apps/users/profile_settings.html'
-    success_url = reverse_lazy('main-page')
-
-    def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        ctx['regions'] = Region.objects.all()
-        return ctx
-
-    def get_object(self, queryset=None):
-        return self.request.user
-
-    def form_invalid(self, form):
-        text = """
-            This telegram ID already exists please check!
-                            """
-        messages.add_message(self.request, messages.WARNING, text)
-        return super().form_invalid(form)
-
-
-class ProductDetailView(DetailView, FormView):
-    queryset = Product.objects.all()
-    template_name = 'apps/product/product_detail.html'
-    form_class = OrderModelForm
-    context_object_name = 'product'
-    success_url = reverse_lazy('order-detail')
-
-    def form_valid(self, form):
-        order = form.save()
-        return redirect('order-detail', pk=order.id)
-
-    def form_invalid(self, form):
-        message = """
-        Invalid phone number!
-        """
-        messages.add_message(self.request, messages.WARNING, message)
-        product_slug = form.cleaned_data.get('product').slug
-        return redirect('product-detail', slug=product_slug)
-
-
-class StreamDetailView(DetailView):
-    queryset = Stream.objects.all()
-    template_name = 'apps/streams/stream_detail.html'
-    context_object_name = 'stream'
-
-    def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
-        obj.visit_count += 1
-        obj.save()
-        return obj
-
-
-class ProductSearchListView(ListView):
-    queryset = Product.objects.all()
-    template_name = 'apps/product/search_results.html'
-    context_object_name = 'products'
-    paginate_by = 3
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        search = self.request.GET.get('search')
-        if search:
-            return qs.filter(name__icontains=search)
-        return qs
 
 
 class MyOrdersTemplateView(TemplateView):
@@ -177,20 +74,6 @@ class StreamCreateView(CreateView):
         messages.add_message(self.request, messages.WARNING, text)
         return redirect('market')
 
-
-class ProductStatisticListView(DetailView):
-    queryset = Product.objects.all()
-    template_name = 'apps/product/product_statistic.html'
-    context_object_name = 'product'
-
-    def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        session_product = Stream.objects.filter(product_id=self.kwargs.get('pk'), owner=self.request.user)
-        ctx['my_stream_count'] = session_product.count()
-        return ctx
-
-
-# User.objects.annotate(balance__gte=F('summa'))
 
 class MyStreamsListView(LoginRequiredMixin, TemplateView):
     template_name = 'apps/streams/my_streams.html'
@@ -291,20 +174,6 @@ class RequestListView(ListView):
         return qs
 
 
-class PaymentListView(ListView):
-    queryset = Transaction.objects.all()
-    template_name = 'apps/parts/payment.html'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        ctx = super().get_context_data(object_list=object_list, **kwargs)
-        ctx['min_balance'] = SiteSettings.objects.values_list('min_balance_amount', flat=True).first()
-        return ctx
-
-
-class PaymentFormView(FormView):
-    pass
-
-
 class DiagramTemplateView(TemplateView):
     template_name = 'apps/parts/diagrams.html'
 
@@ -373,59 +242,3 @@ class OperatorOrderDetail(UpdateView):
             obj.operator = session_operator
             obj.save()
         return obj
-
-
-class UserPhotoUpdateView(UpdateView):
-    template_name = 'apps/users/profile_settings.html'
-    fields = 'photo',
-    success_url = reverse_lazy('main-page')
-
-    def get_object(self, queryset=None):
-        return self.request.user
-
-
-class PasswordUpdateView(UpdateView):
-    template_name = 'apps/users/profile_settings.html'
-    form_class = PasswordChangeModelForm
-    success_url = reverse_lazy('main-page')
-
-    def get_object(self, queryset=None):
-        return self.request.user
-
-    def form_valid(self, form):
-        login(self.request, self.request.user)
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        return redirect('pass-settings')
-
-
-class LoginRegisterView(FormView):
-    template_name = 'apps/auth/login-register.html'
-    form_class = LoginRegisterModelForm
-
-    def form_valid(self, form):
-        user = form.get_user()
-        login(self.request, user)
-        return redirect('main-page')
-
-    def form_invalid(self, form):
-        text = form.errors['__all__'][0]
-        messages.add_message(self.request, messages.WARNING, text)
-        return super().form_invalid(form)
-
-    def dispatch(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return redirect('main-page')
-        return super().dispatch(request, *args, **kwargs)
-
-
-class LogoutView(View):
-    def get(self, request):
-        logout(request)
-        return redirect('main-page')
-
-
-def get_districts_by_region(request, region_id):
-    districts = District.objects.filter(region_id=region_id).values('id', 'name')
-    return JsonResponse(list(districts), safe=False)

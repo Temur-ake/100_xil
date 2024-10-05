@@ -30,10 +30,11 @@ class Transaction(TimeBasedModel):
         CANCELLED = 'canceled', 'Canceled'
         DISPUTED = 'disputed', 'Disputed'
         EXPIRED = 'expired', 'Expired'
-        ON_HOLD = 'on_hold', 'On_hold'
+        ON_HOLD = 'on_hold', 'On_hold   '
 
-    account_number = CharField(verbose_name=_('Account number'), max_length=200)
+    card_number = CharField(verbose_name=_('Account number'), max_length=200)
     status = CharField(verbose_name=_('Status'), max_length=20, choices=Status.choices, default=Status.PENDING)
     amount = IntegerField(verbose_name=_('Amount'))
-    message = TextField(verbose_name=_('Message'))
-    user = ForeignKey('apps.User', CASCADE, verbose_name=_('Owner'))
+    message = TextField(verbose_name=_('Message'), null=True, blank=True)
+    photo = ImageField(verbose_name=_('Photo'), upload_to='transactions/%Y/%m/%d', null=True, blank=True)
+    owner = ForeignKey('apps.User', CASCADE, verbose_name=_('Owner'))

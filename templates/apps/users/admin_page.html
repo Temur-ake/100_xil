@@ -1,5 +1,6 @@
 {% extends 'apps/base.html' %}
 {% load static %}
+{% load humanize %}
 {% block title %}
     Admin - {{ request.build_absolute_uri }}
 {% endblock %}
@@ -18,8 +19,7 @@
                         <h5 class="text-primary">Assalomu alaykum Admin bo'limiga xush kelibsiz! </h5>
                     </div>
 
-                    <span class="fs-2 fw-medium">Balans: </span><span class="fs-3 fw-medium"
-                                                                      data-countup="{&quot;endValue&quot;:0,&quot;separator&quot;:&quot; &quot;}">{{ user.balance }}</span>
+                    <span class="fs-2 fw-medium">Balans: </span><span class="fs-3 fw-medium">{{ user.balance|intcomma }}</span>
                     <div class="flex-1 z-index-1">
                         <h5 class="text-800 mb-0">API Key:</h5>
                         <p class="mb-0 text-500">A5xETStkkmDjx7tgMZYixFN2ufgEwkwT</p>
@@ -134,7 +134,7 @@
                                         </svg>
                                         <!-- <span class="fas fa-user text-info"></span> Font Awesome fontawesome.com -->
                                     </div>
-                                    <div class="flex-1"><a class="stretched-link" href="{% url 'payment' %}">
+                                    <div class="flex-1"><a class="stretched-link" href="{% url 'payment_history' %}">
                                         <h5 class="text-800 mb-0">To'lovlar</h5>
                                     </a>
                                         <p class="mb-0 fs--2 text-500">Mening hisobim &amp; To'lovga sorov berish</p>

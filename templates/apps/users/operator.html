@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +21,6 @@
 <div>
     <nav class="navbar navbar-dark bg-dark text-white" style="height: 10%;">
 
-
         <div style="margin-left: 15px;"><a href="/operator/prodcut_add">Zakaz + </a></div>
 
 
@@ -32,70 +32,70 @@
         <div class="col-md-2 h-70 text-center" style="background-color: #38ffae; padding-right: 0; position:absolute;">
             <div class="list-group text-light w-100 h-100">
                 <a style="height: 13%" href="{% url 'operator' 'new' %}"
-                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator' or request.path == '/operator/new' %}active{% endif %}">
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path|path_endswith:'/operator' or request.path|path_endswith:'/operator/new' %}active{% endif %}">
                     <div>
                         <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                     </div>
                     <h6>Yangi buyurtmalar</h6>
                 </a>
                 <a style="height: 13%" href="{% url 'operator' 'ready_to_deliver' %}"
-                   class="btn btn-primary list-group-item text-dark mt-1{% if request.path == '/operator/ready_to_deliver' %}active{% endif %}">
+                   class="btn btn-primary list-group-item text-dark mt-1{% if request.path|path_endswith:'/operator/ready_to_deliver' %}active{% endif %}">
                     <div>
                         <i class="fa fa-truck" aria-hidden="true"></i>
                     </div>
                     <h6>Dostavka tayyor</h6>
                 </a>
                 <a style="height: 13%" href="{% url 'operator' 'delivering' %}"
-                   class="btn btn-primary list-group-item text-dark mt-1{% if request.path == '/operator/delivering' %}active{% endif %}">
+                   class="btn btn-primary list-group-item text-dark mt-1{% if request.path|path_endswith:'/operator/delivering' %}active{% endif %}">
                     <div>
                         <i class="fa fa-truck" aria-hidden="true"></i>
                     </div>
                     <h6>Yetkazilmoqda</h6>
                 </a>
                 <a style="height: 13%" href="{% url 'operator' 'waiting' %}"
-                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator/waiting' %}active{% endif %}  ">
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path|path_endswith:'/operator/waiting' %}active{% endif %}  ">
                     <div>
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
                     </div>
                     <h6>Kutmoqda</h6>
                 </a>
                 <a style="height: 13%" href="{% url 'operator' 'archived' %}"
-                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator/archived' %}active{% endif %}  ">
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path|path_endswith:'/operator/archived' %}active{% endif %}  ">
                     <div>
                         <i class="fa fa-archive" aria-hidden="true"></i>
                     </div>
                     <h6>Arxivlandi</h6>
                 </a>
                 <a style="height: 13%" href="{% url 'operator' 'broken' %}"
-                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator/broken' %}active{% endif %}  ">
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path|path_endswith:'/operator/broken' %}active{% endif %}  ">
                     <div>
                         <i class="fa fa-chain-broken" aria-hidden="true"></i>
                     </div>
                     <h6>Nosoz, bekor qilindi</h6>
                 </a>
                 <a style="height: 13%" href="{% url 'operator' 'delivered' %}"
-                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator/delivered' %}active{% endif %}  ">
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path|path_endswith:'/operator/delivered' %}active{% endif %}  ">
                     <div>
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                     </div>
                     <h6>Yetkazib berildi</h6>
                 </a>
                 <a style="height: 13%" href="{% url 'operator' 'returned' %}"
-                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator/returned' %}active{% endif %}  ">
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path|path_endswith:'/operator/returned' %}active{% endif %}  ">
                     <div>
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                     </div>
                     <h6>Qaytib keldi</h6>
                 </a>
                 <a style="height: 13%" href="{% url 'operator' 'canceled' %}"
-                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator/canceled' %}active{% endif %}  ">
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path|path_endswith:'/operator/canceled' %}active{% endif %}  ">
                     <div>
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                     </div>
                     <h6>Bekor qilindi</h6>
                 </a>
                 <a style="height: 13%" href="{% url 'operator' 'all' %}"
-                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path == '/operator/all' %}active{% endif %}  ">
+                   class="btn btn-primary list-group-item text-dark mt-1 {% if request.path|path_endswith:'/operator/all' %}active{% endif %}  ">
                     <div>
                         <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                     </div>
@@ -146,8 +146,8 @@
                 {% for order in orders %}
                     {% if order.status == order.Status.READY_TO_DELIVER %}
                         <form method="POST" action="/operator/currier_page">
-{#                            <input type="hidden" name="csrfmiddlewaretoken"#}
-{#                                   value="dCUQoFnokF9rLRrGFdmdwAYC83zRAG6rcSVev8q9AAeT96elf7XlYUICLAbyEIPH">#}
+                            {#                            <input type="hidden" name="csrfmiddlewaretoken"#}
+                            {#                                   value="dCUQoFnokF9rLRrGFdmdwAYC83zRAG6rcSVev8q9AAeT96elf7XlYUICLAbyEIPH">#}
 
 
                             <input class="btn btn-primary" type="submit" value="Kuryer" style="margin-top: 10px;">

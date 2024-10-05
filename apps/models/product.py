@@ -1,5 +1,5 @@
 from django.db.models import PositiveIntegerField, ImageField, CharField, ForeignKey, CASCADE, TextChoices, TextField, \
-    DateTimeField
+    DateTimeField, BooleanField
 from django.utils.translation import gettext_lazy as _
 from django_ckeditor_5.fields import CKEditor5Field
 
@@ -46,6 +46,7 @@ class Order(TimeBasedModel):
     comment = TextField(verbose_name=_('Comment'), null=True, blank=True)
     address = CharField(_('Address'), max_length=255, null=True, blank=True)
     send_date = DateTimeField(verbose_name=_('Send date'), blank=True, null=True)
+    is_product_fee_added = BooleanField(verbose_name=_('Is product fee added'), null=True, blank=True, default=False)
 
     class Meta:
         verbose_name = _('Order')

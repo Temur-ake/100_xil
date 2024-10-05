@@ -5,7 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, Form, CharField
 
-from apps.models import User, Order, Stream, Product
+from apps.models import User, Order, Stream, Product, Transaction, SiteSettings
 
 
 class OrderModelForm(ModelForm):
@@ -72,12 +72,12 @@ class LoginRegisterModelForm(Form):
 
     def clean(self):
         cleaned_data = super().clean()
+        if ('phone' or 'password') not in cleaned_data.keys():
+            raise ValidationError('Phone and password cannot be blank')
         password = cleaned_data.get('password')
-        phone: str = re.sub(r'[^\d]', '', self.cleaned_data.get('phone'))
+        phone: str = re.sub(r'[^\d]', '', cleaned_data.get('phone'))
         if len(phone) != 12 or not phone.startswith('998'):
             raise ValidationError('Incorrect password or phone number')
-        if not phone or not password:
-            raise ValidationError('Phone and password cannot be blank')
         phone = phone[-9:]
         user, created = User.objects.get_or_create(phone=phone[-9:])
         if created:
@@ -87,7 +87,7 @@ class LoginRegisterModelForm(Form):
         user = authenticate(phone=phone, password=password)
 
         if user is None:
-            raise ValidationError('Password xato')
+            raise ValidationError('Password incorrect')
         self._cache_user = user
         return cleaned_data
 
@@ -122,3 +122,27 @@ class CustomAdminAuthenticationForm(AuthenticationForm):
         if len(username) > 9:
             username = username[-9:]
         return username
+
+
+class TransactionModelForm(ModelForm):
+    class Meta:
+        model = Transaction
+        fields = 'card_number', 'amount', 'owner'
+
+    def clean(self):
+        cleaned_data = super().clean()
+        amount = self.cleaned_data.get('amount')
+        card_number = self.cleaned_data.get('card_number')
+        owner = self.cleaned_data.get('owner')
+        _user = User.objects.filter(id=owner.pk)
+        user_balance = _user.values_list('balance', flat=True)[0]
+        min_balance_amount = SiteSettings.objects.all().values_list('min_balance_amount', flat=True).first()
+        if len(card_number) < 16 or not card_number.isdigit():
+            raise ValidationError('Invalid card number')
+        elif amount < min_balance_amount:
+            raise ValidationError(f'Minimal amount of money for withdraw {min_balance_amount} ')
+        elif amount > user_balance:
+            raise ValidationError(f'Exceed limit your balance: {user_balance} ')
+        _user.update(balance=(user_balance - amount))
+        Transaction.objects.create(**cleaned_data)
+        return cleaned_data
