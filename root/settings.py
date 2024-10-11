@@ -22,7 +22,8 @@ INSTALLED_APPS = [
     'apps.apps.AppsConfig',
     'django_ckeditor_5',
     "debug_toolbar",
-    'django.contrib.humanize'
+    'django.contrib.humanize',
+    'rosetta'
 ]
 
 INTERNAL_IPS = [
@@ -114,7 +115,9 @@ LANG_INFO = dict(django.conf.locale.LANG_INFO, **EXTRA_LANG_INFO)
 django.conf.locale.LANG_INFO = LANG_INFO
 
 global_settings.LANGUAGES = global_settings.LANGUAGES + (["oz", "O'zbek"])
-LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -130,6 +133,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGOUT_REDIRECT_URL = 'main-page'
 LOGIN_URL = '/login'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ROSETTA_STORAGE_CLASS = 'rosetta.storage.CacheRosettaStorage'
 
 customColorPalette = [
     {

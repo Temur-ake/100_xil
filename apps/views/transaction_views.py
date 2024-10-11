@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q, Sum
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, FormView
@@ -19,7 +20,9 @@ class PaymentListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(object_list=object_list, **kwargs)
+        qs = self.get_queryset()
         ctx['min_balance'] = SiteSettings.objects.values_list('min_balance_amount', flat=True).first()
+        ctx['completed_balance'] = qs.aggregate(sum=Sum('amount', filter=Q(owner=self.request.user) & Q(is_payed=True)))
         return ctx
 
 

@@ -3,6 +3,7 @@ import re
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
+from django.db.models import Q, Sum
 from django.forms import ModelForm, Form, CharField
 
 from apps.models import User, Order, Stream, Product, Transaction, SiteSettings
@@ -16,7 +17,7 @@ class OrderModelForm(ModelForm):
     def clean_phone(self):
         phone: str = re.sub(r'[^\d]', '', self.cleaned_data.get('phone'))
         if len(phone) != 12 or not phone.startswith('998'):
-            raise ValidationError('Incorrect phone number')
+            raise ValidationError(_('Incorrect phone number'))
         phone = phone[-9:]
         return phone
 
@@ -132,17 +133,21 @@ class TransactionModelForm(ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         amount = self.cleaned_data.get('amount')
-        card_number = self.cleaned_data.get('card_number')
+        card_number = re.sub(r'[^\d]', '', self.cleaned_data.get('card_number'))
         owner = self.cleaned_data.get('owner')
         _user = User.objects.filter(id=owner.pk)
         user_balance = _user.values_list('balance', flat=True)[0]
         min_balance_amount = SiteSettings.objects.all().values_list('min_balance_amount', flat=True).first()
+        limit_of_requests = Transaction.objects.aggregate(sum=Sum('amount', filter=Q(owner=owner) & Q(is_payed=False)))
         if len(card_number) < 16 or not card_number.isdigit():
             raise ValidationError('Invalid card number')
         elif amount < min_balance_amount:
             raise ValidationError(f'Minimal amount of money for withdraw {min_balance_amount} ')
-        elif amount > user_balance:
-            raise ValidationError(f'Exceed limit your balance: {user_balance} ')
-        _user.update(balance=(user_balance - amount))
+        elif amount > user_balance or (
+                limit_of_requests.get('sum') and (limit_of_requests.get('sum') + amount) > user_balance):
+            raise ValidationError(
+                f'''
+                Exceed limit your balance: {''.join([f"{v} " if k % 3 == 0 else f"{v}" for k, v in enumerate(str(user_balance))])}
+                ''')
         Transaction.objects.create(**cleaned_data)
         return cleaned_data

@@ -17,8 +17,8 @@
                                 <h5>Mening hisobim</h5>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">Asosiy balansda: {{ user.balance }} so'm</h5>
-                                <h5 class="card-title">To'lab berildi: 0 so'm</h5>
+                                <h5 class="card-title">Asosiy balansda: {{ user.balance|intcomma }} so'm</h5>
+                                <h5 class="card-title">To'lab berildi: {{ completed_balance.sum|intcomma }} so'm</h5>
                                 <h5 class="card-title">Minimal o'tkazma summasi: {{ min_balance|intcomma }} so'm</h5>
                             </div>
                         </div>
@@ -33,11 +33,11 @@
                                     {% for message in messages %}
                                         {% if message.message|custom_startswith:'Successfully' %}
                                             <div class="alert alert-success">
-                                                {{ message }}
+                                                <p style="font-size: small">{{ message }}</p>
                                             </div>
                                         {% else %}
                                             <div class="alert alert-danger">
-                                                {{ message }}
+                                                <p style="font-size: small">{{ message }}</p>
                                             </div>
                                         {% endif %}
 
@@ -61,8 +61,8 @@
                                         <div class="form-group">
                                             Karta raqami
                                             <input type="text" name="card_number" class="form-control"
-                                                   placeholder="Karta raqamini kiriting" maxlength="16"
-                                                   required="" id="id_card_number">
+                                                   placeholder="Karta raqamini kiriting" maxlength="19" required=""
+                                                   id="id_card_number" oninput="formatCardNumber(this)">
                                             <div data-lastpass-icon-root=""
                                                  style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;">
                                             </div>
@@ -128,4 +128,16 @@
             </div>
         </div>
     </div>
+    <script>
+        function formatCardNumber(input) {
+            // Remove all non-digit characters
+            const cardNumber = input.value.replace(/\D/g, '');
+
+            // Split the card number into groups of 4 digits
+            const formattedCardNumber = cardNumber.replace(/(.{4})/g, '$1 ').trim();
+
+            // Update the input value
+            input.value = formattedCardNumber;
+        }
+    </script>
 {% endblock %}

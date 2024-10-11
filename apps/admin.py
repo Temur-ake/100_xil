@@ -10,7 +10,7 @@ from apps.forms import CustomAdminAuthenticationForm
 admin.site.login_form = CustomAdminAuthenticationForm
 
 from apps.models import Category, SiteSettings, AdminUserProxy, OperatorUserProxy, Order, Product, User, Concurs, \
-    Operator, Transaction
+    Operator, Transaction, Currier
 from apps.models.proxy import CustomerUserProxy, CurrierUserProxy, NewOrderProxy, ArchivedOrderProxy, \
     ReadyToDeliverOrderProxy, DeliveringOrderProxy, DeliveredOrderProxy, BrokenOrderProxy, ReturnedOrderProxy, \
     CanceledOrderProxy, WaitingOrderProxy
@@ -87,7 +87,7 @@ class CustomUserAdmin(UserAdmin):
         js = (
             "https://code.jquery.com/jquery-3.6.0.min.js",
             "https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js",
-            'apps/js/custom.js'
+            'apps/js/currier_custom.js'
         )
 
     def save_model(self, request, obj, form, change):
@@ -98,6 +98,13 @@ class CustomUserAdmin(UserAdmin):
 class CustomModelAdmin(ModelAdmin):
     list_display = ['phone']
     ordering = ['phone']
+
+    class Media:
+        js = (
+            "https://code.jquery.com/jquery-3.6.0.min.js",
+            "https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js",
+            'apps/js/custom.js'
+        )
 
 
 @admin.register(Category)
@@ -119,8 +126,45 @@ class ProductModelAdmin(ModelAdmin):
 
 
 @admin.register(User)
-class UserModelAdmin(CustomUserAdmin):
+class UserModelAdmin(UserAdmin):
     list_display = 'phone', 'first_name', 'last_name', 'type'
+
+    fieldsets = (
+        (None, {"fields": ("phone", "password")}),
+        (_("Personal info"), {"fields": ("first_name", "last_name")}),
+        (
+            _("Permissions"),
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                ),
+            },
+        ),
+        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+    )
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": ('phone', "usable_password", "password1", "password2"),
+            },
+        ),
+    )
+
+    ordering = ['phone']
+    list_display = ['phone']
+
+    class Media:
+        js = (
+            "https://code.jquery.com/jquery-3.6.0.min.js",
+            "https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js",
+            'apps/js/custom.js'
+        )
 
 
 @admin.register(AdminUserProxy)
@@ -131,6 +175,10 @@ class AdminUserProxyModelAdmin(CustomUserAdmin):
 
 class OperatorStackedInline(StackedInline):
     model = Operator
+
+
+class CurrierStackedInline(StackedInline):
+    model = Currier
 
 
 @admin.register(OperatorUserProxy)
@@ -149,58 +197,78 @@ class CustomerUserProxyModelAdmin(CustomUserAdmin):
 @admin.register(CurrierUserProxy)
 class CurrierUserProxyModelAdmin(CustomUserAdmin):
     list_display = 'phone', 'first_name', 'last_name', 'type'
+    inlines = [CurrierStackedInline]
     _type = User.Type.CURRIER
 
 
 @admin.register(Order)
 class OrderModelAdmin(CustomModelAdmin):
-    list_display = 'quantity', 'status', 'phone', 'product', 'owner', 'operator', 'currier', 'address'
+    list_display = 'id', 'quantity', 'status', 'phone', 'product', 'owner', 'operator', 'currier', 'address', 'stream'
     list_display_links = 'status',
     list_filter = 'id', 'phone'
 
+
 @admin.register(NewOrderProxy)
-class NewOrderProxyModelAdmin(CustomModelAdmin):
-    pass
+class NewOrderProxyModelAdmin(OrderModelAdmin):
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(status=Order.Status.NEW)
 
 
 @admin.register(ArchivedOrderProxy)
-class ArchivedOrderProxyModelAdmin(CustomModelAdmin):
-    pass
+class ArchivedOrderProxyModelAdmin(OrderModelAdmin):
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(status=Order.Status.ARCHIVED)
 
 
 @admin.register(ReadyToDeliverOrderProxy)
-class ReadyToDeliverOrderProxyModelAdmin(CustomModelAdmin):
-    pass
+class ReadyToDeliverOrderProxyModelAdmin(OrderModelAdmin):
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(status=Order.Status.READY_TO_DELIVER)
 
 
 @admin.register(DeliveringOrderProxy)
-class DeliveringOrderProxyModelAdmin(CustomModelAdmin):
-    pass
+class DeliveringOrderProxyModelAdmin(OrderModelAdmin):
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(status=Order.Status.DELIVERING)
 
 
 @admin.register(DeliveredOrderProxy)
-class DeliveredOrderProxyModelAdmin(CustomModelAdmin):
-    pass
+class DeliveredOrderProxyModelAdmin(OrderModelAdmin):
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(status=Order.Status.DELIVERED)
 
 
 @admin.register(BrokenOrderProxy)
-class BrokenOrderProxyModelAdmin(CustomModelAdmin):
-    pass
+class BrokenOrderProxyModelAdmin(OrderModelAdmin):
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(status=Order.Status.BROKEN)
 
 
 @admin.register(ReturnedOrderProxy)
-class ReturnedOrderProxyModelAdmin(CustomModelAdmin):
-    pass
+class ReturnedOrderProxyModelAdmin(OrderModelAdmin):
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(status=Order.Status.RETURNED)
 
 
 @admin.register(CanceledOrderProxy)
-class CanceledOrderProxyModelAdmin(CustomModelAdmin):
-    pass
+class CanceledOrderProxyModelAdmin(OrderModelAdmin):
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(status=Order.Status.CANCELED)
 
 
 @admin.register(WaitingOrderProxy)
-class WaitingOrderProxyModelAdmin(CustomModelAdmin):
-    pass
+class WaitingOrderProxyModelAdmin(OrderModelAdmin):
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(status=Order.Status.WAITING)
 
 
 @admin.register(SiteSettings)

@@ -1,0 +1,7 @@
+{% extends "admin/change_form.html" %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <input type="hidden" id="get-districts-url" value="{% url 'get_districts_by_region' '0' %}">
+    <input type="hidden" id="translation-data" data-select="{{ _('Select') }}">
+{% endblock %}

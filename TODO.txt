@@ -34,7 +34,6 @@ for 24.09.2024 tasks
 2. adminkada modellarni berilgan tartibda bolishi ()🟢
 3. adminkaga kirishda nomerni chiroyli qilish🟢
 4. klient qoshishda (nomer kiritadigan joyi chiroyli bolishi kk) (db da 901001010 formatda saqlanishi kk)🟢
-5. adminkada balance report degan bolim ochish (user ni har bir type boyicha balance lari korsatilsin)
 6. http://localhost:8000/category?page=2 search qiligandan keyin pagenation ni ishlatish🟢
 7. konkurs larni amdinkadan qoshish imkoniyati bolishi kk🟢
 8. operator ni ... dan ... gacha ishlash vaqti va passport seriasini alohida field qoshish kk [Stackedinline]🟢
@@ -44,9 +43,18 @@ for 24.09.2024 tasks
 12. konkursda adminlardan tashqarilarni hisoblash kk🟢
 
 
-
 # Sveji
 13.Delivered bir marta qo'shilishi kerak user balance ga🟢
 14. Stream detal bilan Product detail bitta🟢
 15 Kiril harfliy product ham qo'shsin🟢
 16. Buyurtmalarga nomer yoki id bo'uicha filter qilish🟢
+17.qabul qilishda # ID si chiqib qolsin🟢
+18.APPS -> rename (Buyurtmalar bo'limi)🟢
+19.To'lab berildi: 732,222 so'm ni ORM ishlatib hisoblash🟢
+20.To'lovga sorov berish formasi optimisation🟢
+21.Card numberni chiroyliy qilish🟢
+22.Rosetta kirilchani, o'zbekchani, ruschani to'g'irlash 🏃 (default keyword larni translate qilish django admin)
+23.Operator gaplashish hisoboti (mothly, weekly) (statistic)
+24.Adminkada region va districtni to'g'irlash🟢
+25.modellarni orderlarga va userlar bolimiga ajratish (app in bo'lmasdan)
+26.Currier modelga stackedinline qilib region district🟢

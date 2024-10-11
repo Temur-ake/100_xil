@@ -146,22 +146,15 @@
                 {% for order in orders %}
                     {% if order.status == order.Status.READY_TO_DELIVER %}
                         <form method="POST" action="/operator/currier_page">
-                            {#                            <input type="hidden" name="csrfmiddlewaretoken"#}
-                            {#                                   value="dCUQoFnokF9rLRrGFdmdwAYC83zRAG6rcSVev8q9AAeT96elf7XlYUICLAbyEIPH">#}
-
-
                             <input class="btn btn-primary" type="submit" value="Kuryer" style="margin-top: 10px;">
-
-
                             <input type="checkbox" onClick="toggle(this)"/> Toggle All<br/>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="orders" value="2130470"
                                        id="order-1">
                                 <div class="card border-dark mt-5">
-                <span style="position: absolute; right: 0px; border: 1px solid chartreuse; background: chartreuse; padding: 15px; font-size: 26px; font-weight: 700;">
-                    #
-                    722
-                </span>
+                                    {% if order.operator %}
+                                        <span style="position: absolute; right: 0px; border: 1px solid chartreuse; background: chartreuse; padding: 15px; font-size: 26px; font-weight: 700;">#{{ order.operator.id }}</span>
+                                    {% endif %}
                                     <div class="card-body">
                                         <h2 class="card-title">{{ order.product.name }} - {{ order.product.price }}
                                             so'm</h2>
@@ -177,8 +170,18 @@
                                             <li class="">Holati: {{ order.get_status_display }}</li>
                                         </ul>
 
-                                        <a href="{% url 'operator-order-detail' order.pk %}" class="btn btn-primary">Holatini
-                                            o'zgartirish</a>
+                                        {% if order.operator and order.operator.pk != user.pk %}
+                                            <a href="{% url 'operator-order-detail' order.pk %}" class="btn btn-primary"
+                                               onclick="return false;">
+                                                Holatini o'zgartirish
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'operator-order-detail' order.pk %}"
+                                               class="btn btn-primary">
+                                                Holatini o'zgartirish
+                                            </a>
+                                        {% endif %}
+
 
                                     </div>
                                 </div>
@@ -186,6 +189,9 @@
                         </form>
                     {% else %}
                         <div class="card border-dark mt-5">
+                            {% if order.operator %}
+                                <span style="position: absolute; right: 0px; border: 1px solid chartreuse; background: chartreuse; padding: 15px; font-size: 26px; font-weight: 700;">#{{ order.operator.id }}</span>
+                            {% endif %}
                             <div class="card-body">
                                 <h2 class="card-title">{{ order.product.name }} - {{ order.product.price }} so'm</h2>
                                 <h3 class="card-title text-danger">ZAKAZ ID: #{{ order.id }}</h3>
@@ -200,16 +206,33 @@
                                     <li class="">Holati: {{ order.get_status_display }}</li>
                                 </ul>
                                 {% if order.status == order.Status.DELIVERING %}
-                                    <a href="{% url 'operator-order-detail' order.pk %}" class="btn btn-primary">
-                                        Holatini o'zgartirish
-                                    </a>
+                                    {% if order.operator and order.operator.pk != user.pk %}
+                                        <a href="{% url 'operator-order-detail' order.pk %}" class="btn btn-primary"
+                                           onclick="return false;">
+                                            Holatini o'zgartirish
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'operator-order-detail' order.pk %}"
+                                           class="btn btn-primary">
+                                            Holatini o'zgartirish
+                                        </a>
+                                    {% endif %}
+
+
                                     <a href="/order-spam/2130451" class="btn btn-primary"
                                        style="background: red; border-color: red; float: right;">Spam</a>
                                 {% else %}
-                                    <a href="{% url 'operator-order-detail' order.pk %}" class="btn btn-primary"
-                                       style="float: left; margin-right: 10px;">
-                                        Qabul qilish
-                                    </a>
+                                    {% if order.operator and order.operator.pk != user.pk %}
+                                        <a href="{% url 'operator-order-detail' order.pk %}" class="btn btn-primary"
+                                           onclick="return false;" style="float: left; margin-right: 10px;">
+                                            Qabul qilish
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'operator-order-detail' order.pk %}" class="btn btn-primary"
+                                           style="float: left; margin-right: 10px;">
+                                            Qabul qilish
+                                        </a>
+                                    {% endif %}
                                     <form action="/operator/new/hold" method="post">
                                         <input type="hidden" name="csrfmiddlewaretoken"
                                                value="crSpOAirdc41jWUNf1Tjhc158lpX2fZVbHTNV3lct79tHbHsPVurJwL5LS1E6hIb">

@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, FormView
 
@@ -39,23 +39,27 @@ class ProductListView(ListView):
 
 
 class ProductStreamDetail(DetailView, FormView):
+    queryset = Product.objects.all()
     template_name = 'apps/product/product_detail.html'
     form_class = OrderModelForm
     success_url = reverse_lazy('order-detail')
-
-    def get_queryset(self):
-        if self.kwargs.get('slug'):
-            return Product.objects.all()
-        elif self.kwargs.get('pk'):
-            return Stream.objects.all()
-        return super().get_queryset()
+    context_object_name = 'product'
 
     def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
-        if isinstance(obj, Stream):
-            obj.visit_count += 1
-            obj.save()
-        return obj
+        self._stream_discount = 0
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        if pk is not None:
+            stream = get_object_or_404(Stream, pk=pk)
+            stream.visit_count += 1
+            self._stream_discount = -stream.discount
+            stream.save()
+            return stream.product
+        return super().get_object(queryset)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['discount'] = self._stream_discount
+        return ctx
 
     def form_valid(self, form):
         order = form.save()

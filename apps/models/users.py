@@ -12,7 +12,7 @@ from apps.models.managers import CustomUserManager
 class User(AbstractUser):
     class Type(TextChoices):
         ADMIN = 'admin', 'Admin'
-        CUSTOMER = 'customer', 'Customer'
+        CUSTOMER = 'customer', _('Customer')
         OPERATOR = 'operator', 'Operator'
         CURRIER = 'currier', 'Currier'
 
@@ -39,7 +39,7 @@ class User(AbstractUser):
             self.phone = self.phone[-9:]
 
         if len(self.phone) != 9:
-            raise ValidationError('Nomer xatoku')
+            raise ValidationError(_('Incorrect phone number'))
 
         return super().clean_fields(exclude)
 
@@ -59,6 +59,15 @@ class Operator(Model):
 
     def __str__(self):
         return f"{self.user.username} - Operator"
+
+
+class Currier(Model):
+    user = OneToOneField('apps.User', CASCADE, limit_choices_to={'type': User.Type.CURRIER})
+    region = ForeignKey('apps.Region', CASCADE, verbose_name=_('Region'))
+    district = ForeignKey('apps.District', CASCADE, verbose_name=_('District'))
+
+    def __str__(self):
+        return f"{self.user.username} - Currier"
 
 
 class Region(Model):

@@ -1,14 +1,15 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from apps.models import Order
+from apps.models import Transaction
 
 
-@receiver(post_save, sender=Order)
-def update_balance_on_delivery(sender, instance: Order, **kwargs):
-    if instance.stream and instance.status == Order.Status.DELIVERED and not instance.is_product_fee_added:
-        stream_owner = instance.stream.owner
-        stream_owner.balance += instance.product.product_fee
-        instance.is_product_fee_added = True
+@receiver(post_save, sender=Transaction)
+def subtract_from_user_balance(sender, instance: Transaction, **kwargs):
+    if instance.status == Transaction.Status.COMPLETED and not instance.is_payed:
+        transaction_owner = instance.owner
+        transaction_owner.balance -= instance.amount
+        transaction_owner.completed_balance += instance.amount
+        instance.is_payed = True
         instance.save()
-        stream_owner.save()
+        transaction_owner.save()

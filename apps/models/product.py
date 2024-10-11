@@ -1,3 +1,6 @@
+import re
+
+from django.core.exceptions import ValidationError
 from django.db.models import PositiveIntegerField, ImageField, CharField, ForeignKey, CASCADE, TextChoices, TextField, \
     DateTimeField, BooleanField
 from django.utils.translation import gettext_lazy as _
@@ -39,14 +42,33 @@ class Order(TimeBasedModel):
     stream = ForeignKey('apps.Stream', CASCADE, null=True, blank=True, related_name='orders', verbose_name=_('Stream'))
     product = ForeignKey('apps.Product', CASCADE, related_name='orders', verbose_name=_('Product'))
     owner = ForeignKey('apps.User', CASCADE, null=True, blank=True, verbose_name=_('Owner'))
-    operator = ForeignKey('apps.User', CASCADE, limit_choices_to={'type': 'operator'}, null=True, blank=True, related_name='operator_orders', verbose_name=_('Operator'))
-    currier = ForeignKey('apps.User', CASCADE, limit_choices_to={'type': 'currier'}, null=True, blank=True, related_name='currier_orders', verbose_name=_('Currier'))
+    operator = ForeignKey('apps.User', CASCADE, limit_choices_to={'type': 'operator'}, null=True, blank=True,
+                          related_name='operator_orders', verbose_name=_('Operator'))
+    currier = ForeignKey('apps.User', CASCADE, limit_choices_to={'type': 'currier'}, null=True, blank=True,
+                         related_name='currier_orders', verbose_name=_('Currier'))
     region = ForeignKey('apps.Region', CASCADE, null=True, blank=True, verbose_name=_('Region'))
     district = ForeignKey('apps.District', CASCADE, null=True, blank=True, verbose_name=_('District'))
     comment = TextField(verbose_name=_('Comment'), null=True, blank=True)
     address = CharField(_('Address'), max_length=255, null=True, blank=True)
     send_date = DateTimeField(verbose_name=_('Send date'), blank=True, null=True)
     is_product_fee_added = BooleanField(verbose_name=_('Is product fee added'), null=True, blank=True, default=False)
+
+    def clean_fields(self, exclude=None):
+        self.phone = re.sub(r'[^\d]', '', self.phone)
+        if len(self.phone) > 9:
+            self.phone = self.phone[-9:]
+        if len(self.phone) != 9:
+            raise ValidationError(_('Incorrect phone number'))
+        return super().clean_fields(exclude)
+
+    def save(self, *args, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self.stream and self.status == Order.Status.DELIVERED and not self.is_product_fee_added:
+            stream_owner = self.stream.owner
+            stream_owner.balance += self.product.product_fee
+            self.is_product_fee_added = True
+            stream_owner.save()
+        super().save(*args, force_insert=force_insert, force_update=force_update, using=using,
+                     update_fields=update_fields)
 
     class Meta:
         verbose_name = _('Order')

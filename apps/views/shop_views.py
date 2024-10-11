@@ -14,9 +14,6 @@ from apps.forms import StreamModelForm, \
 from apps.models import User, Category, Product, Region, Order, Stream, SiteSettings, District, Concurs
 
 
-
-
-
 class MyOrdersTemplateView(TemplateView):
     template_name = 'apps/orders/my_orders.html'
 
@@ -182,12 +179,12 @@ class AdminPageTemplateView(TemplateView):
     template_name = 'apps/users/admin_page.html'
 
 
-class OrderListView(ListView):
-    queryset = Order.objects.order_by('-created_at')
+class OrderListView(LoginRequiredMixin, ListView):
+    queryset = Order.objects.order_by('created_at')
     template_name = 'apps/users/operator.html'
     context_object_name = 'orders'
     paginate_by = 10
-
+    
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(object_list=object_list, **kwargs)
         status = self.kwargs.get('status', 'new')
@@ -220,7 +217,7 @@ class OrderListView(ListView):
         return qs
 
 
-class OperatorOrderDetail(UpdateView):
+class OperatorOrderDetail(LoginRequiredMixin, UpdateView):
     queryset = Order.objects.all()
     form_class = OrderUpdateModelFormView
     template_name = 'apps/orders/operator_change_condition.html'
@@ -238,7 +235,7 @@ class OperatorOrderDetail(UpdateView):
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         session_operator = self.request.user
-        if obj.status == Order.Status.NEW:
+        if not obj.operator:
             obj.operator = session_operator
             obj.save()
         return obj
