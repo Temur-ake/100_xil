@@ -65,9 +65,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         // When the region (Viloyat) is selected
-        $('#region-select').change(function() {
+        $('#region-select').change(function () {
             var regionId = $(this).val();  // Get selected region value
 
             // Clear the district dropdown
@@ -80,10 +80,10 @@
                     data: {
                         'region_id': regionId
                     },
-                    success: function(data) {
+                    success: function (data) {
                         // Populate the district dropdown with the response
                         $('#district-select').append('<option value="">Select District</option>');
-                        data.districts.forEach(function(district) {
+                        data.districts.forEach(function (district) {
                             $('#district-select').append('<option value="' + district.id + '">' + district.name + '</option>');
                         });
                     }

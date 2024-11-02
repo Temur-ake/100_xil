@@ -8,24 +8,24 @@
         Operatorlar bo'limi
         - alijahon.uz</title>
     <link rel="stylesheet" href="{% static 'apps/assets/css/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'apps/assets/css/font-awesome.min.css' %}">
+    {#    <link rel="stylesheet" href="{% static 'apps/assets/css/font-awesome.min.css' %}">#}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.css" rel="stylesheet">
     <style>
         select {
             width: 100%;
         }
-    </style>
 
+    </style>
 </head>
 <body>
 <div>
     <nav class="navbar navbar-dark bg-dark text-white" style="height: 10%;">
-
-        <div style="margin-left: 15px;"><a href="/operator/prodcut_add">Zakaz + </a></div>
+        <div style="margin-left: 15px;"><a href="{% url 'operator_product_add' %}">Zakaz + </a></div>
 
 
         <div>Buyurtmalar</div>
-        <h4>ID: 721 </h4>
+        <h4>ID: {{ user.id }} </h4>
         <a href="{% url 'admin_page' %}" class="btn btn-danger btn-sm">Asosiy panel</a>
     </nav>
     <div class="row">
@@ -106,72 +106,192 @@
         <div class="col-md-10" style="margin-left: 16%;">
 
             <div class="bg-light w-75 m-auto mt-5">
-                <form method="GET">
-                    <div>
-                        <p>
-                            <label for="id_product">Mahsulot:</label>
-                            <select name="product" id="id_product" multiple>
-                                {% for product in products %}
-                                    <option value="{{ product.id }}">{{ product.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </p>
-                        <p>
+                {% if request.path|path_endswith:'operator/product-add' %}
+                    <div class="form-container">
+                        <form action="{% url 'operator_product_add' %}" method="post">
+                            {% csrf_token %}
+                            <label for="name">Ism Familiyasi:</label>
+                            <br>
+                            <input type="text" id="name" name="full_name" placeholder="Ism Familiyasi">
+                            <br>
+                            <br>
                             <label for="id_region">Viloyat:</label>
-                            <select name="region" id="id_region" multiple>
+                            <br>
+                            <select id="id_region" name="region">
+                                <option value="Samarqand">Viloyatni tanlang</option>
                                 {% for region in regions %}
                                     <option value="{{ region.id }}">
                                         {{ region.name }}
                                     </option>
                                 {% endfor %}
                             </select>
-                        </p>
-                        <p>
-                            <label for="id_district">Tuman:</label>
-                            <select name="district" id="id_district" multiple>
-                                {% for district in districts %}
-                                    <option value="{{ district.id }}">{{ district.name }}</option>
+                            <br>
+                            <br>
+                            <label for="id_district">Tumani:</label>
+                            <br>
+                            <select id="id_district" name="district">
+                                <option value="">Tanlang</option>
+                                <!-- Add more districts as needed -->
+                            </select>
+                            <br>
+                            <br>
+                            <label for="quantity">Soni:</label>
+                            <br>
+                            <input type="number" id="quantity" name="quantity" value="1">
+                            <br>
+                            <br>
+                            <label for="phone">Telefon nomer:</label>
+                            <br>
+                            <input type="tel" id="phone-mask" name="phone" placeholder="+998(84) 762-38-76">
+                            <br>
+                            <br>
+                            <label for="product">Mahsulot:</label>
+                            <br>
+                            <select id="product" name="product">
+                                <option value="">Maxsulotni tanlang</option>
+                                {% for product in all_products %}
+                                    <option value="{{ product.id }}">
+                                        {{ product.name }}
+                                    </option>
                                 {% endfor %}
                             </select>
-                        </p>
-                        <p>
-                            <label for="id_name">Mahsulot nomi:</label>
-                            <input type="text" name="name" id="id_name">
-                        </p>
+                            <br>
+                            <br>
+                            <button type="submit">Mahsulot qo'shish</button>
+                        </form>
                     </div>
-                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                    <input class="btn btn-primary" type="submit" value="Saqlash">
-                </form>
-
-                {% for order in orders %}
+                {% else %}
+                    <form method="GET">
+                        <div>
+                            <p>
+                                <label for="id_product">Mahsulot:</label>
+                                <select name="product" id="id_product" multiple>
+                                    {% for product in products %}
+                                        <option value="{{ product.id }}">{{ product.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </p>
+                            <p>
+                                <label for="id_region">Viloyat:</label>
+                                <select name="region" id="id_region" multiple>
+                                    {% for region in regions %}
+                                        <option value="{{ region.id }}">
+                                            {{ region.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </p>
+                            <p>
+                                <label for="id_district">Tuman:</label>
+                                <select name="district" id="id_district" multiple>
+                                    {% for district in districts %}
+                                        <option value="{{ district.id }}">{{ district.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </p>
+                            <p>
+                                <label for="id_name">Mahsulot nomi:</label>
+                                <input type="text" name="name" id="id_name">
+                            </p>
+                        </div>
+                        <input class="btn btn-primary" type="submit" value="Saqlash">
+                    </form>
                     {% if order.status == order.Status.READY_TO_DELIVER %}
-                        <form method="POST" action="/operator/currier_page">
+                        <form method="get" action="{% url 'currier_list' %}">
                             <input class="btn btn-primary" type="submit" value="Kuryer" style="margin-top: 10px;">
                             <input type="checkbox" onClick="toggle(this)"/> Toggle All<br/>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="orders" value="2130470"
-                                       id="order-1">
-                                <div class="card border-dark mt-5">
-                                    {% if order.operator %}
-                                        <span style="position: absolute; right: 0px; border: 1px solid chartreuse; background: chartreuse; padding: 15px; font-size: 26px; font-weight: 700;">#{{ order.operator.id }}</span>
-                                    {% endif %}
-                                    <div class="card-body">
-                                        <h2 class="card-title">{{ order.product.name }} - {{ order.product.price }}
-                                            so'm</h2>
-                                        <ul class="text-muted">
-                                            <li class="">Reklama tarqatuvchi ID: uzim</li>
-                                            <li class="">Client: test - +9989XXXXXXXX</li>
-                                            <li class="">Address: {{ order.address|default:"hozircha aniq emas" }} </li>
-                                            <li class="">Narxi: {{ order.product.price }} so'm</li>
-                                            <li class="">Soni: {{ order.quantity }}ta</li>
-                                            <li class="">Vaqti: {{ order.created_at|date:'j - F Y H:i' }}</li>
-                                            <li class="">Yangilangan
-                                                vaqti: {{ order.updated_at|date:'j - F Y H:i' }}</li>
-                                            <li class="">Holati: {{ order.get_status_display }}</li>
-                                        </ul>
+                            {% for order in orders %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="orders" value="{{ order.id }}"
+                                           id="order-1">
+                                    <div class="card border-dark mt-5">
+                                        {% if order.operator_id %}
+                                            <span style="position: absolute; right: 0px; border: 1px solid chartreuse; background: chartreuse; padding: 15px; font-size: 26px; font-weight: 700;">#{{ order.operator_id }}</span>
+                                        {% endif %}
+                                        <div class="card-body">
+                                            <h2 class="card-title">{{ order.product.name }} - {{ order.price_ }}
+                                                so'm</h2>
+                                            <h3 class="card-title text-danger">ZAKAZ ID: #{{ order.id }}</h3>
+                                            <ul class="text-muted">
+                                                {% if order.stream %}
+                                                    <li class="">Reklama tarqatuvchi ID: {{ order.stream.pk }}</li>
+                                                {% else %}
+                                                    <li class="">Reklama tarqatuvchi ID: o'zim</li>
+                                                {% endif %}
+                                                <li class="">Client: {{ order.full_name }} - +9989XXXXXXXX</li>
+                                                <li class="">
+                                                    Address: {{ order.district|default:"hozircha aniq emas" }} </li>
+                                                {% if order.delivery_price %}
+                                                    <li class="">Narxi: {{ order.price_conclude }} so'm
+                                                        + {{ order.delivery_price }}
+                                                        so'm
+                                                    </li>
+                                                {% else %}
+                                                    <li class="">Narxi: {{ order.price_conclude }} so'm</li>
+                                                {% endif %}
+                                                <li class="">Soni: {{ order.quantity|default:1 }}ta</li>
+                                                <li class="">Vaqti: {{ order.created_at|date:'j - F Y H:i' }}</li>
+                                                <li class="">Yangilangan
+                                                    vaqti: {{ order.updated_at|date:'j - F Y H:i' }}</li>
+                                                <li class="">Holati: {{ order.get_status_display }}</li>
+                                            </ul>
 
-                                        {% if order.operator and order.operator.pk != user.pk %}
-                                            <a href="{% url 'operator-order-detail' order.pk %}" class="btn btn-primary"
+                                            {% if order.operator_id != user.pk %}
+                                                <a href="{% url 'operator-order-detail' order.pk %}"
+                                                   class="btn btn-primary"
+                                                   onclick="return false;">
+                                                    Holatini o'zgartirish
+                                                </a>
+                                            {% else %}
+                                                <a href="{% url 'operator-order-detail' order.pk %}"
+                                                   class="btn btn-primary">
+                                                    Holatini o'zgartirish
+                                                </a>
+                                            {% endif %}
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </form>
+                    {% else %}
+                        {% for order in orders %}
+                            <div class="card border-dark mt-5">
+                                {% if order.operator_id %}
+                                    <span style="position: absolute; right: 0px; border: 1px solid chartreuse; background: chartreuse; padding: 15px; font-size: 26px; font-weight: 700;">#{{ order.operator.id }}</span>
+                                {% endif %}
+                                <div class="card-body">
+                                    <h2 class="card-title">{{ order.product.name }} - {{ order.price_ }}
+                                        so'm</h2>
+                                    <h3 class="card-title text-danger">ZAKAZ ID: #{{ order.id }}</h3>
+                                    <ul class="text-muted">
+                                        {% if order.stream %}
+                                            <li class="">Reklama tarqatuvchi ID: {{ order.stream_id }}</li>
+                                        {% else %}
+                                            <li class="">Reklama tarqatuvchi ID: o'zim</li>
+                                        {% endif %}
+                                        <li class="">Client: {{ order.full_name }} - +9989XXXXXXXX</li>
+                                        <li class="">
+                                            Address: {{ order.district|default:"hozircha aniq emas" }} </li>
+                                        {% if order.delivery_price %}
+                                            <li class="">Narxi: {{ order.price_conclude }} so'm
+                                                + {{ order.delivery_price }}
+                                                so'm
+                                            </li>
+                                        {% else %}
+                                            <li class="">Narxi: {{ order.price_conclude }} so'm</li>
+                                        {% endif %}
+                                        <li class="">Soni: {{ order.quantity|default:1 }}ta</li>
+                                        <li class="">Vaqti: {{ order.created_at|date:'j - F Y H:i' }}</li>
+                                        <li class="">Yangilangan
+                                            vaqti: {{ order.updated_at|date:'j - F Y H:i' }}</li>
+                                        <li class="">Holati: {{ order.get_status_display }}</li>
+                                    </ul>
+                                    {% if order.status == order.Status.DELIVERING %}
+                                        {% if order.operator_id != user.pk %}
+                                            <a href="{% url 'operator-order-detail' order.pk %}"
+                                               class="btn btn-primary"
                                                onclick="return false;">
                                                 Holatini o'zgartirish
                                             </a>
@@ -183,98 +303,58 @@
                                         {% endif %}
 
 
-                                    </div>
+                                        <a href="/order-spam/2130451" class="btn btn-primary"
+                                           style="background: red; border-color: red; float: right;">Spam</a>
+                                    {% else %}
+                                        {% if order.operator_id != user.pk %}
+                                            <a href="{% url 'operator-order-detail' order.pk %}"
+                                               class="btn btn-primary"
+                                               onclick="return false;" style="float: left; margin-right: 10px;">
+                                                Qabul qilish
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'operator-order-detail' order.pk %}"
+                                               class="btn btn-primary"
+                                               style="float: left; margin-right: 10px;">
+                                                Qabul qilish
+                                            </a>
+                                        {% endif %}
+                                        <form action="/operator/new/hold" method="post">
+                                            <input type="hidden" name="csrfmiddlewaretoken"
+                                                   value="crSpOAirdc41jWUNf1Tjhc158lpX2fZVbHTNV3lct79tHbHsPVurJwL5LS1E6hIb">
+                                            <input type="text" hidden name="order" value="2130632">
+                                            <input class="btn btn-primary" type="submit" value="Hold"
+                                                   style="float: right; margin-right: 10px;">
+                                        </form>
+                                    {% endif %}
                                 </div>
                             </div>
-                        </form>
-                    {% else %}
-                        <div class="card border-dark mt-5">
-                            {% if order.operator %}
-                                <span style="position: absolute; right: 0px; border: 1px solid chartreuse; background: chartreuse; padding: 15px; font-size: 26px; font-weight: 700;">#{{ order.operator.id }}</span>
-                            {% endif %}
-                            <div class="card-body">
-                                <h2 class="card-title">{{ order.product.name }} - {{ order.product.price }} so'm</h2>
-                                <h3 class="card-title text-danger">ZAKAZ ID: #{{ order.id }}</h3>
-                                <ul class="text-muted">
-                                    <li class="">Reklama tarqatuvchi ID: uzim</li>
-                                    <li class="">Client: test - +9989XXXXXXXX</li>
-                                    <li class="">Address: {{ order.address|default:"hozircha aniq emas" }} </li>
-                                    <li class="">Narxi: {{ order.product.price }} so'm</li>
-                                    <li class="">Soni: {{ order.quantity }}ta</li>
-                                    <li class="">Vaqti: {{ order.created_at|date:'j - F Y H:i' }}</li>
-                                    <li class="">Yangilangan vaqti: {{ order.updated_at|date:'j - F Y H:i' }}</li>
-                                    <li class="">Holati: {{ order.get_status_display }}</li>
-                                </ul>
-                                {% if order.status == order.Status.DELIVERING %}
-                                    {% if order.operator and order.operator.pk != user.pk %}
-                                        <a href="{% url 'operator-order-detail' order.pk %}" class="btn btn-primary"
-                                           onclick="return false;">
-                                            Holatini o'zgartirish
-                                        </a>
-                                    {% else %}
-                                        <a href="{% url 'operator-order-detail' order.pk %}"
-                                           class="btn btn-primary">
-                                            Holatini o'zgartirish
-                                        </a>
-                                    {% endif %}
-
-
-                                    <a href="/order-spam/2130451" class="btn btn-primary"
-                                       style="background: red; border-color: red; float: right;">Spam</a>
-                                {% else %}
-                                    {% if order.operator and order.operator.pk != user.pk %}
-                                        <a href="{% url 'operator-order-detail' order.pk %}" class="btn btn-primary"
-                                           onclick="return false;" style="float: left; margin-right: 10px;">
-                                            Qabul qilish
-                                        </a>
-                                    {% else %}
-                                        <a href="{% url 'operator-order-detail' order.pk %}" class="btn btn-primary"
-                                           style="float: left; margin-right: 10px;">
-                                            Qabul qilish
-                                        </a>
-                                    {% endif %}
-                                    <form action="/operator/new/hold" method="post">
-                                        <input type="hidden" name="csrfmiddlewaretoken"
-                                               value="crSpOAirdc41jWUNf1Tjhc158lpX2fZVbHTNV3lct79tHbHsPVurJwL5LS1E6hIb">
-                                        <input type="text" hidden name="order" value="2130632">
-                                        <input class="btn btn-primary" type="submit" value="Hold"
-                                               style="float: right; margin-right: 10px;">
-                                    </form>
-                                {% endif %}
-                            </div>
+                        {% endfor %}
                         </div>
                     {% endif %}
-                {% endfor %}
-
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-
-                        {% include 'apps/parts/operator_pagination.html' %}
-
-                    </ul>
-                </nav>
-
-
-            </div>
-
-
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            {% include 'apps/parts/operator_pagination.html' %}
+                        </ul>
+                    </nav>
+                {% endif %}
         </div>
     </div>
 </div>
-
+</div>
 <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 <script src="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.js"></script>
-<script src="/static/app/js/regions_filter.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></script>
+<script src="https://unpkg.com/imask"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+
 <script>
-    $(function () {
-        $('select').multipleSelect({
-            multiple: true,
-            multipleWidth: 500,
-            maxHeight: 200,
-            maxHeightUnit: 50,
-            filter: true
-        })
-    })
+    $('#phone-mask').inputmask({
+        "mask": "+\\9\\98(99) 999-99-99"
+    });
+    $('#messages-modal').modal('show');
 </script>
 <script>
     function toggle(source) {

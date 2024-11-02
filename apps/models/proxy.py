@@ -13,6 +13,15 @@ class OperatorUserProxy(User):
         verbose_name_plural = _('Operators')
 
 
+class OperatorStatisticUserProxy(User):
+    objects = OperatorUserManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _('Operator Statistics')
+        verbose_name_plural = _('Operators Statistics')
+
+
 class AdminUserProxy(User):
     objects = AdminUserManager()
 

@@ -3,7 +3,7 @@ import re
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db.models import CharField, TextField, BigIntegerField, TextChoices, Model, ForeignKey, CASCADE, \
-    PositiveIntegerField, ImageField, OneToOneField, TimeField, IntegerField
+    PositiveIntegerField, ImageField, OneToOneField, TimeField, IntegerField, ManyToManyField
 from django.utils.translation import gettext_lazy as _
 
 from apps.models.managers import CustomUserManager
@@ -24,8 +24,9 @@ class User(AbstractUser):
     address = CharField(verbose_name=_('Address'), max_length=255, null=True, blank=True)
     about = TextField(verbose_name=_('About user'), null=True, blank=True)
     telegram_id = BigIntegerField(verbose_name=_('Telegram ID'), unique=True, null=True, blank=True)
-    type = CharField(verbose_name=_('Type'), max_length=15, choices=Type.choices, default=Type.CUSTOMER)
-    district = ForeignKey('apps.District', CASCADE, null=True, blank=True, verbose_name=_('District'))
+    type = CharField(verbose_name=_('Type'), max_length=200, choices=Type.choices, default=Type.CUSTOMER)
+    region = ForeignKey('apps.Region', CASCADE, verbose_name=_('Region'), null=True, blank=True)
+    district = ManyToManyField('apps.District', verbose_name=_('District'))
     balance = IntegerField(verbose_name=_('Balance'), null=True, blank=True, default=0)
 
     objects = CustomUserManager()
@@ -46,6 +47,12 @@ class User(AbstractUser):
     def is_operator(self):
         return self.type == self.Type.OPERATOR
 
+    def is_currier(self):
+        return self.type == self.Type.CURRIER
+
+    def is_admin(self):
+        return self.type == self.Type.ADMIN
+
     class Meta:
         verbose_name = _('User')
         verbose_name_plural = _('Users')
@@ -53,21 +60,13 @@ class User(AbstractUser):
 
 class Operator(Model):
     user = OneToOneField('apps.User', CASCADE, limit_choices_to={'type': User.Type.OPERATOR})
+    first_name = CharField(verbose_name=_('First name'), max_length=25, null=True, blank=True)
     passport_number = CharField(verbose_name=_('Passport number'), max_length=20)
     start_work_time = TimeField(verbose_name=_('Start work time'))
     end_work_time = TimeField(verbose_name=_('End work time'))
 
     def __str__(self):
         return f"{self.user.username} - Operator"
-
-
-class Currier(Model):
-    user = OneToOneField('apps.User', CASCADE, limit_choices_to={'type': User.Type.CURRIER})
-    region = ForeignKey('apps.Region', CASCADE, verbose_name=_('Region'))
-    district = ForeignKey('apps.District', CASCADE, verbose_name=_('District'))
-
-    def __str__(self):
-        return f"{self.user.username} - Currier"
 
 
 class Region(Model):

@@ -1,4 +1,4 @@
-from django.contrib import messages
+from django.contrib import messages, admin
 from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
@@ -8,7 +8,7 @@ from django.views import View
 from django.views.generic import TemplateView, UpdateView, FormView
 
 from apps.forms import PasswordChangeModelForm, LoginRegisterModelForm
-from apps.models import User, Region, District
+from apps.models import User, Region, District, Order
 
 
 class ProfileTemplateView(LoginRequiredMixin, TemplateView):
@@ -69,6 +69,8 @@ class LoginRegisterView(FormView):
     def form_valid(self, form):
         user = form.get_user()
         login(self.request, user)
+        if user.is_operator():
+            return redirect('operator')
         return redirect('main-page')
 
     def form_invalid(self, form):
@@ -91,3 +93,16 @@ class LogoutView(View):
 def get_districts_by_region(request, region_id):
     districts = District.objects.filter(region_id=region_id).values('id', 'name')
     return JsonResponse(list(districts), safe=False)
+
+
+class SuccessValijonTemplateView(TemplateView):
+    template_name = 'admin/apps/valijon.html'
+    model = Order
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            **admin.site.each_context(self.request),
+            "opts": self.model._meta,
+        })
+        return context

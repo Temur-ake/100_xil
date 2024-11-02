@@ -12,14 +12,20 @@ from apps.models import User, Order, Stream, Product, Transaction, SiteSettings
 class OrderModelForm(ModelForm):
     class Meta:
         model = Order
-        fields = 'full_name', 'product', 'stream', 'owner', 'phone',
+        fields = 'full_name', 'product', 'quantity', 'stream', 'owner', 'phone', 'region', 'district'
 
     def clean_phone(self):
         phone: str = re.sub(r'[^\d]', '', self.cleaned_data.get('phone'))
         if len(phone) != 12 or not phone.startswith('998'):
-            raise ValidationError(_('Incorrect phone number'))
+            raise ValidationError('Incorrect phone number')
         phone = phone[-9:]
         return phone
+
+    def clean_quantity(self):
+        quantity = self.cleaned_data.get('quantity')
+        if quantity is None:
+            quantity = 1
+        return quantity
 
 
 class OrderUpdateModelFormView(ModelForm):
@@ -39,27 +45,42 @@ class OrderUpdateModelFormView(ModelForm):
         return cleaned_data
 
 
+class CurrierOrderForm(Form):
+    delivering = CharField(max_length=20)
+    currier = CharField(max_length=20)
+    orders = CharField(max_length=500, required=False)
+
+    def clean(self):
+        data = super().clean()
+        status = data.get('delivering')
+        currier_id = data.get('currier')
+
+        order_idies = list(map(int, data.get('orders').split()))
+        if status:
+            qs = Order.objects.filter(id__in=order_idies)
+            qs.update(status=status, currier_id=currier_id)
+        return data
+
+
 class StreamModelForm(ModelForm):
     class Meta:
         model = Stream
-        fields = 'name', 'product', 'discount', 'owner'
+        fields = 'discount', 'name', 'product', 'owner'
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
         return name
-
-    def clean_discount(self):
-        discount = self.cleaned_data.get('discount')
-        if discount < 0:
-            raise ValidationError('Discount is not valid')
-        return discount
 
     def clean(self):
         data = super().clean()
         discount = data.get('discount')
         product_id = data.get('product').pk
         product_fee = Product.objects.filter(id=product_id).values_list('product_fee')[0][0]
-        if discount > product_fee:
+        if discount is None:
+            data['discount'] = 0
+        elif data['discount'] < 0:
+            raise ValidationError('Discount must be positive')
+        if data['discount'] > product_fee:
             raise ValidationError('Discount must not be exceed than product fee')
         return data
 
@@ -148,6 +169,7 @@ class TransactionModelForm(ModelForm):
             raise ValidationError(
                 f'''
                 Exceed limit your balance: {''.join([f"{v} " if k % 3 == 0 else f"{v}" for k, v in enumerate(str(user_balance))])}
+                or limit of requests
                 ''')
         Transaction.objects.create(**cleaned_data)
         return cleaned_data

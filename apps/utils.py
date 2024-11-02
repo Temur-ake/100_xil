@@ -5,6 +5,7 @@ from django.conf import settings
 from django.utils.functional import keep_lazy_text
 
 
+
 def switch_lang_code(path, language):
     # Get the supported language codes
     lang_codes = [c for (c, name) in settings.LANGUAGES]
@@ -49,3 +50,16 @@ def custom_slugify(value, allow_unicode=True):
         )
     value = re.sub(r"[^\w\s-]", "", value.lower())
     return re.sub(r"[-\s]+", "-", value).strip("-_")
+
+
+def get_next_in_date_hierarchy(request, date_hierarchy):
+    if date_hierarchy + '__day' in request.GET:
+        return 'hour'
+
+    if date_hierarchy + '__month' in request.GET:
+        return 'day'
+
+    if date_hierarchy + '__year' in request.GET:
+        return 'week'
+
+    return 'month'

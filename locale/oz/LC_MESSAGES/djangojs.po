@@ -1,0 +1,287 @@
+msgid "Available %s"
+msgstr "Мавжуд %s"
+
+msgid ""
+"This is the list of available %s. You may choose some by selecting them in "
+"the box below and then clicking the \"Choose\" arrow between the two boxes."
+msgstr ""
+"Бу мавжуд %s рўйхати. Сиз улардан баъзиларини танлашингиз ва "
+"қуйидаги қутидан танлашингиз мумкин, сўнгра икки қути орасидаги "
+"\"Танлаш\" ўқини босинг."
+
+msgid "Type into this box to filter down the list of available %s."
+msgstr "Мавжуд %s рўйхатини филтрлаш учун шу қутига ёзинг."
+
+msgid "Filter"
+msgstr "Филтрлаш"
+
+msgid "Choose all"
+msgstr "Ҳаммасини танлаш"
+
+msgid "Click to choose all %s at once."
+msgstr "Ҳамма %s ни бирданига танлаш учун босинг."
+
+msgid "Choose"
+msgstr "Танлаш"
+
+msgid "Remove"
+msgstr "Ўчириш"
+
+msgid "Chosen %s"
+msgstr "Танланган %s"
+
+msgid ""
+"This is the list of chosen %s. You may remove some by selecting them in the "
+"box below and then clicking the \"Remove\" arrow between the two boxes."
+msgstr ""
+"Бу танланган %s рўйхати. Сиз улардан баъзиларини қуйидаги қутидан танлаб "
+"ўчиришингиз ва икки қути орасидаги \"Ўчириш\" ўқини босинг."
+
+msgid "Type into this box to filter down the list of selected %s."
+msgstr "Танланган %s рўйхатини филтрлаш учун шу қутига ёзинг."
+
+msgid "Remove all"
+msgstr "Ҳаммасини ўчириш"
+
+msgid "Click to remove all chosen %s at once."
+msgstr "Ҳамма танланган %s ни бирданига ўчириш учун босинг."
+
+msgid "%s selected option not visible"
+msgid_plural "%s selected options not visible"
+msgstr[0] "%s танланган вариант кўринмайди"
+msgstr[1] "%s танланган вариантлар кўринмайди"
+
+msgid "%(sel)s of %(cnt)s selected"
+msgid_plural "%(sel)s of %(cnt)s selected"
+msgstr[0] "%(cnt)s дан %(sel)s та танланган"
+msgstr[1] "%(cnt)s дан %(sel)s та танланган"
+
+msgid ""
+"You have unsaved changes on individual editable fields. If you run an "
+"action, your unsaved changes will be lost."
+msgstr ""
+"Сизда сақланмаган ўзгартишлар бор. Агар сиз амални бажарсангиз, "
+"сақланмаган ўзгартишлар йўқолади."
+
+msgid ""
+"You have selected an action, but you haven’t saved your changes to "
+"individual fields yet. Please click OK to save. You’ll need to re-run the "
+"action."
+msgstr ""
+"Сиз амални танладингиз, лекин ўзгартишларни ҳали сақлаганингиз йўқ. "
+"Илтимос, сақлаш учун ОК ни босинг. Амални қайта бажаришингиз керак."
+
+msgid ""
+"You have selected an action, and you haven’t made any changes on individual "
+"fields. You’re probably looking for the Go button rather than the Save "
+"button."
+msgstr ""
+"Сиз амални танладингиз ва майдонларда ҳеч қандай ўзгартиш қилмадингиз. "
+"Сиз эҳтимол, Сақлаш тугмаси ўрнига Йўлга қўйиш тугмасини қидиряпсиз."
+
+msgid "Now"
+msgstr "Ҳозир"
+
+msgid "Midnight"
+msgstr "Ярим тунда"
+
+msgid "6 a.m."
+msgstr "Соат 6:00"
+
+msgid "Noon"
+msgstr "Пешин вақти"
+
+msgid "6 p.m."
+msgstr "Соат 18:00"
+
+msgid "Note: You are %s hour ahead of server time."
+msgid_plural "Note: You are %s hours ahead of server time."
+msgstr[0] "Эслатма: Сиз сервер вақтидан %s соат олдиндасиз."
+msgstr[1] "Эслатма: Сиз сервер вақтидан %s соат олдиндасиз."
+
+msgid "Note: You are %s hour behind server time."
+msgid_plural "Note: You are %s hours behind server time."
+msgstr[0] "Эслатма: Сиз сервер вақтидан %s соат ортдасиз."
+msgstr[1] "Эслатма: Сиз сервер вақтидан %s соат ортдасиз."
+
+msgid "Choose a Time"
+msgstr "Вақтни танлаш"
+
+msgid "Choose a time"
+msgstr "Вақтни танлаш"
+
+msgid "Cancel"
+msgstr "Бекор қилиш"
+
+msgid "Today"
+msgstr "Бугун"
+
+msgid "Choose a Date"
+msgstr "Санани танлаш"
+
+msgid "Yesterday"
+msgstr "Кеча"
+
+msgid "Tomorrow"
+msgstr "Эртага"
+
+msgid "January"
+msgstr "Январь"
+
+msgid "February"
+msgstr "Февраль"
+
+msgid "March"
+msgstr "Март"
+
+msgid "April"
+msgstr "Апрель"
+
+msgid "May"
+msgstr "Май"
+
+msgid "June"
+msgstr "Июнь"
+
+msgid "July"
+msgstr "Июль"
+
+msgid "August"
+msgstr "Август"
+
+msgid "September"
+msgstr "Сентябрь"
+
+msgid "October"
+msgstr "Октябрь"
+
+msgid "November"
+msgstr "Ноябрь"
+
+msgid "December"
+msgstr "Декабрь"
+
+msgctxt "abbrev. month January"
+msgid "Jan"
+msgstr "Ян"
+
+msgctxt "abbrev. month February"
+msgid "Feb"
+msgstr "Фев"
+
+msgctxt "abbrev. month March"
+msgid "Mar"
+msgstr "Мар"
+
+msgctxt "abbrev. month April"
+msgid "Apr"
+msgstr "Апр"
+
+msgctxt "abbrev. month May"
+msgid "May"
+msgstr "Май"
+
+msgctxt "abbrev. month June"
+msgid "Jun"
+msgstr "Июн"
+
+msgctxt "abbrev. month July"
+msgid "Jul"
+msgstr "Июл"
+
+msgctxt "abbrev. month August"
+msgid "Aug"
+msgstr "Авг"
+
+msgctxt "abbrev. month September"
+msgid "Sep"
+msgstr "Сен"
+
+msgctxt "abbrev. month October"
+msgid "Oct"
+msgstr "Окт"
+
+msgctxt "abbrev. month November"
+msgid "Nov"
+msgstr "Ноя"
+
+msgctxt "abbrev. month December"
+msgid "Dec"
+msgstr "Дек"
+
+msgid "Sunday"
+msgstr "Якшанба"
+
+msgid "Monday"
+msgstr "Душанба"
+
+msgid "Tuesday"
+msgstr "Сешанба"
+
+msgid "Wednesday"
+msgstr "Чоршанба"
+
+msgid "Thursday"
+msgstr "Пайшанба"
+
+msgid "Friday"
+msgstr "Жума"
+
+msgid "Saturday"
+msgstr "Шанба"
+
+msgctxt "abbrev. day Sunday"
+msgid "Sun"
+msgstr "Якш"
+
+msgctxt "abbrev. day Monday"
+msgid "Mon"
+msgstr "Душ"
+
+msgctxt "abbrev. day Tuesday"
+msgid "Tue"
+msgstr "Сеш"
+
+msgctxt "abbrev. day Wednesday"
+msgid "Wed"
+msgstr "Чор"
+
+msgctxt "abbrev. day Thursday"
+msgid "Thur"
+msgstr "Пайш"
+
+msgctxt "abbrev. day Friday"
+msgid "Fri"
+msgstr "Жум"
+
+msgctxt "abbrev. day Saturday"
+msgid "Sat"
+msgstr "Шан"
+
+msgctxt "one letter Sunday"
+msgid "S"
+msgstr "Я"
+
+msgctxt "one letter Monday"
+msgid "M"
+msgstr "Д"
+
+msgctxt "one letter Tuesday"
+msgid "T"
+msgstr "С"
+
+msgctxt "one letter Wednesday"
+msgid "W"
+msgstr "Ч"
+
+msgctxt "one letter Thursday"
+msgid "T"
+msgstr "П"
+
+msgctxt "one letter Friday"
+msgid "F"
+msgstr "Ж"
+
+msgctxt "one letter Saturday"
+msgid "S"
+msgstr "Ш"

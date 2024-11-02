@@ -11,6 +11,13 @@
                 <div class="col">
                     <h5 class="mb-0" id="followers"></h5>
                 </div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
                 <div class="col text-end"><a class="font-sans-serif" href="/category">Kategoriyalar</a>
                 </div>
             </div>
@@ -60,7 +67,8 @@
                                         </a>
                                     </h5>
                                     <p class="fs--1 mb-2">
-                                        <a class="text-500" href="{% url 'category' %}?cat={{ category.slug }}">{{ product.category.name }}</a>
+                                        <a class="text-500"
+                                           href="{% url 'category' %}?cat={{ product.category.slug }}">{{ product.category.name }}</a>
                                     </p>
                                     <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-2"> {{ product.price|intcomma }}
                                         <!-- <del class="ms-2 fs--1 text-500">180 000 so'm </del> -->

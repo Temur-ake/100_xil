@@ -6,8 +6,9 @@ from apps.views import AllProductListView, LogoutView, ProfileTemplateView, Prof
     StatisticsListView, MyOrdersTemplateView, OrderDetailView, LoginRegisterView, ProductStatisticListView, \
     RequestListView, CompetitionListView, DiagramTemplateView, \
     AdminPageTemplateView, OrderListView, OperatorOrderDetail, UserPhotoUpdateView, get_districts_by_region, \
-    PaymentListView
+    PaymentListView, CurrierListView, CurrierDetail
 from apps.views.product_views import ProductStreamDetail
+from apps.views.shop_views import AddOrderCreateView
 from apps.views.transaction_views import PaymentFormView
 
 urlpatterns = [
@@ -20,6 +21,7 @@ urlpatterns = [
     path('success-product/<int:pk>', OrderDetailView.as_view(), name='order-detail'),
     path('ordered-products', MyOrdersTemplateView.as_view(), name='ordered-products'),
     path('search/', ProductSearchListView.as_view(), name='product-search'),
+    # path('product-search/', product_search, name='product_search'),
 
     # streams
     path('stream', MyStreamsListView.as_view(), name='stream'),
@@ -34,8 +36,13 @@ urlpatterns = [
 
     # operator
     path('operator', OrderListView.as_view(), name='operator'),
+    path('operator/orders/currier-list', CurrierListView.as_view(), name='currier_list'),
+    path('operator/ordered-info/<int:pk>', CurrierDetail.as_view(), name='ordered_info_detail'),
+    path('operator/product-add', AddOrderCreateView.as_view(), name='operator_product_add'),
     path('operator/<str:status>', OrderListView.as_view(), name='operator'),
     path('operator/order/<int:pk>', OperatorOrderDetail.as_view(), name='operator-order-detail'),
+
+    # currier
 
     # auth
     path('admin-page', AdminPageTemplateView.as_view(), name='admin_page'),

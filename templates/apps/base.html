@@ -1,5 +1,6 @@
 {% load static %}
 {% load custom_tags %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
 
@@ -280,7 +281,7 @@
 
                     <li class="nav-item">
                         <div class="theme-control-toggle px-2">
-                            <a href="/admin_page/coins">Tangalar: 0</a>
+                            <a href="#">Tangalar: {{ coins.all_amount|default:0|intcomma }}</a>
                         </div>
                     </li>
 

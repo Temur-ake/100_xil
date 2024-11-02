@@ -45,16 +45,43 @@ for 24.09.2024 tasks
 
 # Sveji
 13.Delivered bir marta qo'shilishi kerak user balance ga🟢
-14. Stream detal bilan Product detail bitta🟢
-15 Kiril harfliy product ham qo'shsin🟢
+14. Stream detal bilan Product detail bitta🟢 +
+15 Kiril harfliy product ham qo'shsin🟢 +
 16. Buyurtmalarga nomer yoki id bo'uicha filter qilish🟢
 17.qabul qilishda # ID si chiqib qolsin🟢
-18.APPS -> rename (Buyurtmalar bo'limi)🟢
+18.APPS -> rename (Buyurtmalar bo'limi)🟢 +
 19.To'lab berildi: 732,222 so'm ni ORM ishlatib hisoblash🟢
 20.To'lovga sorov berish formasi optimisation🟢
-21.Card numberni chiroyliy qilish🟢
-22.Rosetta kirilchani, o'zbekchani, ruschani to'g'irlash 🏃 (default keyword larni translate qilish django admin)
-23.Operator gaplashish hisoboti (mothly, weekly) (statistic)
-24.Adminkada region va districtni to'g'irlash🟢
-25.modellarni orderlarga va userlar bolimiga ajratish (app in bo'lmasdan)
-26.Currier modelga stackedinline qilib region district🟢
+21.Card numberni chiroyliy qilish🟢 +
+24.Adminkada region va districtni to'g'irlash🟢 +
+
+
+
+
+
+
+27. language ni settings orqali icon beradigan qilish kk (dynamic language list qilish)🟢 +
+28. tangachalar (referal orqali kelgan productlarning narxini yig'indisi)🟢 +
+29. operatorda yangi zakaz qoshish (zakaz +)🟢
+31. operatorda icon chiqmagan🟢 +
+32. operatorda zakaz oqim orqali kelgan bolsa summani togri chiqarsin🟢 +
+33. operatorda zakaz viloyatga qarab yetkazish narxi o'zgaradi🟢 +
+
+
+
+
+34. hamma modellarga ntadan malumot qoshish django commands (model yangi qoshilsa ham unga ham qoshish kk)🌓 django seed
+26. Currier modelga stackedinline qilib region district (M2M)
+22. Rosetta kirilchani, o'zbekchani, ruschani to'g'irlash🟢
+23. Operator gaplashish hisoboti (mothly, weekly) (statistic)🟢
+30. operator faqat operator page kira olishi kk🟢
+36. adminkada listda edit va delete button🟢
+35. http://localhost:8000/en/admin/apps/operatoruserproxy/ operator list display da dostavkaga tayyorlar soni linkda chiqishi kk🟢
+25. modellarni orderlarga va userlar bolimiga ajratish (app in bo'lmasdan) (po seryoznee)🟢
+41. 404 page for every page🟢
+42. cached_property🟢
+43. Delivered bo'lganda hammaga pul qo'shish🟢
+39. adminkada oppoq page /admin/vali (get_urls)🌓
+37. adminkada edit,detailni custom qilish https://essentialwebapps.com/wp-content/uploads/2022/03/profile-edit-data-and-skills-1024x683.jpg
+38. currier 2hil tuman, viloyat (in process)🏃
+40. telegram bot -

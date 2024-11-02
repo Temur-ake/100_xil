@@ -8,7 +8,7 @@ $(document).ready(function () {
     var translations = $('#translation-data').data();  // Fetch the data attributes
     var selectText = translations.select;  // Get the translation for 'Select'
 
-    $('#id_currier-0-region').change(function () {
+    $('#id_region').change(function () {  // Updated selector for region
         var regionId = $(this).val();
         if (regionId) {
             var url = $('#get-districts-url').val().replace('0', regionId);
@@ -16,7 +16,7 @@ $(document).ready(function () {
                 url: url,
                 data: {'region_id': regionId},
                 success: function (data) {
-                    var districtSelect = $('#id_currier-0-district');
+                    var districtSelect = $('#id_district');  // Updated selector for district
                     districtSelect.empty();
                     districtSelect.append('<option value="">' + selectText + '</option>');
                     $.each(data, function (index, district) {
@@ -25,8 +25,8 @@ $(document).ready(function () {
                 }
             });
         } else {
-            $('#id_currier-0-district').empty();
-            $('#id_currier-0-district').append('<option value="">' + selectText + '</option>');
+            $('#id_district').empty();
+            $('#id_district').append('<option value="">' + selectText + '</option>');
         }
     });
 });

@@ -44,7 +44,7 @@
                                 <h5>{{ stream.name }}</h5>
 
 
-                                <h5>- {{ stream.discount }}</h5>
+                                <h5>- {{ stream.discount|default:0 }}</h5>
 
                             </div>
                             <div class="card">

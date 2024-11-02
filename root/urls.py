@@ -12,6 +12,7 @@ from root.settings import STATIC_URL, STATIC_ROOT, MEDIA_URL, MEDIA_ROOT
 admin.site.index_title = _('My Index Title')
 admin.site.site_header = _('Alijahon Administration')
 admin.site.site_title = _('My Site Management')
+
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
     path("ckeditor5/", include('django_ckeditor_5.urls')),

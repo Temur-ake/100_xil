@@ -8,7 +8,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'apps/assets/css/bootstrap.css' %}">
-    <title>Hello, world!</title>
+    <title>Order - detail</title>
 </head>
 <body>
 
@@ -18,7 +18,11 @@
         <h1>Hammasi to'g'ri kiritilganligiga e'tibor bering!</h1>
         <p>Customer: <span>{{ order.owner.phone }} - <a href="tel:{{ order.phone }}">{{ order.phone }}</a></span></p>
         <p>{{ order.product.name }} - {{ order.product.price }} so'm</p>
-        <p>Dostavka narxi: 30000 ❌</p>
+        {% if order.delivery_price is not None%}
+            <p>Dostavka narxi: {{ order.delivery_price }} so'm</p>
+        {% else %}
+            <p>Dostavka narxi: ___ so'm</p>
+        {% endif %}
     </div>
 
     Hali bog'lanilmagan qurilma
@@ -29,7 +33,7 @@
             <div class="col-6">
                 <p>Nechta:</p>
                 <select class="form-select" aria-label="Default select example" name="quantity">
-                    <option value="{{ order.quantity }}"> {{ order.quantity }} ta (foydalanuvchi tanlagan)</option>
+                    <option value="{{ order.quantity }}"> {{ order.quantity|default:'Maxsulot soni:' }}</option>
 
                     1
                     <option value="1">1</option>
@@ -187,7 +191,7 @@
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Komment</label>
             <textarea name="comment" class="form-control" id="exampleFormControlTextarea1"
-                      rows="3">{{ order.comment|default:"Komment mavjud emas!" }}</textarea>
+                      rows="3">{{ order.comment|default:'' }}</textarea>
         </div>
         <div style="display: flex; justify-content: flex-end;">
             <a href="{% url 'operator' %}" type="button" class="btn m-3 btn-secondary">Chiqish</a>

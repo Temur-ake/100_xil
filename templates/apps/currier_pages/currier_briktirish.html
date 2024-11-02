@@ -1,0 +1,253 @@
+{% load custom_tags %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Kuryer listi</title>
+    <link rel="shortcut icon" href="/static/app/icons8-market-square-16.png" type="image/png">
+    <link rel="stylesheet" href="/static/app/themes/stock/assets/owlcarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="/static/app/themes/stock/assets/owlcarousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/static/app/themes/stock/assets/css/style.bundle.css">
+    <link rel="stylesheet" href="/static/app/themes/stock/assets/css/custom.css">
+    <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,400i,500,500i,600,600i,700,700i,800,800i"
+          rel="stylesheet">
+    <link rel="stylesheet" property="stylesheet" href=" /static/app/modules/system/assets/css/framework.extras.css">
+    <link rel="stylesheet" property="stylesheet" href=" /static/app/css/custom.css">
+    <style>
+        /* General body and container styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container-xl {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Table Styles */
+        .table-wrapper {
+            margin-top: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .order-table th, .order-table td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .order-table th {
+            background-color: #007bff;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .order-table td {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+        .order-table td p {
+            margin: 0;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .order-table td:nth-child(even) {
+            background-color: #f1f3f5;
+        }
+
+        /* Responsive Table */
+        @media screen and (max-width: 768px) {
+            .order-table th, .order-table td {
+                display: block;
+                width: 100%;
+                text-align: left;
+                padding: 8px;
+                border-bottom: 1px solid #dee2e6;
+            }
+
+            .order-table tr {
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Button styles */
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 20px;
+            color: #fff;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        /* Print Button and Forms styling */
+        .d-flex {
+            display: flex;
+            gap: 15px;
+        }
+
+        a, form {
+            margin-right: 10px;
+        }
+
+        a.btn-primary {
+            text-decoration: none;
+        }
+
+        a.btn-primary:focus, a.btn-primary:active {
+            outline: none;
+            border: none;
+        }
+
+        form input[type="submit"] {
+            background-color: #28a745;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="container-xl" id="printarea">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <table class="order-table" id="frame">
+                <tbody>
+                <tr>
+                    <td>№</td>
+                    <td>Mijoz</td>
+                    <td>Viloyat</td>
+                    <td>Manzil</td>
+                    <td>Mahsulot</td>
+                    <td>Izoh</td>
+                    <td>Narxi</td>
+                    <td>QR-KOD</td>
+                </tr>
+
+
+                <tr style="height: 207px;">
+                    {% for order in orders %}
+                        <td style="height: 207px;" colspan="3">
+                            <p>Mahsulot summasi: {{ order.price_conclude }} so'm</p>
+                            <p>Dostavka puli: {{ order.delivery_price }} so'm</p>
+                            <p>Umumiy mahsulot soni: {{ order.quantity }} ta</p>
+                            <p>Umumiy buyurtma soni: ❌ ta</p>
+                            <p>Kuriyer:&nbsp; - {{ currier }}
+                            </p>
+                        </td>
+                    {% endfor %}
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="container-xl mt-3 mb-3">
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'operator' %}" class="btn btn-primary">Orqaga</a>
+        <a href="#" class="btn btn-primary" onclick="printFunc()">Print</a>
+        <form method="post" action="{% url 'ordered_info_detail' currier.pk %}">
+            {% csrf_token %}
+            <input type="hidden" name="orders" value="{{ orders.values|get_id_list }}">
+            <input type="hidden" name="currier" value="{{ currier.pk }}">
+            <input type="submit" name="delivering" class="btn btn-primary" value="yetkazilmoqda">
+        </form>
+    </div>
+</div>
+
+<div class="container-xl">
+    <div class="row pl-4" id="printarea1">
+
+    </div>
+</div>
+
+<div class="container-xl mt-3 mb-3">
+    <a href="#" class="btn btn-primary" onclick="printFunc1()">Print</a>
+</div>
+
+<script>
+
+    function printFunc() {
+        var divToPrint = document.getElementById('printarea');
+        var htmlToPrint = '' +
+            '<style type="text/css">' +
+            'table {' +
+            'border: 1px solid black;' +
+            'border-collapse: collapse;' +
+            'font-size: 11px;' +
+            '}' +
+            '.order-table td {' +
+            'border: 1px solid black;' +
+            '</style>';
+        htmlToPrint += divToPrint.outerHTML;
+        newWin = window.open("");
+        // newWin.document.write("<h3 align='center'>Print Page</h3>");
+        newWin.document.write(htmlToPrint);
+        newWin.print();
+        newWin.close();
+    }
+
+    function printFunc1() {
+        var divToPrint = document.getElementById('printarea1');
+        var htmlToPrint = '' +
+            '<style type="text/css">' +
+            'table {' +
+            'border: 1px solid black;' +
+            'border-collapse: collapse;' +
+            'font-size: 11px;' +
+            '}' +
+            '.order-table td {' +
+            'border: 1px solid black;' +
+            '</style>';
+        htmlToPrint += divToPrint.outerHTML;
+        newWin = window.open("");
+        newWin.document.write(htmlToPrint);
+        newWin.print();
+        newWin.close();
+    }
+</script>
+
+
+</body>
+</html>

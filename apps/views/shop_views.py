@@ -7,11 +7,13 @@ from django.forms import model_to_dict
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView
+from django.views import View
+from django.views.generic import ListView, TemplateView, DetailView, CreateView, FormView, GenericViewError
 
 from apps.forms import StreamModelForm, \
-    OrderUpdateModelFormView
+    OrderUpdateModelFormView, OrderModelForm, CurrierOrderForm
 from apps.models import User, Category, Product, Region, Order, Stream, SiteSettings, District, Concurs
+from apps.views import CustomListView, CustomCreateView, CustomUpdateView
 
 
 class MyOrdersTemplateView(TemplateView):
@@ -179,12 +181,12 @@ class AdminPageTemplateView(TemplateView):
     template_name = 'apps/users/admin_page.html'
 
 
-class OrderListView(LoginRequiredMixin, ListView):
-    queryset = Order.objects.order_by('created_at')
+class OrderListView(LoginRequiredMixin, CustomListView):
+    queryset = Order.objects.select_related('product', 'stream').order_by('created_at')
     template_name = 'apps/users/operator.html'
     context_object_name = 'orders'
-    paginate_by = 10
-    
+    paginate_by = 30
+
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(object_list=object_list, **kwargs)
         status = self.kwargs.get('status', 'new')
@@ -194,6 +196,8 @@ class OrderListView(LoginRequiredMixin, ListView):
             ctx['products'] = Product.objects.all()
         ctx['regions'] = Region.objects.all()
         ctx['districts'] = District.objects.all()
+        ctx['all_products'] = Product.objects.all()
+
         return ctx
 
     def get_queryset(self):
@@ -217,7 +221,7 @@ class OrderListView(LoginRequiredMixin, ListView):
         return qs
 
 
-class OperatorOrderDetail(LoginRequiredMixin, UpdateView):
+class OperatorOrderDetail(LoginRequiredMixin, CustomUpdateView):
     queryset = Order.objects.all()
     form_class = OrderUpdateModelFormView
     template_name = 'apps/orders/operator_change_condition.html'
@@ -239,3 +243,90 @@ class OperatorOrderDetail(LoginRequiredMixin, UpdateView):
             obj.operator = session_operator
             obj.save()
         return obj
+
+
+class AddOrderCreateView(CustomCreateView):
+    form_class = OrderModelForm
+    template_name = 'apps/users/operator.html'
+    success_url = reverse_lazy('operator')
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['regions'] = Region.objects.all()
+        ctx['all_products'] = Product.objects.all()
+        return ctx
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
+
+class CurrierListView(LoginRequiredMixin, ListView, FormView):
+    queryset = User.objects.all()
+    form_class = CurrierOrderForm
+    template_name = 'apps/currier_pages/currier_list.html'
+    context_object_name = 'curriers'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(type=User.Type.CURRIER)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super().get_context_data(object_list=object_list, **kwargs)
+        if self.request.GET.get('orders'):
+            order_idies = self.request.GET.getlist('orders')
+            ctx['orders'] = Order.objects.filter(id__in=order_idies).values_list('id', flat=True)
+        return ctx
+
+
+# class CurrierDetail(LoginRequiredMixin, DetailView, FormView):
+#     queryset = User.objects.all()
+#     template_name = 'apps/currier_pages/currier_briktirish.html'
+#     context_object_name = 'currier'
+#
+#     def get_queryset(self):
+#         qs = super().get_queryset()
+#         return qs.filter(type=User.Type.CURRIER)
+#
+#     def get_context_data(self, **kwargs):
+#         ctx = super().get_context_data(**kwargs)
+#         qs = self.get_queryset()
+#         if self.request.POST:
+#             pass
+#         if self.request.GET.get('currier'):
+#             currier_id = int(self.request.GET.get('currier'))
+#             order_idies = list(map(int, self.request.GET.get('orders').split(',')))
+#             ctx['orders'] = Order.objects.filter(id__in=order_idies)
+#             ctx['currier'] = qs.filter(pk=currier_id).values()[0]['phone']
+#             ctx['orders'].update(currier_id=currier_id, status=Order.Status.DELIVERING)
+#         return ctx
+
+class CurrierDetail(LoginRequiredMixin, DetailView, FormView):
+    queryset = User.objects.all()
+    form_class = CurrierOrderForm
+    template_name = 'apps/currier_pages/currier_briktirish.html'
+    context_object_name = 'currier'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(type=User.Type.CURRIER)
+
+    def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+        qs = self.get_queryset()
+        ctx = super().get_context_data(**kwargs)
+        if self.request.POST:
+            currier_id = int(self.request.POST.get('currier'))
+            self.order_idies = list(map(int, self.request.POST.get('orders').split(',')))
+            ctx['orders'] = Order.objects.filter(id__in=self.order_idies)
+            ctx['currier_phone'] = qs.filter(pk=currier_id).values()[0]['phone']
+            ctx['currier_id'] = currier_id
+        return ctx
+
+    def form_valid(self, form):
+        return redirect(reverse_lazy('operator'))
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)

@@ -3,9 +3,11 @@ import re
 from django.core.exceptions import ValidationError
 from django.db.models import PositiveIntegerField, ImageField, CharField, ForeignKey, CASCADE, TextChoices, TextField, \
     DateTimeField, BooleanField
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from django_ckeditor_5.fields import CKEditor5Field
 
+from apps.models import SiteSettings
 from apps.models.base import TimeSlugBased, TimeBasedModel
 
 
@@ -35,7 +37,7 @@ class Order(TimeBasedModel):
         CANCELED = 'canceled', 'Canceled'
         WAITING = 'waiting', 'Waiting'
 
-    quantity = PositiveIntegerField(verbose_name=_('Quantity'), db_default=1)
+    quantity = PositiveIntegerField(verbose_name=_('Quantity'), db_default=1, null=True, blank=True)
     status = CharField(verbose_name=_('Status'), max_length=50, choices=Status.choices, default=Status.NEW)
     full_name = CharField(verbose_name=_('Fullname'), max_length=50, null=True, blank=True)
     phone = CharField(verbose_name=_('Phone'), max_length=20)
@@ -63,12 +65,57 @@ class Order(TimeBasedModel):
 
     def save(self, *args, force_insert=False, force_update=False, using=None, update_fields=None):
         if self.stream and self.status == Order.Status.DELIVERED and not self.is_product_fee_added:
-            stream_owner = self.stream.owner
-            stream_owner.balance += self.product.product_fee
+            site_settings = SiteSettings.objects.values()[0]
+            stream_owner = self.stream.owner, (self.product.product_fee - self.stream.discount) * self.quantity
+            _operator = self.operator, site_settings['fee_for_operator']
+            _currier = self.currier, site_settings['fee_for_currier']
+            if stream_owner[0] == _operator[0]:
+                stream_owner[0].balance += (stream_owner[1] + _operator[1])
+                _currier[0].balance += _currier[1]
+                stream_owner[0].save()
+                _currier[0].save()
+            elif stream_owner == _currier:
+                stream_owner[0].balance += (stream_owner[1] + _currier[1])
+                _operator[0].balance += _operator[1]
+                stream_owner[0].save()
+                _operator[0].save()
+            else:
+                stream_owner[0].balance += stream_owner[1]
+                _operator[0].balance += _operator[1]
+                _currier[0].balance += _currier[1]
+                stream_owner[0].save()
+                _operator[0].save()
+                _currier[0].save()
             self.is_product_fee_added = True
-            stream_owner.save()
         super().save(*args, force_insert=force_insert, force_update=force_update, using=using,
                      update_fields=update_fields)
+
+    @cached_property
+    def price_conclude(self):
+        if self.stream:
+            if self.quantity:
+                return (self.product.price - self.stream.discount) * self.quantity
+            return self.product.price - self.stream.discount
+        else:
+            if self.quantity:
+                return self.product.price * self.quantity
+            return self.product.price
+
+    @cached_property
+    def price_(self):
+        if self.stream:
+            return self.product.price - self.stream.discount
+        return self.product.price
+
+    @cached_property
+    def delivery_price(self):
+        settings = SiteSettings.objects.values('tashkent_city', 'tashkent_region', 'other_regions')[0]
+        if self.district:
+            if self.region.pk == 14:
+                return settings['tashkent_city']
+            if self.region.pk == 11:
+                return settings['tashkent_region']
+            return settings['other_regions']
 
     class Meta:
         verbose_name = _('Order')
@@ -88,6 +135,6 @@ class Stream(TimeBasedModel):
     def __str__(self):
         return self.name
 
-    @property
+    @cached_property
     def changed_price(self):
         return self.product.price - self.discount

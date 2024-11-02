@@ -18,7 +18,7 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">Asosiy balansda: {{ user.balance|intcomma }} so'm</h5>
-                                <h5 class="card-title">To'lab berildi: {{ completed_balance.sum|intcomma }} so'm</h5>
+                                <h5 class="card-title">To'lab berildi: {{ completed_balance.sum|default:0|intcomma }} so'm</h5>
                                 <h5 class="card-title">Minimal o'tkazma summasi: {{ min_balance|intcomma }} so'm</h5>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                             {% endfor %}
                         {% else %}
                             <tbody>
-                            <tr class="text-center">`
+                            <tr class="text-center">
                                 <th colspan="5"> Hozircha sizda pul yechish sorovlari mavjud emas</th>
                             </tr>
                             </tbody>

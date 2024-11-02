@@ -28,3 +28,7 @@ def first_4(card_number: str):
 @register.filter()
 def last_4(card_number: str):
     return card_number[-4:]
+
+@register.filter()
+def get_id_list(orders):
+    return ''.join([f'{i} ' for i in orders.values_list('id', flat=True)])

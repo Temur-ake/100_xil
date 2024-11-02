@@ -45,7 +45,7 @@
                                                 </a>
                                             </h5>
                                             <p class="fs--1 mb-2">
-                                                <a class="text-500" href="/category/uy-uchun">
+                                                <a class="text-500" href="{% url 'category' %}?cat={{ product.category.slug }}">
                                                     {{ product.category.name }}
                                                 </a>
                                             </p>

@@ -19,6 +19,8 @@
                         {% if user.is_authenticated %}
                             <input class="form-control" name="owner" id="formGroupNameInput" type="hidden"
                                    value="{{ user.pk }}">
+                            <input class="form-control" name="stream" id="formGroupNameInput" type="hidden"
+                                   value="{{ stream_id }}">
                         {% endif %}
                     </div>
                     <div class="mb-4">

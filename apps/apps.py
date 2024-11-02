@@ -6,5 +6,6 @@ class AppsConfig(AppConfig):
     name = 'apps'
     verbose_name = _('Orders department')
 
+
     def ready(self):
         from apps import signals

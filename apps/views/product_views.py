@@ -1,10 +1,11 @@
 from django.contrib import messages
+from django.db.models import Sum, Q, F
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, FormView
 
 from apps.forms import OrderModelForm
-from apps.models import Category, Product, Stream
+from apps.models import Category, Product, Stream, User, Order
 
 
 class AllProductListView(ListView):
@@ -16,6 +17,13 @@ class AllProductListView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(object_list=object_list, **kwargs)
         ctx['categories'] = Category.objects.all()
+        # Stream.objects.filter(owner=self.request.user, stream__orders__status=Order.Status.DELIVERING).annotate(
+        #     price_=F('orders__product__product_fee') - F('discount')
+        # ).aggregate(all_amount=Sum('price_'))
+
+        ctx['coins'] = (User.objects.filter(id=self.request.user.pk).annotate(
+            price_=F('stream__orders__product__product_fee') - F('stream__discount')).aggregate(
+            all_amount=Sum('price_', filter=Q(stream__orders__status=Order.Status.DELIVERING))))
         return ctx
 
 
@@ -59,6 +67,7 @@ class ProductStreamDetail(DetailView, FormView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['discount'] = self._stream_discount
+        ctx['stream_id'] = self.kwargs.get(self.pk_url_kwarg, '')
         return ctx
 
     def form_valid(self, form):

@@ -9,20 +9,20 @@ from apps.forms import TransactionModelForm
 from apps.models import Transaction, SiteSettings
 
 
-class PaymentListView(LoginRequiredMixin, ListView):
-    queryset = Transaction.objects.all()
+class PaymentListView(ListView):
+    queryset = Transaction.objects.order_by('-created_at')
     template_name = 'apps/parts/payment.html'
     context_object_name = 'transactions'
 
     def get_queryset(self):
-        qs = super().get_queryset().filter(owner=self.request.user).order_by('-created_at')
+        qs = super().get_queryset().filter(owner=self.request.user)
         return qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(object_list=object_list, **kwargs)
         qs = self.get_queryset()
         ctx['min_balance'] = SiteSettings.objects.values_list('min_balance_amount', flat=True).first()
-        ctx['completed_balance'] = qs.aggregate(sum=Sum('amount', filter=Q(owner=self.request.user) & Q(is_payed=True)))
+        ctx['completed_balance'] = qs.aggregate(sum=Sum('amount', filter=Q(is_payed=True)))
         return ctx
 
 

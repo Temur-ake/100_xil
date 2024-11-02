@@ -9,7 +9,6 @@ def subtract_from_user_balance(sender, instance: Transaction, **kwargs):
     if instance.status == Transaction.Status.COMPLETED and not instance.is_payed:
         transaction_owner = instance.owner
         transaction_owner.balance -= instance.amount
-        transaction_owner.completed_balance += instance.amount
+        transaction_owner.save()
         instance.is_payed = True
         instance.save()
-        transaction_owner.save()

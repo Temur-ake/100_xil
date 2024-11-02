@@ -2,41 +2,90 @@
 
 {% load static %}
 {% load i18n %}
-
-<!-- custom filter module -->
 {% load i18n_switcher %}
 
 {% block extrahead %}
-    {#    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}"/>#}
     <link rel="stylesheet" type="text/css" href="{% static 'apps/css/custom_admin.css' %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+    <style>
+        /* Dropdown container */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown content (hidden by default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #121212;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #417690;
+            color: white;
+        }
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Flag styling */
+        .i18n_flag {
+            width: 20px;
+            height: 15px;
+            margin-right: 5px;
+        }
+
+        /* Main button for the dropdown */
+        .dropbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+    </style>
 {% endblock %}
 
 {% block userlinks %}
-    &nbsp;
-    <a href="{{ request|switch_i18n:'en' }}">
-        <img class="i18n_flag" src="{% static 'apps/images/flag_10576274.png' %}"/>
-    </a>
-    &nbsp;
-    /
-    &nbsp;
-    <a href="{{ request|switch_i18n:'ru' }}">
-        <img class="i18n_flag" src="{% static 'apps/images/flag_russian.png' %}"/>
-    </a>
-    &nbsp;
-    /
-    &nbsp;
-    <a href="{{ request|switch_i18n:'uz' }}">
-        <img class="i18n_flag" src="{% static 'apps/images/uzbek_flag.png' %}"/>
-    </a>
-    &nbsp;
-    /
-    &nbsp;
-    <a href="{{ request|switch_i18n:'oz' }}">
-        <img class="i18n_flag" src="{% static 'apps/images/uzbek_kirilik.png' %}"/>
-    </a>
-    &nbsp;
-    /
-    &nbsp;
+    <div class="dropdown">
+        <button class="dropbtn">{% trans 'Languages' %}</button>
+        <div class="dropdown-content">
+            {% for code, name in languages.items %}
+                <a style="color: #00ff80;font-weight: bold" href="{{ request|switch_i18n:code }}">
+                    {% if code == 'en' %}
+                        <span class="flag-icon flag-icon-gb"></span>  &nbsp; {{ name }}
+                    {% else %}
+                        {% if code == 'oz' %}
+                            <span class="flag-icon flag-icon-uz"></span> &nbsp; {{ name }}
+                        {% else %}
+                            <span class="flag-icon flag-icon-{{ code }}"></span> &nbsp; {{ name }}
+                        {% endif %}
+                    {% endif %}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    &nbsp; /
     {% if user.is_active and user.is_staff %}
         {% url 'django-admindocs-docroot' as docsroot %}
         {% if docsroot %}
