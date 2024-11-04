@@ -31,7 +31,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_invalid(self, form):
         text = """
-            This telegram ID already exists please check!
+            Malumotlarni to'liq to'ldiring
                             """
         messages.add_message(self.request, messages.WARNING, text)
         return super().form_invalid(form)

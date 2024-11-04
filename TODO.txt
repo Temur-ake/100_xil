@@ -87,8 +87,6 @@ for 24.09.2024 tasks
 40. telegram bot -
 
 
-birinchi men hammasini tekshirib chiqishim kerak oqim, buyurtma , konkurs, tolov, order yetkazib berish
 order yaratayotganda tuman va viloyat tanlash ni to'g'irlash kerak ❌
 verbose name larni ham to'g'irlashim kerak
-mahsulotga manager_profit qo'shib to'g'irlashim kerak
-serverga domen olib qo'yib qo'yishim kerak
+profile qismidagi mijozlarni qo'llashni bosganda sayt qanday ishlashi haqida video qo'yaman

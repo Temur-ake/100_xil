@@ -53,7 +53,7 @@
                                 <label for="profile-image" class="image-label" style="cursor: pointer;">
                                     <img src="{{ user.photo.url }}" width="200" alt=""
                                          data-dz-thumbnail="data-dz-thumbnail" id="profile-picture">
-                                    <span class="update-text">Update</span>
+                                    <span class="update-text">Rasm joylash </span>
                                 </label>
                             </div>
                             <input id="profile-image" name="photo" type="file" style="display: none;"
@@ -87,7 +87,7 @@
 
                         <div class="col-lg-6">
                             Ismi
-                            <input type="text" name="first_name" class="form-control" maxlength="30" id="id_first_name"
+                            <input type="text" name="first_name" class="form-control" placeholder="Ismingizni kiriting:" maxlength="30" id="id_first_name"
                                    {% if user.first_name %}value="{{ user.first_name }}" {% endif %}>
 
                             <div data-lastpass-icon-root=""
@@ -96,7 +96,7 @@
 
                         <div class="col-lg-6">
                             Familiya
-                            <input type="text" name="last_name" class="form-control" maxlength="40" id="id_last_name"
+                            <input type="text" name="last_name" class="form-control" placeholder="Familiyangizni kiriting" maxlength="40" id="id_last_name"
                                    {% if user.last_name %}value="{{ user.last_name }}" {% endif %}>
 
                         </div>
@@ -125,7 +125,7 @@
 
                         <div class="col-lg-6">
                             Manzil
-                            <input type="text" name="address" class="form-control"
+                            <input type="text" name="address" class="form-control" placeholder="Manzilingizni kiriting:"
                                    {% if user.address %}value="{{ user.address }}" {% endif %} maxlength="200"
                                    id="id_location">
 
@@ -133,7 +133,7 @@
 
                         <div class="col-lg-6">
                             Telegram id
-                            <input type="number" name="telegram_id" class="form-control"
+                            <input type="number" name="telegram_id" class="form-control" placeholder="Telegram ID ingizni kiriting:"
                                    {% if user.telegram_id %}value="{{ user.telegram_id }}" {% endif %} maxlength="200"
                                    id="id_telegram_id">
 
@@ -141,7 +141,7 @@
 
                         <div class="col-lg-6">
                             Siz haqingizda
-                            <textarea name="about" cols="40" rows="10" class="form-control" maxlength="399"
+                            <textarea name="about" cols="40" rows="10" class="form-control"  placeholder="O'zingiz haqida ma'lumot kiriting: " maxlength="399"
                                       id="id_description">{% if user.about %}{{ user.about }}{% endif %}</textarea>
 
                         </div>
