@@ -1,4 +1,4 @@
-name: 100 xil CI/CD Deployment
+name: 100 xill CI/CD Deployment
 
 on:
   push:
