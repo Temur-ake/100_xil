@@ -39,3 +39,12 @@ class Transaction(TimeBasedModel):
     photo = ImageField(verbose_name=_('Photo'), upload_to='transactions/%Y/%m/%d', null=True, blank=True)
     owner = ForeignKey('apps.User', CASCADE, verbose_name=_('Owner'))
     is_payed = BooleanField(verbose_name=_('Is payed'), default=False)
+
+    def save(self, *args, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self.is_payed:
+            user = self.owner
+            user.balance -= self.amount
+            user.save()
+
+        super().save(*args, force_insert=force_insert, force_update=force_update, using=using,
+                     update_fields=update_fields)

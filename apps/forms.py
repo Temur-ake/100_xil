@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import Q, Sum
 from django.forms import ModelForm, Form, CharField
 
-from apps.models import User, Order, Stream, Product, Transaction, SiteSettings
+from apps.models import User, Order, Stream, Product, Transaction, SiteSettings, District
 
 
 class OrderModelForm(ModelForm):
@@ -161,15 +161,24 @@ class TransactionModelForm(ModelForm):
         min_balance_amount = SiteSettings.objects.all().values_list('min_balance_amount', flat=True).first()
         limit_of_requests = Transaction.objects.aggregate(sum=Sum('amount', filter=Q(owner=owner) & Q(is_payed=False)))
         if len(card_number) < 16 or not card_number.isdigit():
-            raise ValidationError('Invalid card number')
+            raise ValidationError("To'g'ri karta raqamini kiriting:")
         elif amount < min_balance_amount:
-            raise ValidationError(f'Minimal amount of money for withdraw {min_balance_amount} ')
+            raise ValidationError(f"Minimal o'tkazma summasi: {min_balance_amount} ")
+        # elif amount > user_balance or (
+        #         limit_of_requests.get('sum') and (limit_of_requests.get('sum') + amount) > user_balance):
+        #     raise ValidationError(
+        #         f'''
+        #         Sizning balansingiz: {''.join([f"{v} " if k % 3 == 0 else f"{v}" for k, v in enumerate(str(user_balance))])}
+        #         or limit of requests
+        #         ''')
         elif amount > user_balance or (
                 limit_of_requests.get('sum') and (limit_of_requests.get('sum') + amount) > user_balance):
+            formatted_balance = "{:,}".format(user_balance).replace(",", " ")  # Use space as a thousands separator
             raise ValidationError(
                 f'''
-                Exceed limit your balance: {''.join([f"{v} " if k % 3 == 0 else f"{v}" for k, v in enumerate(str(user_balance))])}
-                or limit of requests
-                ''')
+                Sizning balansingiz: {formatted_balance} so'm.
+                Sizning so'rovlaringizning umumiy summasi ,  balansingizdan oshmasligi kerak.
+                '''
+            )
         Transaction.objects.create(**cleaned_data)
         return cleaned_data

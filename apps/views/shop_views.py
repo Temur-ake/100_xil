@@ -16,7 +16,7 @@ from apps.models import User, Category, Product, Region, Order, Stream, SiteSett
 from apps.views import CustomListView, CustomCreateView, CustomUpdateView
 
 
-class MyOrdersTemplateView(TemplateView):
+class MyOrdersTemplateView(LoginRequiredMixin, TemplateView):
     template_name = 'apps/orders/my_orders.html'
 
 

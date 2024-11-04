@@ -2,7 +2,7 @@
 {% load humanize %}
 {% load custom_tags %}
 {% block title %}
-    {{ request.build_absolute_uri }} - Withdraw Money
+    | To'lov |
 {% endblock %}
 
 {% block main_content %}
@@ -105,11 +105,11 @@
                                     {% endif %}
                                     <th scope="col">{{ transaction.amount }}</th>
                                     <th scope="col">{{ transaction.get_status_display }}</th>
-                                    <th scope="col">{{ transaction.message|default:'Not exists' }}</th>
+                                    <th scope="col">{{ transaction.message|default:'Mavjud emas' }}</th>
                                     <th scope="col">{% if transaction.photo %}
                                         <a href="{{ transaction.photo.url }}">Screenshot</a>
                                     {% else %}
-                                        Not exists
+                                        Mavjud emas
                                     {% endif %}
                                     </th>
                                 </tr>

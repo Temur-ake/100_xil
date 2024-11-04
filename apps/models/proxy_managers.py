@@ -16,6 +16,12 @@ class AdminUserManager(UserManager):
         return super().get_queryset().filter(type=User.Type.ADMIN)
 
 
+class ManagerUserManager(UserManager):
+
+    def get_queryset(self):
+        return super().get_queryset().filter(type=User.Type.MANAGER)
+
+
 class CustomerUserManager(UserManager):
 
     def get_queryset(self):

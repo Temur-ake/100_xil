@@ -15,6 +15,7 @@ class User(AbstractUser):
         CUSTOMER = 'customer', _('Customer')
         OPERATOR = 'operator', 'Operator'
         CURRIER = 'currier', 'Currier'
+        MANAGER = 'manager', 'Manager'
 
     email = None
     username = None

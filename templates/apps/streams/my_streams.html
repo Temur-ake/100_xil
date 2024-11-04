@@ -1,36 +1,37 @@
 {% extends 'apps/base.html' %}
 
 {% block title %}
-    {{ request.url }}
+    | Oqim |
 {% endblock %}
+
 
 
 {% block main_content %}
     <div class="card mb-3">
         <div class="card-body">
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Facebook dan olingan lidlarni yuklash</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form method="POST" class="form-class" action="/admin_page/upload-csv"
-                                  enctype="multipart/form-data">
-                                <input type="hidden" name="csrfmiddlewaretoken"
-                                       value="TdBBLUatSTbgrTk4IGPa5MO2KRveWxog5uhtAI4nR3CVUrJ3F5wPyCmWdvjiY32T">
-                                <input name="stream_id" type="hidden" id="hidden_stream_id">
-                                <input name="file" type="file" accept=".csv" required="">
-                                <input type="submit" class="btn btn-primary mt-4" value="Csv fayl yuklash">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {#            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"#}
+            {#                 aria-hidden="true">#}
+            {#                <div class="modal-dialog" role="document">#}
+            {#                    <div class="modal-content">#}
+            {#                        <div class="modal-header">#}
+            {#                            <h5 class="modal-title" id="exampleModalLabel">Facebook dan olingan lidlarni yuklash</h5>#}
+            {#                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+            {#                                <span aria-hidden="true">×</span>#}
+            {#                            </button>#}
+            {#                        </div>#}
+            {#                        <div class="modal-body">#}
+            {#                            <form method="POST" class="form-class" action="/admin_page/upload-csv"#}
+            {#                                  enctype="multipart/form-data">#}
+            {#                                <input type="hidden" name="csrfmiddlewaretoken"#}
+            {#                                       value="TdBBLUatSTbgrTk4IGPa5MO2KRveWxog5uhtAI4nR3CVUrJ3F5wPyCmWdvjiY32T">#}
+            {#                                <input name="stream_id" type="hidden" id="hidden_stream_id">#}
+            {#                                <input name="file" type="file" accept=".csv" required="">#}
+            {#                                <input type="submit" class="btn btn-primary mt-4" value="Csv fayl yuklash">#}
+            {#                            </form>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
             <div class="container">
                 <br>
                 <h3 class="text-center"> Mening havolalarim </h3>
@@ -50,29 +51,48 @@
                             <div class="card">
                                 <div class="card-body" style="position: relative;">
                                     <div class="form-group">
-                                        <input type="text" value="{{ request.build_absolute_uri }}/{{ stream.pk }}" readonly=""
+                                        <input type="text" value="{{ request.build_absolute_uri }}/{{ stream.pk }}"
+                                               readonly=""
                                                class="ref_link form-control">
                                     </div>
+                                    <br>
                                     <button class="copy_ref_bn btn btn-primary"
                                             style="float:left; margin-right:9px; margin-top: 9px;">
                                         Nusxa ko'chirish
                                     </button>
 
-                                    <a href="{% url 'stream_detail' stream.pk %}" target="_blank">
-                                        <svg width="40px" height="64px" viewBox="0 0 16 20" fill="none"
+                                    <a href="{% url 'stream_detail' stream.pk %}" target="_blank" class="arrow-button">
+                                        <svg width="40px" height="40px" viewBox="0 0 24 24" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
-                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                               stroke-linejoin="round"></g>
-                                            <g id="SVGRepo_iconCarrier">
-                                                <path d="M2 2V10.5L3.5 12L6.33579 9.16421L12.5858 15.4142L15.4142 12.5858L9.16421 6.33579L12 3.5L10.5 2H2Z"
-                                                      fill="#6e8add"></path>
-                                            </g>
+                                            <path d="M8 12h8m-4-4l4 4-4 4" stroke="#6e8add" stroke-width="2"
+                                                  fill="none"/>
                                         </svg>
                                     </a>
 
-                                    <a href="https://t.me/Jaska_ITishnik" target="_blank">
-                                        <svg width="40px" height="64px" viewBox="0 0 280 350" version="1.1"
+                                    <style>
+                                        .arrow-button {
+                                            margin-top: 7px;
+                                            margin-left: 10px;
+                                            display: inline-flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                            width: 40px;
+                                            height: 40px;
+                                            background-color: #ffffff;
+                                            border-radius: 50%;
+                                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                                            transition: transform 0.2s, background-color 0.2s;
+                                        }
+
+                                        .arrow-button:hover {
+                                            transform: scale(1.1);
+                                            background-color: #f0f0f0;
+                                        }
+                                    </style>
+
+
+                                    <a href="https://t.me/onlinebozor1000xil" target="_blank">
+                                        <svg width="40px" height="64px" style="margin-left:19px; margin-bottom: 15px" viewBox="0 0 280 350" version="1.1"
                                              xmlns="http://www.w3.org/2000/svg"
                                              preserveAspectRatio="xMidYMid"
                                              fill="#000000">
@@ -94,11 +114,11 @@
                                         </svg>
                                     </a>
 
-                                    <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
-                                            style="float:left; margin-right:9px; margin-left: 9px; margin-top: 9px;"
-                                            data-bs-target="#exampleModal" name="69805">
-                                        csv
-                                    </button>
+                                    {#                                    <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"#}
+                                    {#                                            style="float:left; margin-right:9px; margin-left: 9px; margin-top: 9px;"#}
+                                    {#                                            data-bs-target="#exampleModal" name="69805">#}
+                                    {#                                        csv#}
+                                    {#                                    </button>#}
                                 </div>
                             </div>
                             <br>

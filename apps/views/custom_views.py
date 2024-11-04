@@ -10,7 +10,7 @@ class GetMixin:
         if user.is_authenticated and (user.type == user.Type.OPERATOR or user.type == user.Type.ADMIN):
             return super().get(request, *args, **kwargs)
         text = f""" 
-            Operator page ga faqat operatorlar va adminlar kiradi jigar 🤫
+            Operator page ga faqat operatorlar va adminlar kiradi oshna 🤫
         """
         messages.add_message(request, messages.WARNING, message=text)
         return redirect(reverse_lazy('main-page'))

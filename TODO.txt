@@ -85,3 +85,10 @@ for 24.09.2024 tasks
 37. adminkada edit,detailni custom qilish https://essentialwebapps.com/wp-content/uploads/2022/03/profile-edit-data-and-skills-1024x683.jpg
 38. currier 2hil tuman, viloyat (in process)🏃
 40. telegram bot -
+
+
+birinchi men hammasini tekshirib chiqishim kerak oqim, buyurtma , konkurs, tolov, order yetkazib berish
+order yaratayotganda tuman va viloyat tanlash ni to'g'irlash kerak ❌
+verbose name larni ham to'g'irlashim kerak
+mahsulotga manager_profit qo'shib to'g'irlashim kerak
+serverga domen olib qo'yib qo'yishim kerak

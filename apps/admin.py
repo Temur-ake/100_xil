@@ -18,7 +18,7 @@ from apps.models import Category, SiteSettings, AdminUserProxy, OperatorUserProx
     Operator, Transaction, OperatorStatisticUserProxy, District
 from apps.models.proxy import CustomerUserProxy, CurrierUserProxy, NewOrderProxy, ArchivedOrderProxy, \
     ReadyToDeliverOrderProxy, DeliveringOrderProxy, DeliveredOrderProxy, BrokenOrderProxy, ReturnedOrderProxy, \
-    CanceledOrderProxy, WaitingOrderProxy
+    CanceledOrderProxy, WaitingOrderProxy, ManagerUserProxy
 
 
 def get_app_list(self, request, app_label=None):
@@ -61,6 +61,7 @@ def get_app_list(self, request, app_label=None):
         'WaitingOrderProxy': 'label2',
         'User': 'label',
         'AdminUserProxy': 'label',
+        'ManagerUserProxy': 'label',
         'OperatorUserProxy': 'label',
         'OperatorStatisticUserProxy': 'label',
         'CustomerUserProxy': 'label',
@@ -109,7 +110,7 @@ class CustomUserAdmin(CustomAdminMixin, UserAdmin):
     list_display = ['phone']
     fieldsets = (
         (None, {"fields": ("phone", "password")}),
-        (_("Personal info"), {"fields": ("first_name", "last_name", 'region', 'district')}),
+        (_("Personal info"), {"fields": ("first_name", "last_name", 'region', 'district', 'type', 'balance')}),
         (
             _("Permissions"),
             {
@@ -209,6 +210,7 @@ class CustomShopModelAdmin(ModelAdmin, CustomAdminMixin):
 @admin.register(Category)
 class CategoryModelAdmin(CustomShopModelAdmin):
     list_display = 'id', 'name', 'image', 'change_button', 'delete_button'
+    search_fields = 'name',
 
     @admin.display(description=_('Photo'))
     def image(self, obj: Category):
@@ -220,6 +222,7 @@ class CategoryModelAdmin(CustomShopModelAdmin):
 @admin.register(Product)
 class ProductModelAdmin(CustomShopModelAdmin):
     list_display = 'id', 'name', 'price', 'quantity', 'gfvhb', 'change_button', 'delete_button'
+    search_fields = 'id', 'name', 'price'
 
     @admin.display(description=_('Photo'))
     def gfvhb(self, obj: Product):
@@ -245,7 +248,7 @@ class UserModelAdmin(UserAdmin, CustomAdminMixin):
 
     fieldsets = (
         (None, {"fields": ("phone", "password")}),
-        (_("Personal info"), {"fields": ("first_name", "last_name")}),
+        (_("Personal info"), {"fields": ("first_name", "last_name", "type", "balance")}),
         (
             _("Permissions"),
             {
@@ -285,6 +288,12 @@ class UserModelAdmin(UserAdmin, CustomAdminMixin):
 class AdminUserProxyModelAdmin(CustomUserAdmin):
     list_display = 'phone', 'first_name', 'last_name', 'type', 'change_button', 'delete_button'
     _type = User.Type.ADMIN
+
+
+@admin.register(ManagerUserProxy)
+class ManagerUserProxyModelAdmin(CustomUserAdmin):
+    list_display = 'phone', 'first_name', 'last_name', 'type', 'change_button', 'delete_button'
+    _type = User.Type.MANAGER
 
 
 class OperatorStackedInline(StackedInline):
@@ -386,6 +395,7 @@ class CurrierUserProxyModelAdmin(CustomUserAdmin):
 class OrderModelAdmin(CustomModelAdmin):
     list_display = 'id', 'quantity', 'status', 'phone', 'product', 'owner', 'operator', 'currier', 'address', 'stream', 'change_button', 'delete_button'
     list_filter = 'id', 'phone'
+    search_fields = 'product', 'id', 'owner', 'operator', 'stream'
 
 
 @admin.register(NewOrderProxy)
@@ -482,6 +492,7 @@ class ConcursAdmin(CustomShopModelAdmin):
 @admin.register(Transaction)
 class TransactionModelAdmin(CustomShopModelAdmin):
     list_display = 'status', 'amount', 'message', 'bill_photo', 'owner', 'change_button', 'delete_button'
+    search_fields = 'status','amount', 'message', 'owner'
 
     @admin.display(description='Photo')
     def bill_photo(self, obj: Transaction):

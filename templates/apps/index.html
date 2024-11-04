@@ -1,7 +1,7 @@
 {% extends 'apps/base.html' %}
 {% load humanize %}
 {% block title %}
-    Internet do'kon O'zbekiston bo'ylab bepul yetqazib berish - alijahon.uz
+    1000 xil
 {% endblock %}
 
 {% block main_content %}
@@ -18,7 +18,7 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-                <div class="col text-end"><a class="font-sans-serif" href="/category">Kategoriyalar</a>
+                <div class="col text-end"><a class="font-sans-serif" href="{% url 'category' %}">Kategoriyalar</a>
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
                             <div class="d-flex flex-between-center px-3">
 
                                 <div>
-                                    <a class="btn btn-sm btn-falcon-default" style="width: 130px;"
+                                    <a class="btn btn-sm btn-falcon-default" style="width: 100px; background-color: red; color: white"
                                        href="{% url 'product-detail' product.slug %}" data-bs-toggle="tooltip"
                                        data-bs-placement="top">
                                         <svg class="svg-inline--fa fa-cart-plus fa-w-18" aria-hidden="true"

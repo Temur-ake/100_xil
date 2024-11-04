@@ -2,7 +2,7 @@
 {% load humanize %}
 
 {% block title %}
-    Buy - {{ product.name }}
+    | Mahsulot haqida |
 {% endblock %}
 
 {% block main_content %}
@@ -13,7 +13,7 @@
                     {% csrf_token %}
                     <div class="mb-2">
                         <label class="form-label" for="formGroupNameInput">Ism:</label>
-                        <input class="form-control" name="full_name" id="formGroupNameInput" type="text">
+                        <input class="form-control" name="full_name" placeholder="Ismingizni kiriting:" id="formGroupNameInput" required type="text">
                         <input class="form-control" name="product" id="formGroupNameInput" type="hidden"
                                value="{{ product.pk }}">
                         {% if user.is_authenticated %}
@@ -33,7 +33,7 @@
                             {% endfor %}
                         {% endif %}
                         </label>
-                        <input class="form-control" id="phone-mask" required="" name="phone" type="text">
+                        <input class="form-control" id="phone-mask" required="" placeholder="Telefon raqamingizni kiriting:" name="phone" type="text">
                     </div>
                     <span style="padding-bottom: 100px;">
                 </span>
@@ -56,7 +56,7 @@
                 <p class="fs--1">
                 </p>
                 <p>
-                    {{ product.description|striptags }}
+                    {{ product.description|safe }}
                 </p>
                 <h4 class="d-flex align-items-center">
                 <span class="text-warning me-2">

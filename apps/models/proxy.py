@@ -1,7 +1,8 @@
 from django.utils.translation import gettext_lazy as _
 
 from apps.models import User, Order
-from apps.models.proxy_managers import OperatorUserManager, AdminUserManager, CustomerUserManager, CurrierUserManager
+from apps.models.proxy_managers import OperatorUserManager, AdminUserManager, CustomerUserManager, CurrierUserManager, \
+    ManagerUserManager
 
 
 class OperatorUserProxy(User):
@@ -29,6 +30,15 @@ class AdminUserProxy(User):
         proxy = True
         verbose_name = _('Admin')
         verbose_name_plural = _('Admins')
+
+
+class ManagerUserProxy(User):
+    objects = ManagerUserManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _('Manager')
+        verbose_name_plural = _('Managers')
 
 
 class CustomerUserProxy(User):

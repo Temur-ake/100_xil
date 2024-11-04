@@ -7,7 +7,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from django_ckeditor_5.fields import CKEditor5Field
 
-from apps.models import SiteSettings
+from apps.models import SiteSettings, User
 from apps.models.base import TimeSlugBased, TimeBasedModel
 
 
@@ -19,10 +19,15 @@ class Product(TimeSlugBased):
     category = ForeignKey('apps.Category', CASCADE, verbose_name=_('Category'))
     description = CKEditor5Field(verbose_name=_('Description'))
     product_fee = PositiveIntegerField(verbose_name=_('Product fee'), help_text=_("In sum"), null=True, blank=True)
+    manager_fee = PositiveIntegerField(verbose_name=_('Admin_profit'), help_text=_("In sum"), null=True, blank=True)
 
     class Meta:
         verbose_name = _('Product')
         verbose_name_plural = _('Products')
+
+    @property
+    def new_price(self):
+        return self.price - self.product_fee
 
 
 class Order(TimeBasedModel):
@@ -87,6 +92,11 @@ class Order(TimeBasedModel):
                 _operator[0].save()
                 _currier[0].save()
             self.is_product_fee_added = True
+
+        manager = User.objects.filter(type=User.Type.MANAGER).first()
+        manager.balance += (self.product.manager_fee * self.quantity)
+        manager.save()
+
         super().save(*args, force_insert=force_insert, force_update=force_update, using=using,
                      update_fields=update_fields)
 

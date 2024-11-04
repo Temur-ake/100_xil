@@ -1,8 +1,9 @@
 {% extends 'apps/base.html' %}
 
 {% block title %}
-    {{ request.url }}
+    | Market |
 {% endblock %}
+
 
 {% block main_content %}
     <div class="card mb-3">
@@ -22,12 +23,11 @@
                             <form action="{% url 'stream_create' %}" method="post" class="form-class">
                                 {% csrf_token %}
                                 Oqim nomi
-                                <input type="text" name="name" class="form-control" placeholder=""
-                                       mt-2="Oqim uchun nom kiriting" required="" id="id_title">
+                                <input type="text" name="name" class="form-control" placeholder="Oqim uchun nom kiriting:" required="" id="id_title">
                                 Chegirma
                                 <input type="hidden" name="owner" value="{{ user.pk }}">
                                 <input type="hidden" name="product" id="hidden_product" value="test">
-                                <input type="text" name="discount" class="form-control" placeholder="">
+                                <input type="text" name="discount" class="form-control" placeholder="Oqim chegirmasini kiriting:">
                                 <input type="submit" class="btn btn-primary mt-4" value="Oqim yaratish">
                             </form>
                         </div>
@@ -91,7 +91,7 @@
                                             {{ product.name }}
                                         </a>
                                     </h5>
-                                    <p class="text-muted"> {{ product.price }} </p>
+                                    <p class="text-muted"> {{ product.price }} so'm </p>
                                 </div>
 
                                 <ul class="list-group list-group-flush">
@@ -106,7 +106,7 @@
                                 </ul>
 
 
-                                <a href="https://t.me/alijahon_uz_Internet_magazin/1593"
+                                <a href="https://t.me/@onlinebozor1000xil"
                                    class="btn bg-danger text-white mt-2">Reklama
                                     Posti</a>
                                 <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"

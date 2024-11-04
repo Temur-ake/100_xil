@@ -38,6 +38,6 @@ class PaymentFormView(LoginRequiredMixin, FormView):
         return redirect(reverse_lazy('payment_history'))
 
     def form_valid(self, form):
-        text = """Successfully send transaction request"""
+        text = """ To'lovga so'rov yuborildi """
         messages.add_message(self.request, messages.SUCCESS, text)
         return redirect(reverse_lazy('payment_history'))
