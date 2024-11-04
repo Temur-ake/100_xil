@@ -2,7 +2,7 @@ name: 1000 xil project CI/CD Deployment
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main2 ]
 
 jobs:
   deploy:
@@ -16,6 +16,6 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /var/www/temur_1000_xil_project
+            cd /var/www/temur_100_xil
             git pull 
-            systemctl restart temur_1000_xil_project.service
+            systemctl restart temur_100_xil.service
