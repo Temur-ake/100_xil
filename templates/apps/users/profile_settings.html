@@ -43,26 +43,62 @@
                 <div class="card-header position-relative min-vh-25 mb-8">
                     <form action="{% url 'photo-settings' %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
+
                         <div class="cover-image">
                             <div class="bg-holder rounded-3 rounded-bottom-0"
                                  style="background-image:url(/static/new_design/assets/img/generic/4.jpg);">
                             </div>
                         </div>
+
                         <div class="avatar avatar-5xl avatar-profile shadow-sm img-thumbnail rounded-circle">
                             <div class="h-100 w-100 rounded-circle overflow-hidden position-relative">
                                 <label for="profile-image" class="image-label" style="cursor: pointer;">
                                     <img src="{{ user.photo.url }}" width="200" alt=""
                                          data-dz-thumbnail="data-dz-thumbnail" id="profile-picture">
-                                    <span class="update-text">Rasm joylash </span>
+                                    <span class="update-text">Rasm joylash</span>
                                 </label>
                             </div>
                             <input id="profile-image" name="photo" type="file" style="display: none;"
-                                   onchange="showUpdateText()"/>
+                                   onchange="showUpdateText(); validateImageSize()"/>
+
+                            <br>
+                            <h6 id="image-warning" class="text-danger" style="display:none;">Faqat 10MB gacha bo'lgan
+                                rasm yuklash mumkin!</h6>
+
                             <button class="btn btn-primary mt-3" type="submit">Saqlash</button>
                         </div>
                     </form>
                 </div>
             </div>
+
+            <script>
+                // This function will validate the file size of the selected image
+                function validateImageSize() {
+                    const fileInput = document.getElementById('profile-image');
+                    const warningText = document.getElementById('image-warning');
+
+                    const file = fileInput.files[0];
+                    if (file) {
+                        const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+                        if (file.size > maxSize) {
+                            warningText.style.display = 'inline'; // Show the warning if file is too large
+                            fileInput.value = ''; // Clear the file input
+                        } else {
+                            warningText.style.display = 'none'; // Hide the warning if file size is acceptable
+                        }
+                    }
+                }
+
+                // Optionally, change the text when a new image is selected
+                function showUpdateText() {
+                    const label = document.querySelector('.image-label');
+                    const fileInput = document.getElementById('profile-image');
+                    if (fileInput.files.length > 0) {
+                        label.querySelector('.update-text').textContent = 'Rasmni yangilash';
+                    }
+                }
+            </script>
+
 
         </div>
     </div>
@@ -87,7 +123,8 @@
 
                         <div class="col-lg-6">
                             Ismi
-                            <input type="text" name="first_name" class="form-control" placeholder="Ismingizni kiriting:" maxlength="30" id="id_first_name"
+                            <input type="text" name="first_name" class="form-control" placeholder="Ismingizni kiriting:"
+                                   maxlength="30" id="id_first_name"
                                    {% if user.first_name %}value="{{ user.first_name }}" {% endif %}>
 
                             <div data-lastpass-icon-root=""
@@ -96,7 +133,8 @@
 
                         <div class="col-lg-6">
                             Familiya
-                            <input type="text" name="last_name" class="form-control" placeholder="Familiyangizni kiriting" maxlength="40" id="id_last_name"
+                            <input type="text" name="last_name" class="form-control"
+                                   placeholder="Familiyangizni kiriting" maxlength="40" id="id_last_name"
                                    {% if user.last_name %}value="{{ user.last_name }}" {% endif %}>
 
                         </div>
@@ -133,7 +171,8 @@
 
                         <div class="col-lg-6">
                             Telegram id
-                            <input type="number" name="telegram_id" class="form-control" placeholder="Telegram ID ingizni kiriting:"
+                            <input type="number" name="telegram_id" class="form-control"
+                                   placeholder="Telegram ID ingizni kiriting:"
                                    {% if user.telegram_id %}value="{{ user.telegram_id }}" {% endif %} maxlength="200"
                                    id="id_telegram_id">
 
@@ -141,7 +180,8 @@
 
                         <div class="col-lg-6">
                             Siz haqingizda
-                            <textarea name="about" cols="40" rows="10" class="form-control"  placeholder="O'zingiz haqida ma'lumot kiriting: " maxlength="399"
+                            <textarea name="about" cols="40" rows="10" class="form-control"
+                                      placeholder="O'zingiz haqida ma'lumot kiriting: " maxlength="399"
                                       id="id_description">{% if user.about %}{{ user.about }}{% endif %}</textarea>
 
                         </div>
