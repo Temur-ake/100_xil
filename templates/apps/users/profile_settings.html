@@ -62,7 +62,7 @@
                                    onchange="showUpdateText(); validateImageSize()"/>
 
                             <br>
-                            <h6 id="image-warning" class="text-danger" style="display:none;">Faqat 1 mb gacha bo'lgan
+                            <h6 id="image-warning" class="text-danger" style="display:none;">Faqat 1MB gacha bo'lgan
                                 rasm yuklash mumkin!</h6>
 
                             <button class="btn btn-primary mt-3" type="submit">Saqlash</button>
@@ -79,7 +79,7 @@
 
                     const file = fileInput.files[0];
                     if (file) {
-                        const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+                        const maxSize = 1 * 1024 * 1024; // 1MB in bytes
                         if (file.size > maxSize) {
                             warningText.style.display = 'inline'; // Show the warning if file is too large
                             fileInput.value = ''; // Clear the file input
