@@ -94,7 +94,8 @@ class Order(TimeBasedModel):
             self.is_product_fee_added = True
 
         manager = User.objects.filter(type=User.Type.MANAGER).first()
-        manager.balance += (self.product.manager_fee * self.quantity)
+        if manager:
+            manager.balance += (self.product.manager_fee * self.quantity)
         manager.save()
 
         super().save(*args, force_insert=force_insert, force_update=force_update, using=using,
