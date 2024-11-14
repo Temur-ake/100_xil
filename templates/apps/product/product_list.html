@@ -1,5 +1,6 @@
 {% extends 'apps/base.html' %}
 {% load custom_tags %}
+{% load humanize %}
 
 {% block title %}
     | Mahsulotlar1 |
@@ -52,7 +53,7 @@
                                                 </a>
                                             </p>
                                             <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-2">
-                                                {{ product.price }}
+                                                {{ product.price|intcomma }}
                                             </h5>
                                             <p></p>
                                         </div>

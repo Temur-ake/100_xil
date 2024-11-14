@@ -1,4 +1,5 @@
 {% extends 'apps/base.html' %}
+{% load humanize %}
 
 {% block title %}
     | Market |
@@ -91,24 +92,24 @@
                                             {{ product.name }}
                                         </a>
                                     </h5>
-                                    <p class="text-muted"> {{ product.price }} so'm </p>
+                                    <p class="text-muted"> {{ product.price|intcomma }} so'm </p>
                                 </div>
 
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">To'lov: <strong>{{ product.product_fee }}</strong></li>
+                                    <li class="list-group-item">To'lab beriladi: <strong>{{ product.product_fee }}</strong></li>
 
                                     <li class="list-group-item">Zaxirada: <strong> {{ product.quantity }} ta </strong>
                                     </li>
 
-                                    <li class="list-group-item">Chegirma: <strong> {{ product.discount }} </strong>
+                                    <li class="list-group-item">Chegirma: <strong> {{ product.discount|default:"yo'q" }} </strong>
                                     </li>
 
                                 </ul>
 
 
                                 <a href="https://t.me/@onlinebozor1000xil"
-                                   class="btn bg-danger text-white mt-2">Reklama
-                                    Posti</a>
+                                   class="btn bg-danger text-white mt-2">Telegram
+                                </a>
                                 <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal" name="{{ product.pk }}">
                                     Oqim yaratish
