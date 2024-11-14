@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 from root.settings import STATIC_URL, STATIC_ROOT, MEDIA_URL, MEDIA_ROOT
 
 admin.site.index_title = _('My Index Title')
-admin.site.site_header = _('Alijahon Administration')
+admin.site.site_header = _('1000 xil Administration')
 admin.site.site_title = _('My Site Management')
 
 urlpatterns = i18n_patterns(

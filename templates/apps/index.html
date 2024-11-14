@@ -53,7 +53,7 @@
 
                 {% for product in products %}
                     <div class="col-6 mb-3 col-md-6 col-lg-4">
-                        <div class="border rounded-1 d-flex flex-column justify-content-between pb-3">
+                        <div class="border rounded-3 d-flex flex-column justify-content-between pb-3">
                             <div class="overflow-hidden">
                                 <div class="position-relative rounded-top overflow-hidden">
                                     <a class="d-block" href="{% url 'product-detail' product.slug %}">
@@ -70,7 +70,7 @@
                                         <a class="text-500"
                                            href="{% url 'category' %}?cat={{ product.category.slug }}">{{ product.category.name }}</a>
                                     </p>
-                                    <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-2"> {{ product.price|intcomma }}
+                                    <h5 class="fs-md-2 mb-0 d-flex align-items-center mb-2" style="color: #2c7be5"> {{ product.price|intcomma }}
                                         <!-- <del class="ms-2 fs--1 text-500">180 000 so'm </del> -->
                                     </h5>
                                 </div>
@@ -79,7 +79,7 @@
                             <div class="d-flex flex-between-center px-3">
 
                                 <div>
-                                    <a class="btn btn-sm btn-falcon-default" style="width: 100px; background-color: red; color: white"
+                                    <a class="btn btn-sm btn-falcon-default" style="width: 100px; background-color: #2c7be5; color: white"
                                        href="{% url 'product-detail' product.slug %}" data-bs-toggle="tooltip"
                                        data-bs-placement="top">
                                         <svg class="svg-inline--fa fa-cart-plus fa-w-18" aria-hidden="true"
