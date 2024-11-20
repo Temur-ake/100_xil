@@ -135,8 +135,8 @@ class Order(TimeBasedModel):
 
 class Stream(TimeBasedModel):
     name = CharField(verbose_name=_('Name'), max_length=255)
-    discount = PositiveIntegerField(verbose_name=_('Discount'), db_default=0, null=True, blank=True)
-    visit_count = PositiveIntegerField(verbose_name=_('Amount of visits'), db_default=0)
+    discount = PositiveIntegerField(verbose_name=_('Discount'), default=0, null=True, blank=True)
+    visit_count = PositiveIntegerField(verbose_name=_('Amount of visits'), default=0)
     product = ForeignKey('apps.Product', CASCADE, verbose_name=_('Product'))
     owner = ForeignKey('apps.User', CASCADE, verbose_name=_('Owner'))
 
