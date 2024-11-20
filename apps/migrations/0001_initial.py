@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=255)),
                 ('slug', models.SlugField(editable=False, max_length=255, unique=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True, db_default=django.db.models.functions.datetime.Now())),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('photo', models.ImageField(upload_to='categories/%Y/%m/%d', verbose_name='Photo')),
             ],
             options={
@@ -206,7 +206,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True, db_default=django.db.models.functions.datetime.Now())),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('quantity', models.PositiveIntegerField(blank=True, db_default=1, null=True, verbose_name='Quantity')),
                 ('status', models.CharField(choices=[('new', 'New'), ('archived', 'Archived'), ('ready_to_deliver', 'Ready to deliver'), ('delivering', 'Delivering'), ('delivered', 'Delivered'), ('broken', 'Broken'), ('returned', 'Returned'), ('canceled', 'Canceled'), ('waiting', 'Waiting')], default='new', max_length=50, verbose_name='Status')),
                 ('full_name', models.CharField(blank=True, max_length=50, null=True, verbose_name='Fullname')),
@@ -349,7 +349,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=255)),
                 ('slug', models.SlugField(editable=False, max_length=255, unique=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True, db_default=django.db.models.functions.datetime.Now())),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('price', models.PositiveIntegerField(help_text='In sum', verbose_name='Price')),
                 ('photo', models.ImageField(upload_to='products/%Y/%m/%d', verbose_name='Photo')),
                 ('quantity', models.PositiveIntegerField(verbose_name='Quantity')),
@@ -404,7 +404,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True, db_default=django.db.models.functions.datetime.Now())),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('name', models.CharField(max_length=255, verbose_name='Name')),
                 ('discount', models.PositiveIntegerField(blank=True, db_default=0, null=True, verbose_name='Discount')),
                 ('visit_count', models.PositiveIntegerField(db_default=0, verbose_name='Amount of visits')),
@@ -425,7 +425,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True, db_default=django.db.models.functions.datetime.Now())),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('card_number', models.CharField(max_length=200, verbose_name='Account number')),
                 ('status', models.CharField(choices=[('pending', 'Pending'), ('processing', 'Processing'), ('completed', 'Completed'), ('failed', 'Failed'), ('returned', 'Returned'), ('canceled', 'Canceled'), ('disputed', 'Disputed'), ('expired', 'Expired'), ('on_hold', 'On_hold')], default='pending', max_length=20, verbose_name='Status')),
                 ('amount', models.IntegerField(verbose_name='Amount')),
