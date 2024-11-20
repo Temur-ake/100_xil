@@ -42,7 +42,7 @@ class Order(TimeBasedModel):
         CANCELED = 'canceled', 'Canceled'
         WAITING = 'waiting', 'Waiting'
 
-    quantity = PositiveIntegerField(verbose_name=_('Quantity'), db_default=1, null=True, blank=True)
+    quantity = PositiveIntegerField(verbose_name=_('Quantity'), default=1, null=True, blank=True)
     status = CharField(verbose_name=_('Status'), max_length=50, choices=Status.choices, default=Status.NEW)
     full_name = CharField(verbose_name=_('Fullname'), max_length=50, null=True, blank=True)
     phone = CharField(verbose_name=_('Phone'), max_length=20)
