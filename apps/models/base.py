@@ -30,7 +30,7 @@ class SlugBasedModel(Model):
 
 class TimeBasedModel(Model):
     updated_at = DateTimeField(auto_now=True)
-    created_at = DateTimeField(auto_now_add=True, default=Now())
+    created_at = DateTimeField(auto_now_add=True)
 
     class Meta:
         abstract = True
