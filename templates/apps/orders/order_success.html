@@ -36,15 +36,26 @@
                 <th scope="col">{{ order.quantity }}</th>
             </tr>
 
-            <tr>
-                <th scope="col">Yetkazib berish</th>
-                <th scope="col">
-                    Toshkent shahar: {{ tashkent_city }}<br>
-                    Toshkent viloyat: {{ tashkent_region }}<br>
-                    Boshqa viloyatlarga: {{ other_regions }}<br>
-                </th>
-            </tr>
 
+            {% if 'hot-dog' in request.path %}
+                <tr>
+                    <th scope="col">Yetkazib berish</th>
+                    <th scope="col">
+                        Yetkazib berish xizmati bepul
+                    </th>
+                </tr>
+            {% else %}
+                <tr>
+                    <th scope="col">Yetkazib berish</th>
+                    <th scope="col">
+                        Fresh food mahsulotlarini yetkazish bepul !!!<br>
+                        Toshkent shahar: {{ tashkent_city }}<br>
+                        Toshkent viloyat: {{ tashkent_region }}<br>
+                        Boshqa viloyatlarga: {{ other_regions }}<br>
+                    </th>
+                </tr>
+            {% endif %}
+            
 
             </tbody>
         </table>

@@ -12,7 +12,7 @@ from apps.models import User, Order, Stream, Product, Transaction, SiteSettings,
 class OrderModelForm(ModelForm):
     class Meta:
         model = Order
-        fields = 'full_name', 'product', 'quantity', 'stream', 'owner', 'phone', 'region', 'district'
+        fields = 'full_name', 'product', 'quantity', 'stream', 'owner', 'phone', 'manzil', 'talab', 'region', 'district'
 
     def clean_phone(self):
         phone: str = re.sub(r'[^\d]', '', self.cleaned_data.get('phone'))

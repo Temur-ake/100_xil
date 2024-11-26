@@ -23,6 +23,24 @@ class OperatorStatisticUserProxy(User):
         verbose_name_plural = _('Operators Statistics')
 
 
+class CurrierStatisticUserProxy(User):
+    objects = CurrierUserManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _('Currier Statistics')
+        verbose_name_plural = _('Currier Statistics')
+
+
+class FreshCurrierStatisticUserProxy(User):
+    objects = CurrierUserManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _('Fresh food Kurrierlar Statistikasi')
+        verbose_name_plural = _('Fresh food Kurrierlar Statistikasi')
+
+
 class AdminUserProxy(User):
     objects = AdminUserManager()
 
@@ -66,20 +84,6 @@ class NewOrderProxy(Order):
         verbose_name_plural = _('New')
 
 
-class ArchivedOrderProxy(Order):
-    class Meta:
-        proxy = True
-        verbose_name = _('Archived')
-        verbose_name_plural = _('Archived')
-
-
-class ReadyToDeliverOrderProxy(Order):
-    class Meta:
-        proxy = True
-        verbose_name = _('Ready')
-        verbose_name_plural = _('Readies')
-
-
 class DeliveringOrderProxy(Order):
     class Meta:
         proxy = True
@@ -94,29 +98,55 @@ class DeliveredOrderProxy(Order):
         verbose_name_plural = _('Delivered')
 
 
-class BrokenOrderProxy(Order):
+class FreshStatisticProxy(Order):
     class Meta:
         proxy = True
-        verbose_name = _('Broken')
-        verbose_name_plural = _('Broken')
+        verbose_name = 'Fresh food Statistikasi'
+        verbose_name_plural = 'Fresh food Statistikalari'
 
 
-class ReturnedOrderProxy(Order):
+class FreshfoodKuryerlari(User):
     class Meta:
         proxy = True
-        verbose_name = _('Returned')
-        verbose_name_plural = _('Returned')
+        verbose_name = 'Fresh food Kuryerlari'
+        verbose_name_plural = 'Fresh food Kuryerlari'
 
+# class BrokenOrderProxy(Order):
+#     class Meta:
+#         proxy = True
+#         verbose_name = _('Broken')
+#         verbose_name_plural = _('Broken')
+#
+#
+# class ReturnedOrderProxy(Order):
+#     class Meta:
+#         proxy = True
+#         verbose_name = _('Returned')
+#         verbose_name_plural = _('Returned')
+#
+#
+# class CanceledOrderProxy(Order):
+#     class Meta:
+#         proxy = True
+#         verbose_name = _('Canceled')
+#         verbose_name_plural = _('Canceled')
+#
+#
+# class WaitingOrderProxy(Order):
+#     class Meta:
+#         proxy = True
+#         verbose_name = _('Waiting')
+#         verbose_name_plural = _('Waiting')
 
-class CanceledOrderProxy(Order):
-    class Meta:
-        proxy = True
-        verbose_name = _('Canceled')
-        verbose_name_plural = _('Canceled')
-
-
-class WaitingOrderProxy(Order):
-    class Meta:
-        proxy = True
-        verbose_name = _('Waiting')
-        verbose_name_plural = _('Waiting')
+# class ArchivedOrderProxy(Order):
+#     class Meta:
+#         proxy = True
+#         verbose_name = _('Archived')
+#         verbose_name_plural = _('Archived')
+#
+#
+# class ReadyToDeliverOrderProxy(Order):
+#     class Meta:
+#         proxy = True
+#         verbose_name = _('Ready')
+#         verbose_name_plural = _('Readies')

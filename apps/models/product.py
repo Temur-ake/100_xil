@@ -18,6 +18,7 @@ class Product(TimeSlugBased):
     discount = CharField(verbose_name=_('Discount'), max_length=255, null=True, blank=True)
     category = ForeignKey('apps.Category', CASCADE, verbose_name=_('Category'))
     description = CKEditor5Field(verbose_name=_('Description'))
+    owner = ForeignKey('apps.User', CASCADE, verbose_name=_('Mahsulotning Egasi'))
     product_fee = PositiveIntegerField(verbose_name=_('Product fee'), help_text=_("In sum"), null=True, blank=True)
     manager_fee = PositiveIntegerField(verbose_name=_('Admin_profit'), help_text=_("In sum"), null=True, blank=True)
 
@@ -48,7 +49,7 @@ class Order(TimeBasedModel):
     phone = CharField(verbose_name=_('Phone'), max_length=20)
     stream = ForeignKey('apps.Stream', CASCADE, null=True, blank=True, related_name='orders', verbose_name=_('Stream'))
     product = ForeignKey('apps.Product', CASCADE, related_name='orders', verbose_name=_('Product'))
-    owner = ForeignKey('apps.User', CASCADE, null=True, blank=True, verbose_name=_('Owner'))
+    owner = ForeignKey('apps.User', CASCADE, null=True, blank=True, verbose_name=_('Owner'), related_name='orders')
     operator = ForeignKey('apps.User', CASCADE, limit_choices_to={'type': 'operator'}, null=True, blank=True,
                           related_name='operator_orders', verbose_name=_('Operator'))
     currier = ForeignKey('apps.User', CASCADE, limit_choices_to={'type': 'currier'}, null=True, blank=True,
@@ -56,6 +57,8 @@ class Order(TimeBasedModel):
     region = ForeignKey('apps.Region', CASCADE, null=True, blank=True, verbose_name=_('Region'))
     district = ForeignKey('apps.District', CASCADE, null=True, blank=True, verbose_name=_('District'))
     comment = TextField(verbose_name=_('Comment'), null=True, blank=True)
+    talab = TextField(verbose_name=_('Talab'), null=True, blank=True)
+    manzil = TextField(verbose_name=_('Manzil'), null=True, blank=True)
     address = CharField(_('Address'), max_length=255, null=True, blank=True)
     send_date = DateTimeField(verbose_name=_('Send date'), blank=True, null=True)
     is_product_fee_added = BooleanField(verbose_name=_('Is product fee added'), null=True, blank=True, default=False)
@@ -93,10 +96,14 @@ class Order(TimeBasedModel):
                 _currier[0].save()
             self.is_product_fee_added = True
 
-        manager = User.objects.filter(type=User.Type.MANAGER).first()
-        if manager:
-            manager.balance += (self.product.manager_fee * self.quantity)
-            manager.save()
+        if self.status == Order.Status.DELIVERED and not self.is_product_fee_added:
+            site_settings = SiteSettings.objects.values()[0]
+            _currier = self.currier, site_settings['fee_for_currier']
+
+            manager = User.objects.filter(type=User.Type.MANAGER).first()
+            if manager:
+                manager.balance += (self.product.manager_fee * self.quantity)
+                manager.save()
 
         super().save(*args, force_insert=force_insert, force_update=force_update, using=using,
                      update_fields=update_fields)

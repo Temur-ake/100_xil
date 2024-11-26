@@ -22,7 +22,7 @@
         border-bottom: 1px solid #ddd;
     }
 
-    
+
 </style>
 
 {% block main_content %}
@@ -112,8 +112,13 @@
                                 </div>
 
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">To'lab beriladi:
-                                        <strong>{{ product.product_fee|intcomma }} so'm </strong></li>
+                                    <li class="list-group-item">
+                                        To'lab beriladi: {% if product.product_fee %}<strong>{{ product.product_fee|intcomma }}so'm </strong>
+                                        {% else %}<strong>{{ product.product_fee|default:0 }} so'm </strong>
+                                        {% endif %}
+                                        
+                                    </li>
+
                                     <li class="list-group-item">Zaxirada: <strong> {{ product.quantity }} ta </strong>
                                     </li>
                                     <li class="list-group-item">Qo'shimcha chegirma:

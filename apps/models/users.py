@@ -12,7 +12,7 @@ from apps.models.managers import CustomUserManager
 class User(AbstractUser):
     class Type(TextChoices):
         ADMIN = 'admin', 'Admin'
-        CUSTOMER = 'customer', _('Customer')
+        CUSTOMER = 'customer', 'Customer'
         OPERATOR = 'operator', 'Operator'
         CURRIER = 'currier', 'Currier'
         MANAGER = 'manager', 'Manager'
@@ -29,6 +29,7 @@ class User(AbstractUser):
     region = ForeignKey('apps.Region', CASCADE, verbose_name=_('Region'), null=True, blank=True)
     district = ManyToManyField('apps.District', verbose_name=_('District'))
     balance = IntegerField(verbose_name=_('Balance'), null=True, blank=True, default=0)
+    brand = ForeignKey('apps.User', CASCADE, verbose_name='Currierning Brandi', blank=True, null=True)
 
     objects = CustomUserManager()
 
