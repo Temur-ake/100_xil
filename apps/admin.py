@@ -826,11 +826,12 @@ from django.utils.translation import gettext_lazy as _
 from .models.proxy import FreshStatisticProxy, Order, User
 import datetime
 
+
 # product__owner
 @admin.register(FreshStatisticProxy)
 class FreshStatisticOrderModelAdmin(admin.ModelAdmin):
     change_list_template = 'admin/fresh_statistics.html'
-    list_display = ['product__owner','delivered_count', 'delivering_count', 'new_count', 'total_count']
+    list_display = ['delivered_count', 'delivering_count', 'new_count', 'total_count']
 
     def get_queryset(self, request):
         product_owner = User.objects.filter(phone='979631626').first()
