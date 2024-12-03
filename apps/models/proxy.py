@@ -1,44 +1,11 @@
 from django.utils.translation import gettext_lazy as _
 
 from apps.models import User, Order
-from apps.models.proxy_managers import OperatorUserManager, AdminUserManager, CustomerUserManager, CurrierUserManager, \
+from apps.models.proxy_managers import AdminUserManager, CustomerUserManager, CurrierUserManager, \
     ManagerUserManager
 
 
-class OperatorUserProxy(User):
-    objects = OperatorUserManager()
-
-    class Meta:
-        proxy = True
-        verbose_name = _('Operator')
-        verbose_name_plural = _('Operators')
-
-
-class OperatorStatisticUserProxy(User):
-    objects = OperatorUserManager()
-
-    class Meta:
-        proxy = True
-        verbose_name = _('Operator Statistics')
-        verbose_name_plural = _('Operators Statistics')
-
-
-class CurrierStatisticUserProxy(User):
-    objects = CurrierUserManager()
-
-    class Meta:
-        proxy = True
-        verbose_name = _('Currier Statistics')
-        verbose_name_plural = _('Currier Statistics')
-
-
-class FreshCurrierStatisticUserProxy(User):
-    objects = CurrierUserManager()
-
-    class Meta:
-        proxy = True
-        verbose_name = _('Fresh food Kurrierlar Statistikasi')
-        verbose_name_plural = _('Fresh food Kurrierlar Statistikasi')
+#
 
 
 class AdminUserProxy(User):
@@ -68,15 +35,6 @@ class CustomerUserProxy(User):
         verbose_name_plural = _('Clients')
 
 
-class CurrierUserProxy(User):
-    objects = CurrierUserManager()
-
-    class Meta:
-        proxy = True
-        verbose_name = _('Currier')
-        verbose_name_plural = _('Curriers')
-
-
 class NewOrderProxy(Order):
     class Meta:
         proxy = True
@@ -98,18 +56,60 @@ class DeliveredOrderProxy(Order):
         verbose_name_plural = _('Delivered')
 
 
-class FreshStatisticProxy(Order):
+class MyBiznesStatisticProxy(Order):
     class Meta:
         proxy = True
-        verbose_name = 'Fresh food Statistikasi'
-        verbose_name_plural = 'Fresh food Statistikalari'
+        verbose_name = 'Biznes Statistikasi'
+        verbose_name_plural = 'Biznes Statistikalari'
 
 
-class FreshfoodKuryerlari(User):
+class BarchaKuryerlarStatistikasiUserProxy(User):
+    objects = CurrierUserManager()
+
     class Meta:
         proxy = True
-        verbose_name = 'Fresh food Kuryerlari'
-        verbose_name_plural = 'Fresh food Kuryerlari'
+        verbose_name = _('Barcha Kuryerlar Statistikasi')
+        verbose_name_plural = _('Barcha Kuryerlar Statistikasi')
+
+
+class MeningKuryerlarimStatistikasiUserProxy(User):
+    objects = CurrierUserManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _('Mening Kuryerlarim Statistikasi ')
+        verbose_name_plural = _('Mening Kuryerlarim Statistikasi ')
+
+
+class MeningKuryerlarimUserProxy(User):
+    objects = CurrierUserManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _('Mening Kuryerlarim')
+        verbose_name_plural = _('Mening Kuryerlarim')
+
+
+class BarchaKuryerlarUserProxy(User):
+    objects = CurrierUserManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _('Barcha Kurrierlar')
+        verbose_name_plural = _('Barcha Kurrierlar')
+
+
+class UmumiyRaqamlarProxy(Order):
+    class Meta:
+        proxy = True
+        verbose_name = _('UmumiyRaqamlar')
+        verbose_name_plural = _('UmumiyRaqamlar')
+
+# class FreshfoodKuryerlari(User):
+#     class Meta:
+#         proxy = True
+#         verbose_name = 'Fresh food Kuryerlari'
+#         verbose_name_plural = 'Fresh food Kuryerlari'
 
 # class BrokenOrderProxy(Order):
 #     class Meta:
@@ -150,3 +150,21 @@ class FreshfoodKuryerlari(User):
 #         proxy = True
 #         verbose_name = _('Ready')
 #         verbose_name_plural = _('Readies')
+
+
+# class OperatorUserProxy(User):
+#     objects = OperatorUserManager()
+#
+#     class Meta:
+#         proxy = True
+#         verbose_name = _('Operator')
+#         verbose_name_plural = _('Operators')
+#
+#
+# class OperatorStatisticUserProxy(User):
+#     objects = OperatorUserManager()
+#
+#     class Meta:
+#         proxy = True
+#         verbose_name = _('Operator Statistics')
+#         verbose_name_plural = _('Operators Statistics')

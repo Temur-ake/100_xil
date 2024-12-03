@@ -3,7 +3,7 @@
 {% load humanize %}
 
 {% block content_title %}
-    <h1> {% trans 'Courier Statistics' %} </h1>
+    <h1>{% trans "Biznes Statistics" %}</h1>
 {% endblock %}
 
 {% block result_list %}
@@ -47,10 +47,12 @@
         }
     </style>
 
-    <!-- Display today's, weekly, and monthly statistics -->
+    <!-- Display the business owner's name (brand) -->
+    <h2>{{ brand_name }}</h2> <!-- The brand name is passed in the context -->
+
+    <!-- Display today's and monthly statistics -->
     <div class="statistics-summary">
         <p><strong>{% trans "Today's Deliveries" %}:</strong> {{ todays_stats|length }}</p>
-        <p><strong>{% trans "This Week's Deliveries" %}:</strong> {{ weekly_stats|length }}</p>
         <p><strong>{% trans "This Month's Deliveries" %}:</strong> {{ monthly_stats|length }}</p>
     </div>
 
@@ -58,26 +60,33 @@
         <table>
             <thead>
             <tr>
-                <th>{% trans 'Period' %}</th>
+                <th>{% trans 'Brand' %}</th>
+                <th>{% trans 'Product Name' %}</th>
+                <th>{% trans 'Product Quantity' %}</th>
+                <th>{% trans 'Order Status' %}</th>
+                <th>{% trans 'Phone' %}</th>
+                <th>{% trans 'Manzil' %}</th>
                 <th>{% trans 'Delivered Orders' %}</th>
                 <th>{% trans 'Delivering Orders' %}</th>
                 <th>{% trans 'New Orders' %}</th>
                 <th>{% trans 'Percentage' %}</th>
-                <th>{% trans 'Total Orders' %}</th>
             </tr>
             </thead>
             <tbody>
             {% for stat in summary_over_time %}
                 <tr>
-                    <td>{{ stat.period|capfirst }}</td>
-                    <td>{{ stat.delivered_count }}</td>
-                    <td>{{ stat.delivering_count }}</td>
-                    <td>{{ stat.new_count }}</td>
-                    <td>{{ stat.pct }}%</td>
-                    <td>{{ stat.total_count }}</td>
+                    <td>{{ brand_name }}</td> <!-- Display brand name -->
+                    <td>{{ stat.product_name }}</td> <!-- Product name -->
+                    <td>{{ stat.product_quantity }}</td> <!-- Product quantity -->
+                    <td>{{ stat.order_status }}</td> <!-- Order status -->
+                    <td>{{ stat.phone }}</td> <!-- Phone -->
+                    <td>{{ stat.manzil }}</td> <!-- Address (Manzil) -->
+                    <td>{{ stat.delivered_count }}</td> <!-- Delivered count -->
+                    <td>{{ stat.delivering_count }}</td> <!-- Delivering count -->
+                    <td>{{ stat.new_count }}</td> <!-- New count -->
+                    <td>{{ stat.pct }}%</td> <!-- Percentage -->
                 </tr>
             {% endfor %}
-            
             </tbody>
         </table>
 

@@ -1,0 +1,51 @@
+{% extends "admin/change_list.html" %}
+
+{% block content %}
+
+    <div>
+        <h2>Today's Statistics</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Period</th>
+                <th>Delivered</th>
+                <th>Delivering</th>
+{#                <th>New</th>#}
+            </tr>
+            </thead>
+            <br>
+            <tbody>
+            <tr>
+                <td>Today</td>
+                <td>{{ todays_stats.delivered_today }}</td>
+                <td>{{ todays_stats.delivering_today }}</td>
+{#                <td>{{ todays_stats.new_today }}</td>#}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div>
+        <h2>Monthly Statistics</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Period</th>
+                <th>Delivered</th>
+                <th>Delivering</th>
+{#                <th>New</th>#}
+            </tr>
+            </thead>
+            <br>
+            <tbody>
+            <tr>
+                <td>This Month</td>
+                <td>{{ monthly_stats.delivered_this_month }}</td>
+                <td>{{ monthly_stats.delivering_this_month }}</td>
+{#                <td>{{ monthly_stats.new_this_month }}</td>#}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

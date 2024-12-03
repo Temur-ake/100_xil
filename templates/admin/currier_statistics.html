@@ -7,60 +7,24 @@
 
 {% block result_list %}
     <style>
-        .bar-chart {
-            display: flex;
-            justify-content: space-around;
-            height: 160px;
-            padding-top: 60px;
-            overflow: hidden;
+        .statistics-summary {
+            margin-bottom: 20px;
         }
 
-        .bar-chart .bar {
-            flex: 100%;
-            align-self: flex-end;
-            margin-right: 2px;
-            position: relative;
-            background-color: #79aec8;
-        }
-
-        .bar-chart .bar:last-child {
-            margin: 0;
-        }
-
-        .bar-chart .bar:hover {
-            background-color: #417690;
-        }
-
-        .bar-chart .bar .bar-tooltip {
-            position: relative;
-            z-index: 999;
-        }
-
-        .bar-chart .bar .bar-tooltip {
-            position: absolute;
-            top: -60px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
+        .statistics-summary p {
+            font-size: 16px;
             font-weight: bold;
-            opacity: 0;
-        }
-
-        .bar-chart .bar:hover .bar-tooltip {
-            opacity: 1;
         }
     </style>
 
-    <!-- Display today's, weekly, and monthly statistics -->
+    <!-- Display today's and monthly statistics -->
     <div class="statistics-summary">
         <p><strong>{% trans "Today's Deliveries" %}:</strong> {{ todays_stats }}</p>
-        <p><strong>{% trans "This Week's Deliveries" %}:</strong> {{ weekly_stats }}</p>
         <p><strong>{% trans "This Month's Deliveries" %}:</strong> {{ monthly_stats }}</p>
     </div>
 
     <div class="results">
         <table>
-
             <thead>
             <tr>
                 <th>
@@ -91,9 +55,9 @@
             <tbody>
             {% for row in summary %}
                 <tr class="{% cycle 'row1' 'row2' %}">
-                    <td> {{ row.currier_full_name }} </td> <!-- Changed from 'operator_full_name' -->
+                    <td> {{ row.currier_full_name }} </td> <!-- Courier name -->
                     <td> {{ row.total | intcomma }} </td>
-                    <td> {{ row.delivered | default:0 | intcomma }} </td> <!-- Changed from 'succeed' to 'delivered' -->
+                    <td> {{ row.delivered | default:0 | intcomma }} </td>
                     <td>
                         <strong>
                             {{ row.of_total_deliveries|default:0 }} %
@@ -104,23 +68,11 @@
             <tr style="font-weight:bold; border-top:2px solid #DDDDDD;">
                 <td> {% trans "Total" %}</td>
                 <td> {{ summary_total.total | intcomma }} </td>
-                <td> {{ summary_total.delivered | default:0 }}</td> <!-- Changed from 'succeed' to 'delivered' -->
+                <td> {{ summary_total.delivered | default:0 }}</td>
                 <td> {{ overall | default:0 }} %</td>
             </tr>
             </tbody>
-
         </table>
-
-        <div class="bar-chart">
-            {% for x in summary_over_time %}
-                <div class="bar" style="height:{{ x.pct|default:0 }}%">
-                    <div class="bar-tooltip">
-                        {{ x.total | default:0 | intcomma }}<br>
-                        {{ x.period | date:"d/m/Y" }}
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
     </div>
 
 {% endblock %}
