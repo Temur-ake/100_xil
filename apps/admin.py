@@ -132,7 +132,7 @@ class CustomUserAdmin(CustomAdminMixin, UserAdmin):
             None,
             {
                 "classes": ("wide",),
-                "fields": ('phone', "usable_password", "password1", "password2"),
+                "fields": ('phone', "password1", "password2"),
             },
         ),
     )
@@ -273,7 +273,7 @@ class UserModelAdmin(UserAdmin, CustomAdminMixin):
             None,
             {
                 "classes": ("wide",),
-                "fields": ('phone', "usable_password", "password1", "password2"),
+                "fields": ('phone', "password1", "password2"),
             },
         ),
     )
