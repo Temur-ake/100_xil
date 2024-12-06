@@ -96,14 +96,23 @@ class Order(TimeBasedModel):
                 _currier[0].save()
             self.is_product_fee_added = True
 
-        if self.status == Order.Status.DELIVERED and not self.is_product_fee_added:
-            site_settings = SiteSettings.objects.values()[0]
-            _currier = self.currier, site_settings['fee_for_currier']
+        if self.status == Order.Status.DELIVERED and not self.is_product_fee_added and str(
+                self.product.owner) == '999999999':
+            # site_settings = SiteSettings.objects.values()[0]
+            # _currier = self.currier, site_settings['fee_for_currier']
 
             manager = User.objects.filter(type=User.Type.MANAGER).first()
+
             if manager:
                 manager.balance += (self.product.manager_fee * self.quantity)
                 manager.save()
+
+        if self.status == Order.Status.DELIVERED and not self.is_product_fee_added and str(
+                self.product.owner) == '979631626':
+            manager1 = User.objects.filter(type=User.Type.MANAGER, phone='990501655').first()
+            if manager1:
+                manager1.balance += (self.product.manager_fee * self.quantity)
+                manager1.save()
 
         super().save(*args, force_insert=force_insert, force_update=force_update, using=using,
                      update_fields=update_fields)
