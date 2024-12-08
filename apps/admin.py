@@ -10,6 +10,7 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.forms import CustomAdminAuthenticationForm
 from apps.views.auth_views import SuccessValijonTemplateView
+from .models.product import DescriptionImage
 
 admin.site.login_form = CustomAdminAuthenticationForm
 
@@ -221,10 +222,18 @@ class CategoryModelAdmin(CustomShopModelAdmin):
             return mark_safe(f"<img src={img.url} alt='img' width='60px' height='60px'")
 
 
+class DescriptionImageInline(admin.StackedInline):
+    model = DescriptionImage
+    extra = 1  # Number of empty forms displayed
+    verbose_name = _('Description Image')
+    verbose_name_plural = _('Description Images')
+
+
 @admin.register(Product)
 class ProductModelAdmin(CustomShopModelAdmin):
     list_display = 'id', 'name', 'price', 'quantity', 'gfvhb', 'change_button', 'delete_button'
     search_fields = 'id', 'name', 'price'
+    inlines = [DescriptionImageInline]
 
     @admin.display(description=_('Photo'))
     def gfvhb(self, obj: Product):

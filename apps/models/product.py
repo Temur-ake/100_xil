@@ -31,6 +31,19 @@ class Product(TimeSlugBased):
         return self.price - self.product_fee
 
 
+class DescriptionImage(TimeBasedModel):
+    product = ForeignKey(Product, on_delete=CASCADE, related_name='description_images',
+                         verbose_name=_('Product'))
+    image = ImageField(upload_to='products/descriptions/%Y/%m/%d', verbose_name=_('Description Image'))
+
+    class Meta:
+        verbose_name = _('Description Image')
+        verbose_name_plural = _('Description Images')
+
+    def __str__(self):
+        return f"Image for {self.product.name}"
+
+
 class Order(TimeBasedModel):
     class Status(TextChoices):
         NEW = 'new', 'New'

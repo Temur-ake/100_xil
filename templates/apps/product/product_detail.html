@@ -8,6 +8,7 @@
 {% block main_content %}
     <div class="card mb-3 mt-2">
         <div class="card-body">
+            <!-- Product Form -->
             <div class="col-lg-8 swiper-container">
                 <form action="{% url 'product-detail' product.slug %}" method="post">
                     {% csrf_token %}
@@ -15,74 +16,108 @@
                         <label class="form-label" for="formGroupNameInput">Ism:</label>
                         <input class="form-control" name="full_name" placeholder="Ismingizni kiriting:"
                                id="formGroupNameInput" required type="text">
-                        <input class="form-control" name="product" id="formGroupNameInput" type="hidden"
-                               value="{{ product.pk }}">
+                        <input class="form-control" name="product" type="hidden" value="{{ product.pk }}">
                         {% if user.is_authenticated %}
-                            <input class="form-control" name="owner" id="formGroupNameInput" type="hidden"
-                                   value="{{ user.pk }}">
-                            <input class="form-control" name="stream" id="formGroupNameInput" type="hidden"
-                                   value="{{ stream_id }}">
+                            <input class="form-control" name="owner" type="hidden" value="{{ user.pk }}">
+                            <input class="form-control" name="stream" type="hidden" value="{{ stream_id }}">
                         {% endif %}
                     </div>
                     <div class="mb-4">
-                        <label class="form-label" for="phone-mask">
-                            Telefon nomer:   {% if messages %}
+                        <label class="form-label" for="phone-mask">Telefon nomer:</label>
+                        {% if messages %}
                             {% for message in messages %}
-                                <div class="alert alert-danger">
-                                    {{ message }}
-                                </div>
+                                <div class="alert alert-danger">{{ message }}</div>
                             {% endfor %}
                         {% endif %}
-                        </label>
-                        <input class="form-control" id="phone-mask" required=""
+                        <input class="form-control" id="phone-mask" required
                                placeholder="Telefon raqamingizni kiriting:" name="phone" type="text">
                     </div>
-                    <label class="form-label" for="formGroupNameInput">Manzil:</label>
-                    <input class="form-control" name="manzil" placeholder="Manzilni kiriting: " id="formGroupNameInput"
-                           required type="text">
-                    <label class="form-label" for="formGroupNameInput">Talablar:</label>
-                    <input class="form-control" name="talab" placeholder="Talabingizni kiriting: (agar bo'lsa 😊 )"
-                           id="formGroupNameInput" type="text">
-                    <span style="padding-bottom: 100px;">
-                </span>
+                    <div class="mb-2">
+                        <label class="form-label" for="formGroupAddressInput">Manzil:</label>
+                        <input class="form-control" name="manzil" placeholder="Manzilni kiriting:"
+                               id="formGroupAddressInput" required type="text">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label" for="formGroupRequestInput">Talablar:</label>
+                        <input class="form-control" name="talab" placeholder="Talabingizni kiriting: (agar bo'lsa 😊 )"
+                               id="formGroupRequestInput" type="text">
+                    </div>
                     <div class="d-grid gap-2 col-6 mx-auto" style="margin-top: 20px;">
                         <button class="btn btn-primary" type="submit">Buyurtma berish</button>
                     </div>
                 </form>
             </div>
+            <br>
+            <!-- Swiper Slider for Product Images -->
             <div class="row">
-                <div class="col-lg-8 swiper-container" style="margin-top: 20px;">
-                    <img src="{{ product.photo.url }}" alt="" class="img-main mb-3 img-fluid">
-                    <div class="row mb-5 thumbs">
+                <div class="col-lg-12">
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <!-- Main Product Image -->
+                            <div class="swiper-slide">
+                                <img src="{{ product.photo.url }}" alt="{{ product.name }}"
+                                     class="img-fluid image-uniform">
+                            </div>
+                            <!-- Additional Description Images -->
+                            {% for image in product.description_images.all %}
+                                <div class="swiper-slide">
+                                    <img src="{{ image.image.url }}" alt="Description Image"
+                                         class="img-fluid image-uniform">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- Swiper Navigation -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <!-- Swiper Pagination -->
+                        <div class="swiper-pagination"></div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8 swiper-container">
-                <h5>
-                    {{ product.name }}
-                </h5>
-                <p class="fs--1">
-                </p>
-                <p>
-                    {{ product.description|safe }}
-                </p>
+
+            <div class="col-lg-8">
+                <h5>{{ product.name }}</h5>
+                <p>{{ product.description|safe }}</p>
                 <h4 class="d-flex align-items-center">
-                <span class="text-warning me-2">
-                {{ product.price|add:discount|intcomma }} so'm
-                </span>
+                    <span class="text-warning me-2">
+                        {{ product.price|add:discount|intcomma }} so'm
+                    </span>
                 </h4>
             </div>
         </div>
     </div>
 
+    <!-- Include jQuery for Phone Mask -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js"></script>
-
     <script>
         $(document).ready(function () {
             $('#phone-mask').inputmask({
-                "mask": "+\\9\\98(99) 999-99-99"
+                "mask": "+998(99) 999-99-99"
             });
         });
+
+        // Initialize Swiper
+        const swiper = new Swiper('.mySwiper', {
+            loop: true,  // Enable looping
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
     </script>
+
+    <!-- Custom CSS -->
+    <style>
+        .image-uniform {
+            width: 80%; /* Ensures the image takes up the full width of its container */
+            height: 80%; /* Fixed height for all images */
+            object-fit: cover; /* Ensures the image fills the container without stretching */
+            border-radius: 10px; /* Optional: adds rounded corners */
+        }
+    </style>
 {% endblock %}
