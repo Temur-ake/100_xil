@@ -28,7 +28,7 @@ class AllProductListView(ListView):
 
 
 class ProductListView(ListView):
-    queryset = Product.objects.all()
+    queryset = Product.objects.all().order_by('-created_at')
     template_name = 'apps/product/product_list.html'
     context_object_name = 'products'
     paginate_by = 21
