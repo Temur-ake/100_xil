@@ -22,7 +22,9 @@ class MyOrdersTemplateView(LoginRequiredMixin, ListView):
     context_object_name = 'orders'
 
     def get_queryset(self):
-        qs = super().get_queryset().filter(phone=self.request.user).order_by('-created_at')
+        qs = super().get_queryset().filter(phone=self.request.user,
+                                           status__in=[Order.Status.NEW, Order.Status.DELIVERING]).order_by(
+            '-created_at')
         return qs
 
 
