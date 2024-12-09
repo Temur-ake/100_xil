@@ -1,45 +1,53 @@
 {% extends 'apps/base.html' %}
 
 {% block title %}
-    | Oqimlar statistikasi | 
+    | Oqimlar statistikasi |
 {% endblock %}
 
 {% block main_content %}
     <div class="card mb-3">
         <div class="card-body">
             <div class="container">
-                <div class="container border-bottom-4">
-                    <div class="header_tab_menu">
-                        <div class="header_menu" style="overflow: auto">
-                            <a href="{% url 'statistic' %}?period=today" class="btn btn-default">Bugun</a>
-                            <a href="{% url 'statistic' %}?period=last_day" class="btn btn-default">Kechagi</a>
-                            <a href="{% url 'statistic' %}?period=weekly" class="btn btn-default">Haftalik</a>
-                            <a href="{% url 'statistic' %}?period=monthly" class="btn btn-default">Oylik</a>
-                            <a href="{% url 'statistic' %}?period=all" class="btn btn-default">Hammasi</a>
-                        </div>
+                <!-- Category Buttons -->
+                <div class="mb-3 text-center">
+                    <div class="btn-group" role="group">
+                        <a href="{% url 'statistic' %}?period=today"
+                           class="btn category-btn {% if request.GET.period == 'today' %}active{% endif %}">Bugun</a>
+                        <a href="{% url 'statistic' %}?period=last_day"
+                           class="btn category-btn {% if request.GET.period == 'last_day' %}active{% endif %}">Kechagi</a>
+                        <a href="{% url 'statistic' %}?period=weekly"
+                           class="btn category-btn {% if request.GET.period == 'weekly' %}active{% endif %}">Haftalik</a>
+                        <a href="{% url 'statistic' %}?period=monthly"
+                           class="btn category-btn {% if request.GET.period == 'monthly' %}active{% endif %}">Oylik</a>
+                        <a href="{% url 'statistic' %}?period=all"
+                           class="btn category-btn {% if request.GET.period == 'all' %}active{% endif %}">Hammasi</a>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead class="text-center">
 
+                <!-- Data Table -->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead class="text-center bg-primary text-white">
                         <tr>
                             <th scope="col">Oqim</th>
                             <th scope="col">Mahsulot</th>
                             <th scope="col">Tashrif</th>
                             {% for type in order_types %}
-                                <th scope="col">{{ type }}</th>
+                                {% if not type == "Ready to deliver"%}
+                                    <th scope="col">{{ type }}</th>
+                                {% endif %}
                             {% endfor %}
-
-
                         </tr>
-                        <tr class="bg-info">
-                            <td> JAMI</td>
+                        </thead>
+                        <tbody>
+                        <!-- Total Row -->
+                        <tr class="text-center">
+                            <td><strong>JAMI</strong></td>
                             <td></td>
-                            <td>{{ all_count_visits|default:0}}</td>
+                            <td>{{ all_count_visits|default:0 }}</td>
                             <td>{{ all_count_new|default:0 }}</td>
                             <td>{{ all_count_archived|default:0 }}</td>
-                            <td>{{ all_count_ready_to_deliver|default:0 }}</td>
+                            {#                            <td>{{ all_count_ready_to_deliver|default:0 }}</td>#}
                             <td>{{ all_count_delivering|default:0 }}</td>
                             <td>{{ all_count_delivered|default:0 }}</td>
                             <td>{{ all_count_defective_product|default:0 }}</td>
@@ -47,18 +55,15 @@
                             <td>{{ all_count_canceled|default:0 }}</td>
                             <td>{{ all_count_waiting|default:0 }}</td>
                         </tr>
-                        </thead>
-
-                        <tbody class="text-center">
-
+                        <!-- Stream Rows -->
                         {% for stream in streams %}
-                            <tr>
-                                <th>{{ stream.name }}</th>
-                                <th>{{ stream.product.name }}</th>
+                            <tr class="text-center">
+                                <td>{{ stream.name }}</td>
+                                <td>{{ stream.product.name }}</td>
                                 <td>{{ stream.visit_count }}</td>
                                 <td>{{ stream.count_new|default:0 }}</td>
                                 <td>{{ stream.count_archived|default:0 }}</td>
-                                <td>{{ stream.count_ready_to_deliver|default:0 }}</td>
+                                {#                                <td>{{ stream.count_ready_to_deliver|default:0 }}</td>#}
                                 <td>{{ stream.count_delivering|default:0 }}</td>
                                 <td>{{ stream.count_delivered|default:0 }}</td>
                                 <td>{{ stream.count_defective_product|default:0 }}</td>
@@ -67,25 +72,64 @@
                                 <td>{{ stream.count_waiting|default:0 }}</td>
                             </tr>
                         {% endfor %}
-
-                        <tr class="bg-info">
-                            <td> JAMI</td>
-                            <td></td>
-                            <td>{{ all_count_visits|default:0}}</td>
-                            <td>{{ all_count_new|default:0 }}</td>
-                            <td>{{ all_count_archived|default:0 }}</td>
-                            <td>{{ all_count_ready_to_deliver|default:0 }}</td>
-                            <td>{{ all_count_delivering|default:0 }}</td>
-                            <td>{{ all_count_delivered|default:0 }}</td>
-                            <td>{{ all_count_defective_product|default:0 }}</td>
-                            <td>{{ all_count_returned|default:0 }}</td>
-                            <td>{{ all_count_canceled|default:0 }}</td>
-                            <td>{{ all_count_waiting|default:0 }}</td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+        .category-btn {
+            margin: 2px;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c7be5;
+            border: 1px solid #2c7be5;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: 0.3s ease;
+        }
+
+        .category-btn:hover {
+            background-color: #2c7be5;
+            color: #fff;
+        }
+
+        .category-btn.active {
+            background-color: #2c7be5;
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .category-btn {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .category-btn {
+                font-size: 10px;
+                padding: 5px 8px;
+            }
+        }
+
+        {#.table thead {#}
+        {#    background-color: #343a40;#}
+        {#    color: #fff;#}
+        {
+        #}#}
+
+        {#.table tbody tr:nth-child(even) {#}
+        {#    background-color: #f8f9fa;#}
+        {
+        #}#}
+
+        {#.table tbody tr:hover {#}
+        {#    background-color: #e9ecef;#}
+        {
+        #}#}
+    </style>
 {% endblock %}
