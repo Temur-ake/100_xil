@@ -12,7 +12,7 @@ from apps.models import User, Order, Stream, Product, Transaction, SiteSettings,
 class OrderModelForm(ModelForm):
     class Meta:
         model = Order
-        fields = 'full_name', 'product', 'quantity', 'stream', 'owner', 'phone', 'manzil', 'talab', 'region', 'district'
+        fields = 'full_name', 'product', 'quantity', 'stream', 'owner', 'phone', 'manzil', 'region', 'district'
 
     def clean_phone(self):
         phone: str = re.sub(r'[^\d]', '', self.cleaned_data.get('phone'))
@@ -21,11 +21,11 @@ class OrderModelForm(ModelForm):
         phone = phone[-9:]
         return phone
 
-    def clean_quantity(self):
-        quantity = self.cleaned_data.get('quantity')
-        if quantity is None:
-            quantity = 1
-        return quantity
+    # def clean_quantity(self):
+    #     quantity = self.cleaned_data.get('quantity')
+    #     if quantity is None:
+    #         quantity = 1
+    #     return quantity
 
 
 class OrderUpdateModelFormView(ModelForm):

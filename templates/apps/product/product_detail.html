@@ -37,11 +37,17 @@
                         <input class="form-control" name="manzil" placeholder="Manzilni kiriting:"
                                id="formGroupAddressInput" required type="text">
                     </div>
+
+                    <!-- Quantity with + and - buttons -->
                     <div class="mb-2">
-                        <label class="form-label" for="formGroupRequestInput">Talablar:</label>
-                        <input class="form-control" name="talab" placeholder="Talabingizni kiriting: (agar bo'lsa 😊)"
-                               id="formGroupRequestInput" type="text">
+                        <label class="form-label" for="formGroupQuantitySelect">Soni:</label>
+                        <div class="input-group">
+                            <button type="button" class="btn btn-outline-secondary" id="decrement">-</button>
+                            <input type="number" class="form-control" name="quantity" id="quantity" value="1" min="1" max="9" required>
+                            <button type="button" class="btn btn-outline-secondary" id="increment">+</button>
+                        </div>
                     </div>
+
                     <div class="d-grid gap-2 col-6 mx-auto" style="margin-top: 20px;">
                         <button class="btn btn-primary" type="submit">Buyurtma berish</button>
                     </div>
@@ -66,9 +72,6 @@
                                 </div>
                             {% endfor %}
                         </div>
-                        <!-- Swiper Navigation -->
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
                         <!-- Swiper Pagination -->
                         <div class="swiper-pagination"></div>
                     </div>
@@ -90,6 +93,9 @@
     <!-- Include jQuery for Phone Mask -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+
     <script>
         $(document).ready(function () {
             $('#phone-mask').inputmask({
@@ -97,27 +103,71 @@
             });
         });
 
-        // Initialize Swiper
+        // Initialize Swiper with Auto-Slide
         const swiper = new Swiper('.mySwiper', {
             loop: true,  // Enable looping
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true,
             },
+            autoplay: {
+                delay: 2000, // Auto-slide every 2 seconds
+                disableOnInteraction: false, // Keep auto-sliding even if interacted
+            },
+        });
+
+        // Quantity buttons
+        $('#increment').click(function() {
+            var quantity = $('#quantity').val();
+            if (quantity < 9) {
+                $('#quantity').val(parseInt(quantity) + 1);
+            }
+        });
+
+        $('#decrement').click(function() {
+            var quantity = $('#quantity').val();
+            if (quantity > 1) {
+                $('#quantity').val(parseInt(quantity) - 1);
+            }
         });
     </script>
 
     <!-- Custom CSS -->
     <style>
+        /* Make the description images fully responsive */
         .image-uniform {
-            width: 80%; /* Ensures the image takes up the full width of its container */
-            height: 80%; /* Fixed height for all images */
-            object-fit: cover; /* Ensures the image fills the container without stretching */
+            width: 100%; /* Ensures the image takes up the full width of its container */
+            height: auto; /* Maintains aspect ratio */
+            object-fit: contain; /* Ensures the image fits within its container without cropping */
             border-radius: 10px; /* Optional: adds rounded corners */
         }
+
+        /* Adjust image display for smaller screens */
+        @media (max-width: 768px) {
+            .image-uniform {
+                width: 100%; /* Ensures image takes up full width on small screens */
+                height: 80%; /* Ensures aspect ratio is maintained on smaller screens */
+            }
+        }
+
+        /* Custom styling for quantity input */
+        .input-group {
+            display: flex;
+            align-items: center;
+            width: 150px; /* Makes the width responsive */
+            justify-content: center;
+        }
+        .input-group .form-control {
+            width: 60px; /* Adjust width of the quantity input */
+            text-align: center;
+        }
+        .input-group .btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
+
 {% endblock %}

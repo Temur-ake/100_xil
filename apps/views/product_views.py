@@ -68,6 +68,7 @@ class ProductStreamDetail(DetailView, FormView):
         ctx = super().get_context_data(**kwargs)
         ctx['discount'] = self._stream_discount
         ctx['stream_id'] = self.kwargs.get(self.pk_url_kwarg, '')
+        ctx['range_1_to_9'] = range(1, 10)
         return ctx
 
     def form_valid(self, form):
@@ -75,7 +76,7 @@ class ProductStreamDetail(DetailView, FormView):
         return redirect('order-detail', pk=order.id)
 
     def form_invalid(self, form):
-        message = "Notoog'ri Telefon nomer !"
+        message = "Noto'g'ri telefon nomer !"
         messages.add_message(self.request, messages.WARNING, message)
         product_slug = form.cleaned_data.get('product').slug
         return redirect('product-detail', slug=product_slug)

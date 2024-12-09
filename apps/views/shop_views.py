@@ -16,8 +16,14 @@ from apps.models import User, Category, Product, Region, Order, Stream, SiteSett
 from apps.views import CustomListView, CustomCreateView, CustomUpdateView
 
 
-class MyOrdersTemplateView(LoginRequiredMixin, TemplateView):
+class MyOrdersTemplateView(LoginRequiredMixin, ListView):
     template_name = 'apps/orders/my_orders.html'
+    model = Order
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        qs = super().get_queryset().filter(phone=self.request.user).order_by('-created_at')
+        return qs
 
 
 class OrderDetailView(DetailView):

@@ -70,7 +70,6 @@ class Order(TimeBasedModel):
     region = ForeignKey('apps.Region', CASCADE, null=True, blank=True, verbose_name=_('Region'))
     district = ForeignKey('apps.District', CASCADE, null=True, blank=True, verbose_name=_('District'))
     comment = TextField(verbose_name=_('Comment'), null=True, blank=True)
-    talab = TextField(verbose_name=_('Talab'), null=True, blank=True)
     manzil = TextField(verbose_name=_('Manzil'), null=True, blank=True)
     address = CharField(_('Address'), max_length=255, null=True, blank=True)
     send_date = DateTimeField(verbose_name=_('Send date'), blank=True, null=True)
@@ -111,21 +110,31 @@ class Order(TimeBasedModel):
 
         if self.status == Order.Status.DELIVERED and not self.is_product_fee_added and str(
                 self.product.owner) == '999999999':
-            # site_settings = SiteSettings.objects.values()[0]
+            site_settings = SiteSettings.objects.values()[0]
             # _currier = self.currier, site_settings['fee_for_currier']
 
             manager = User.objects.filter(type=User.Type.MANAGER).first()
+            _currier = self.currier, site_settings['fee_for_currier']
 
             if manager:
                 manager.balance += (self.product.manager_fee * self.quantity)
+                _currier[0].balance += _currier[1]
                 manager.save()
+                _currier[0].save()
+                self.is_product_fee_added = True
 
         if self.status == Order.Status.DELIVERED and not self.is_product_fee_added and str(
                 self.product.owner) == '979631626':
+            site_settings = SiteSettings.objects.values()[0]
             manager1 = User.objects.filter(type=User.Type.MANAGER, phone='990501655').first()
+            _currier = self.currier, site_settings['fee_for_currier']
             if manager1:
                 manager1.balance += (self.product.manager_fee * self.quantity)
+                _currier[0].balance += _currier[1]
+
                 manager1.save()
+                _currier[0].save()
+                self.is_product_fee_added = True
 
         super().save(*args, force_insert=force_insert, force_update=force_update, using=using,
                      update_fields=update_fields)

@@ -8,10 +8,13 @@
     <div class="card mb-3">
         <div class="card-body">
             <div class="container" style="padding-top: 10px;">
+                {% if not orders %}
+                    <h3 class="text-center">Sizda hozircha buyurtmalar yo'q</h3>
+                {% endif %}
                 <div class="content_cart">
                     <div class="content_single-product-nouser">
                         <div class="row">
-                            {% for order in user.order_set.all %}
+                            {% for order in orders %}
                                 <div class="col-md-4 p-5">
                                     <h3>Mahsulot: {{ order.product.name }}</h3>
                                     {% if order.stream %}
