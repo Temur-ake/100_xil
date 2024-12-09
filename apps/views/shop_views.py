@@ -68,7 +68,7 @@ class StreamCreateView(CreateView):
 
     def form_invalid(self, form):
         text = """
-            The discount amount has increased!
+            Chegirma miqdori oshib ketdi !
         """
         messages.add_message(self.request, messages.WARNING, text)
         return redirect('market')

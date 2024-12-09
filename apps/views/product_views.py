@@ -75,7 +75,7 @@ class ProductStreamDetail(DetailView, FormView):
         return redirect('order-detail', pk=order.id)
 
     def form_invalid(self, form):
-        message = "Invalid phone number!"
+        message = "Notoog'ri Telefon nomer !"
         messages.add_message(self.request, messages.WARNING, message)
         product_slug = form.cleaned_data.get('product').slug
         return redirect('product-detail', slug=product_slug)

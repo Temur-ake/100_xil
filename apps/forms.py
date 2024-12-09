@@ -17,7 +17,7 @@ class OrderModelForm(ModelForm):
     def clean_phone(self):
         phone: str = re.sub(r'[^\d]', '', self.cleaned_data.get('phone'))
         if len(phone) != 12 or not phone.startswith('998'):
-            raise ValidationError('Incorrect phone number')
+            raise ValidationError("Noto'gri telefon raqam")
         phone = phone[-9:]
         return phone
 
@@ -75,13 +75,13 @@ class StreamModelForm(ModelForm):
         data = super().clean()
         discount = data.get('discount')
         product_id = data.get('product').pk
-        product_fee = Product.objects.filter(id=product_id).values_list('product_fee')[0][0]
+        product_fee = Product.objects.filter(id=product_id).values_list('product_fee')[0][0] or 0
         if discount is None:
             data['discount'] = 0
         elif data['discount'] < 0:
-            raise ValidationError('Discount must be positive')
+            raise ValidationError("Chegirma musbat bo'lishi kerak")
         if data['discount'] > product_fee:
-            raise ValidationError('Discount must not be exceed than product fee')
+            raise ValidationError("Chegirma mahsulot to'lab beriladigan narxdan oshmasligi kerak")
         return data
 
 
@@ -95,7 +95,7 @@ class LoginRegisterModelForm(Form):
     def clean(self):
         cleaned_data = super().clean()
         if ('phone' or 'password') not in cleaned_data.keys():
-            raise ValidationError('Phone and password cannot be blank')
+            raise ValidationError("Telefon va parol bo'sh bo'lishi mumkin emas")
         password = cleaned_data.get('password')
         phone: str = re.sub(r'[^\d]', '', cleaned_data.get('phone'))
         if len(phone) != 12 or not phone.startswith('998'):
@@ -109,7 +109,7 @@ class LoginRegisterModelForm(Form):
         user = authenticate(phone=phone, password=password)
 
         if user is None:
-            raise ValidationError('Password incorrect')
+            raise ValidationError("Parol xato")
         self._cache_user = user
         return cleaned_data
 
