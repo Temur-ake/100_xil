@@ -12,7 +12,14 @@ class AllProductListView(ListView):
     queryset = Product.objects.select_related('category').order_by('-created_at')
     template_name = 'apps/index.html'
     context_object_name = 'products'
-    paginate_by = 21
+    paginate_by = 56
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        search = self.request.GET.get('search')
+        if search:
+            qs = qs.filter(Q(name__icontains=search) | Q(description__icontains=search))
+        return qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(object_list=object_list, **kwargs)
@@ -31,13 +38,16 @@ class ProductListView(ListView):
     queryset = Product.objects.all().order_by('-created_at')
     template_name = 'apps/product/product_list.html'
     context_object_name = 'products'
-    paginate_by = 21
+    paginate_by = 56
 
     def get_queryset(self):
         qs = super().get_queryset()
         category = self.request.GET.get('cat')
+        search = self.request.GET.get('search')
         if category:
             return qs.filter(category__slug=category)
+        if search:
+            qs = qs.filter(Q(name__icontains=search) | Q(description__icontains=search))
         return qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
