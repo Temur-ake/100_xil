@@ -12,7 +12,7 @@ class AllProductListView(ListView):
     queryset = Product.objects.select_related('category').order_by('-created_at')
     template_name = 'apps/index.html'
     context_object_name = 'products'
-    paginate_by = 56
+    paginate_by = 80
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -38,7 +38,7 @@ class ProductListView(ListView):
     queryset = Product.objects.all().order_by('-created_at')
     template_name = 'apps/product/product_list.html'
     context_object_name = 'products'
-    paginate_by = 56
+    paginate_by = 80
 
     def get_queryset(self):
         qs = super().get_queryset()
