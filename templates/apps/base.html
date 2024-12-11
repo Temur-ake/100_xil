@@ -166,57 +166,57 @@
                                 </li>
                             </ul>
 
-                            {% if user.is_authenticated %}
-                                <hr class="mb-0 navbar-vertical-divider"/>
-                                <ul class="nav collapse show" id="dashboard">
-                                    <li class="nav-item">
-                                        <a class="nav-link {% if request.path|path_endswith:'/market' %}active{% endif %}"
-                                           href="{% url 'market' %}" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span
-                                                    class="nav-link-text ps-1">Market</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link {% if request.path|path_endswith:'/stream' %}active{% endif %} "
-                                           href="{% url 'stream' %}" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span
-                                                    class="nav-link-text ps-1">Oqim</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link {% if request.path|path_endswith:'/statistic' %}active{% endif %}"
-                                           href="{% url 'statistic' %}" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span
-                                                    class="nav-link-text ps-1">Statistika</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link {% if request.path|path_endswith:'/requests' %}active{% endif %}"
-                                           href="{% url 'requests' %}" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span
-                                                    class="nav-link-text ps-1">So'rovlar</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link {% if request.path|path_endswith:'/competition' %} active {% endif %}"
-                                           href="{% url 'competition' %}" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span
-                                                    class="nav-link-text ps-1">Konkurs</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link {% if request.path|path_endswith:'/payment-history' %}active{% endif %} "
-                                           href="{% url 'payment_history' %}" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span
-                                                    class="nav-link-text ps-1">To'lov</span>
-                                            </div>
-                                        </a>
-                                    </li>
+{#                            {% if user.is_authenticated %}#}
+{#                                <hr class="mb-0 navbar-vertical-divider"/>#}
+{#                                <ul class="nav collapse show" id="dashboard">#}
+{#                                    <li class="nav-item">#}
+{#                                        <a class="nav-link {% if request.path|path_endswith:'/market' %}active{% endif %}"#}
+{#                                           href="{% url 'market' %}" aria-expanded="false">#}
+{#                                            <div class="d-flex align-items-center"><span#}
+{#                                                    class="nav-link-text ps-1">Market</span>#}
+{#                                            </div>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li class="nav-item">#}
+{#                                        <a class="nav-link {% if request.path|path_endswith:'/stream' %}active{% endif %} "#}
+{#                                           href="{% url 'stream' %}" aria-expanded="false">#}
+{#                                            <div class="d-flex align-items-center"><span#}
+{#                                                    class="nav-link-text ps-1">Oqim</span>#}
+{#                                            </div>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li class="nav-item">#}
+{#                                        <a class="nav-link {% if request.path|path_endswith:'/statistic' %}active{% endif %}"#}
+{#                                           href="{% url 'statistic' %}" aria-expanded="false">#}
+{#                                            <div class="d-flex align-items-center"><span#}
+{#                                                    class="nav-link-text ps-1">Statistika</span>#}
+{#                                            </div>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li class="nav-item">#}
+{#                                        <a class="nav-link {% if request.path|path_endswith:'/requests' %}active{% endif %}"#}
+{#                                           href="{% url 'requests' %}" aria-expanded="false">#}
+{#                                            <div class="d-flex align-items-center"><span#}
+{#                                                    class="nav-link-text ps-1">So'rovlar</span>#}
+{#                                            </div>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li class="nav-item">#}
+{#                                        <a class="nav-link {% if request.path|path_endswith:'/competition' %} active {% endif %}"#}
+{#                                           href="{% url 'competition' %}" aria-expanded="false">#}
+{#                                            <div class="d-flex align-items-center"><span#}
+{#                                                    class="nav-link-text ps-1">Konkurs</span>#}
+{#                                            </div>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li class="nav-item">#}
+{#                                        <a class="nav-link {% if request.path|path_endswith:'/payment-history' %}active{% endif %} "#}
+{#                                           href="{% url 'payment_history' %}" aria-expanded="false">#}
+{#                                            <div class="d-flex align-items-center"><span#}
+{#                                                    class="nav-link-text ps-1">To'lov</span>#}
+{#                                            </div>#}
+{#                                        </a>#}
+{#                                    </li>#}
 {#                                    <li class="nav-item">#}
 {#                                        <a class="nav-link {% if request.path|path_endswith:'/diagrams' %}active{% endif %}"#}
 {#                                           href="{% url 'diagrams' %}" aria-expanded="false">#}
@@ -224,8 +224,8 @@
 {#                                            </div>#}
 {#                                        </a>#}
 {#                                    </li>#}
-                                </ul>
-                            {% endif %}
+{#                                </ul>#}
+{#                            {% endif %}#}
 
 
                         </li>
@@ -323,10 +323,10 @@
                                        href="{% url 'profile-settings' %}">
                                         Sozlamalar
                                     </a>
-                                    <a class="dropdown-item fw-bold text-warning" href="{% url 'admin_page' %}">
-                                        <span class="fas fa-crown me-1"></span>
-                                        <span>Adminlar uchun</span>
-                                    </a>
+{#                                    <a class="dropdown-item fw-bold text-warning" href="{% url 'admin_page' %}">#}
+{#                                        <span class="fas fa-crown me-1"></span>#}
+{#                                        <span>Adminlar uchun</span>#}
+{#                                    </a>#}
                                     {% if user.type == 'operator' %}
                                         <a class="dropdown-item header_navbar_lang_menu_dropdown_item" target="_blank"
                                            href="{% url 'operator' %}">
@@ -335,7 +335,7 @@
                                     {% endif %}
                                     <a class="dropdown-item header_navbar_lang_menu_dropdown_item"
                                        href="{% url 'logout-page' %}">
-                                        Chiqish
+                                        Profildan Chiqish
                                     </a>
                                     <a class="dropdown-item header_navbar_lang_menu_dropdown_item" target="_blank"
                                        href="https://t.me/C_W24">
