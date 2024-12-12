@@ -142,9 +142,10 @@
                         <div class="col-lg-6">
                             <label for="id_region">Viloyat</label>
                             <select name="region" class="form-control" id="id_region">
-                                <option value="">{{ user.district.region.name|default:"Viloyatni tanlang" }}</option>
+                                <option value="">{{ user.region.name|default:"Viloyatni tanlang" }}</option>
                                 {% for region in regions %}
-                                    <option value="{{ region.id }}">
+                                    <option value="{{ region.id }}"
+                                            {% if user.region and user.region.id == region.id %}selected{% endif %}>
                                         {{ region.name }}
                                     </option>
                                 {% endfor %}
@@ -153,12 +154,16 @@
                         <div class="col-lg-6">
                             <label for="id_district">Shahar/Tuman</label>
                             <select name="district" class="form-control" id="id_district">
-                                <option value="">
-                                    {{ user.district.name|default:"Shahar/Tumanni tanlang" }}
-                                </option>
-                                <!-- The options for districts will be populated dynamically via JavaScript -->
+
+                                {% for district in user.district.all %}
+                                    <option value="">{{ district.name| default:"Tuman Tanlang" }}</option>
+
+                                {% endfor %}
+
                             </select>
                         </div>
+
+
                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
                         <div class="col-lg-6">

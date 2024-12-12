@@ -17,17 +17,34 @@ class ProfileTemplateView(LoginRequiredMixin, TemplateView):
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     queryset = User.objects.all()
-    fields = 'first_name', 'last_name', 'address', 'telegram_id', 'about', 'district'
+    fields = 'first_name', 'last_name', 'address', 'telegram_id', 'about', 'district', 'region'
     template_name = 'apps/users/profile_settings.html'
     success_url = reverse_lazy('main-page')
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['regions'] = Region.objects.all()
+        ctx['districts'] = District.objects.all()
         return ctx
 
     def get_object(self, queryset=None):
         return self.request.user
+
+    def form_valid(self, form):
+        # Save the form data
+        user = form.save(commit=False)
+        user.save()
+
+        # Handle the ManyToManyField (district)
+        districts = form.cleaned_data['district']
+        user.region = form.cleaned_data['region']
+        user.save()
+
+        # Use .set() to assign multiple districts
+        user.district.set(districts)  # Correct method to assign ManyToManyField
+        user.save()
+
+        return super().form_valid(form)
 
     def form_invalid(self, form):
         text = """

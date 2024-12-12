@@ -80,7 +80,7 @@ class Region(Model):
 
 class District(Model):
     name = CharField(verbose_name=_('Name'), max_length=50)
-    region = ForeignKey('apps.Region', CASCADE, verbose_name=_('Region'))
+    region = ForeignKey('apps.Region', CASCADE, verbose_name=_('Region'), related_name='districts')
 
     def __str__(self):
         return self.name

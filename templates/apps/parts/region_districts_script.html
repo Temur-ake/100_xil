@@ -1,25 +1,37 @@
-
 <script>
     $(document).ready(function () {
+        const initialDistrictIds = [
+            {% for district in user.district.all %}
+                "{{ district.id }}",
+            {% endfor %}
+        ];
+
         $('#id_region').change(function () {
-            var regionId = $(this).val();
+            const regionId = $(this).val();
+            const districtSelect = $('#id_district');
+
+            districtSelect.empty(); // Clear previous options
+            districtSelect.append('<option value="">Shahar/Tumanni tanlang</option>');
+
             if (regionId) {
                 $.ajax({
-                    url: "{% url 'get_districts_by_region' 0 %}".replace('0', regionId),  // Send the request to the current view
-                    data: {'region_id': regionId},
+                    url: "{% url 'get_districts_by_region' 0 %}".replace('0', regionId), // Dynamic endpoint
                     success: function (data) {
-                        var districtSelect = $('#id_district');
-                        districtSelect.empty();
-                        districtSelect.append('<option value="">Tanlang</option>');
                         $.each(data, function (index, district) {
-                            districtSelect.append('<option value="' + district.id + '">' + district.name + '</option>');
+                            const isSelected = initialDistrictIds.includes(district.id.toString()) ? 'selected' : '';
+                            districtSelect.append(
+                                `<option value="${district.id}" ${isSelected}>${district.name}</option>`
+                            );
                         });
+                    },
+                    error: function () {
+                        alert("Tumanni yuklashda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
                     }
                 });
-            } else {
-                $('#id_district').empty();
-                $('#id_district').append('<option value="">Shahar/Tumanni tanlang</option>');
             }
         });
+
+        // Trigger the region change event to load districts for the current user's region on page load
+        $('#id_region').trigger('change');
     });
 </script>
