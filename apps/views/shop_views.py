@@ -35,7 +35,19 @@ class OrderDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx.update(**model_to_dict(SiteSettings.objects.first(), ('tashkent_city', 'tashkent_region', 'other_regions')))
+        site_settings = SiteSettings.objects.first()
+
+        if site_settings:
+            ctx.update(
+                model_to_dict(site_settings, fields=('tashkent_city', 'tashkent_region', 'other_regions'))
+            )
+
+        order = self.object
+        if order.stream:
+            ctx['all_sum'] = order.stream.changed_price * order.quantity
+        else:
+            ctx['all_sum'] = order.product.price * order.quantity
+
         return ctx
 
 
