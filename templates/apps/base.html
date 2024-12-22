@@ -273,14 +273,14 @@
                 <!-- Mobile Search Box (Visible on small screens and in collapsed navbar) -->
                 <ul class="navbar-nav align-items-center d-lg-none">
                     <li class="nav-item">
-                        <div class="search-box" style="width: 130px" data-list='{"valueNames":["title"]}'>
+                        <div class="search-box" style="width: 120px" data-list='{"valueNames":["title"]}'>
                             <form action="{% url 'product-search' %}" method="get" class="position-relative"
                                   data-bs-toggle="search"
                                   data-bs-display="static" autocomplete="off">
-                                <input id="search-input" style="width: 125px; margin-left: 10px" name="search"
-                                       class="form-control search-input fuzzy-search"
+                                <input id="search-input" style="width: 100px; margin-left: 15px" name="search"
+                                       class="form-control search-input "
                                        type="search" placeholder="Qidiruv" aria-label="Search"/>
-{#                                <span class="fas fa-search search-box-icon"></span>#}
+                                <span class="fas fa-search search-box-icon" style="margin-left: 10px"></span>
                             </form>
                             <div class="btn-close-falcon-container position-absolute end-0 top-50 translate-middle shadow-none"
                                  data-bs-dismiss="search">
